@@ -7,8 +7,8 @@
 #include <eosio/chain/contracts/contract_table_objects.hpp>
 #include <eosio/chain_plugin/chain_plugin.hpp>
 
-#include <eosio.bios/eosio.bios.wast.hpp>
-#include <eosio.bios/eosio.bios.abi.hpp>
+#include <enumivo.bios/enumivo.bios.wast.hpp>
+#include <enumivo.bios/enumivo.bios.abi.hpp>
 
 #include <fc/utility.hpp>
 #include <fc/io/json.hpp>
@@ -594,8 +594,8 @@ namespace eosio { namespace testing {
    }
 
    void base_tester::push_genesis_block() {
-      set_code(config::system_account_name, eosio_bios_wast);
-      set_abi(config::system_account_name, eosio_bios_abi);
+      set_code(config::system_account_name, enumivo_bios_wast);
+      set_abi(config::system_account_name, enumivo_bios_abi);
       //produce_block();
    }
 

@@ -8,8 +8,8 @@
 // These contracts are still under dev
 #if _READY
 #endif
-#include <eosio.bios/eosio.bios.wast.hpp>
-#include <eosio.bios/eosio.bios.abi.hpp>
+#include <enumivo.bios/enumivo.bios.wast.hpp>
+#include <enumivo.bios/enumivo.bios.abi.hpp>
 #include <enumivo.coin/enumivo.coin.wast.hpp>
 #include <enumivo.coin/enumivo.coin.abi.hpp>
 
@@ -152,14 +152,14 @@ BOOST_FIXTURE_TEST_CASE( bootseq_test, bootseq_tester ) {
         create_accounts({N(eosio.msig), N(enumivo.coin)});
 
         // Set code for the following accounts:
-        //  eosio.system  (code: eosio.bios)
+        //  eosio.system  (code: enumivo.bios)
         //  eosio.msig (code: eosio.msig)
         //  enumivo.coin    (code: enumivo.coin)
 // These contracts are still under dev
 #if _READY
         set_code_abi(N(eosio.msig), eosio_msig_wast, eosio_msig_abi);
 #endif
-//        set_code_abi(config::system_account_name, eosio_bios_wast, eosio_bios_abi);
+//        set_code_abi(config::system_account_name, enumivo_bios_wast, enumivo_bios_abi);
         set_code_abi(N(enumivo.coin), enumivo_coin_wast, enumivo_coin_abi);
 
         ilog(".");
@@ -222,7 +222,7 @@ BOOST_FIXTURE_TEST_CASE( bootseq_test, bootseq_tester ) {
         }
         ilog(".");
 
-        // Set code eosio.system from eosio.bios to eosio.system
+        // Set code eosio.system from enumivo.bios to eosio.system
         set_code_abi(config::system_account_name, eosio_system_wast, eosio_system_abi);
 
         ilog(".");
