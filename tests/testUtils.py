@@ -1701,7 +1701,7 @@ class Cluster(object):
             if not biosNode.waitForTransIdOnNode(transId):
                 return False
 
-            contract="eosio.system"
+            contract="enumivo.system"
             contractDir="contracts/%s" % (contract)
             wastFile="contracts/%s/%s.wast" % (contract, contract)
             abiFile="contracts/%s/%s.abi" % (contract, contract)

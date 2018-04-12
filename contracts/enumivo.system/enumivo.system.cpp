@@ -3,7 +3,7 @@
  *  @copyright defined in eos/LICENSE.txt
  */
 
-#include <eosio.system/eosio.system.hpp> 
+#include <enumivo.system/enumivo.system.hpp> 
 
 using namespace eosiosystem;
 

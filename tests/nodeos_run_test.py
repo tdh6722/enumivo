@@ -437,7 +437,7 @@ try:
     if trans is None or not trans[0]:
         errorExit("FAILURE - issue action to currency contract failed", raw=True)
 
-    # TODO need to update eosio.system contract to use new currency and update cleos and chain_plugin for interaction
+    # TODO need to update enumivo.system contract to use new currency and update cleos and chain_plugin for interaction
     # Print("Verify currency contract has proper initial balance (via get table)")
     # contract="currency"
     # table="accounts"
@@ -486,7 +486,7 @@ try:
         cmdError("%s get transaction trans_id" % (ClientName))
         errorExit("Failed to verify push message transaction id.")
 
-    # TODO need to update eosio.system contract to use new currency and update cleos and chain_plugin for interaction
+    # TODO need to update enumivo.system contract to use new currency and update cleos and chain_plugin for interaction
     # Print("read current contract balance")
     # contract="currency"
     # table="accounts"

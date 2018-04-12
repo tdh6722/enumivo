@@ -3,8 +3,8 @@
 #include <eosio/chain/contracts/abi_serializer.hpp>
 #include <eosio/chain_plugin/chain_plugin.hpp>
 
-#include <eosio.system/eosio.system.wast.hpp>
-#include <eosio.system/eosio.system.abi.hpp>
+#include <enumivo.system/enumivo.system.wast.hpp>
+#include <enumivo.system/enumivo.system.abi.hpp>
 // These contracts are still under dev
 #if _READY
 #endif
@@ -152,7 +152,7 @@ BOOST_FIXTURE_TEST_CASE( bootseq_test, bootseq_tester ) {
         create_accounts({N(enumivo.msig), N(enumivo.coin)});
 
         // Set code for the following accounts:
-        //  eosio.system  (code: enumivo.bios)
+        //  enumivo.system  (code: enumivo.bios)
         //  enumivo.msig (code: enumivo.msig)
         //  enumivo.coin    (code: enumivo.coin)
 // These contracts are still under dev
@@ -175,13 +175,13 @@ BOOST_FIXTURE_TEST_CASE( bootseq_test, bootseq_tester ) {
 
 
         auto expected = asset::from_string("1000000000.0000 EOS");
-        // Create EOS tokens in enumivo.coin, set its manager as eosio.system
+        // Create EOS tokens in enumivo.coin, set its manager as enumivo.system
         create_currency(N(enumivo.coin), config::system_account_name, expected);
 
         ilog(".");
 
-        // Issue the genesis supply of 1 billion EOS tokens to eosio.system
-        // Issue the genesis supply of 1 billion EOS tokens to eosio.system
+        // Issue the genesis supply of 1 billion EOS tokens to enumivo.system
+        // Issue the genesis supply of 1 billion EOS tokens to enumivo.system
         issue(N(enumivo.coin), config::system_account_name, config::system_account_name, expected); 
 
         ilog(".");
@@ -222,8 +222,8 @@ BOOST_FIXTURE_TEST_CASE( bootseq_test, bootseq_tester ) {
         }
         ilog(".");
 
-        // Set code eosio.system from enumivo.bios to eosio.system
-        set_code_abi(config::system_account_name, eosio_system_wast, eosio_system_abi);
+        // Set code enumivo.system from enumivo.bios to enumivo.system
+        set_code_abi(config::system_account_name, enumivo_system_wast, enumivo_system_abi);
 
         ilog(".");
         // Register these genesis accts as producer account

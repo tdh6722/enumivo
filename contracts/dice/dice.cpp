@@ -13,7 +13,7 @@
 #include <eosiolib/multi_index.hpp>
 #include <eosiolib/contract.hpp>
 
-#include <eosio.system/eosio.system.hpp>
+#include <enumivo.system/enumivo.system.hpp>
 
 using eos_currency = eosiosystem::contract<N(eosio)>::currency;
 
