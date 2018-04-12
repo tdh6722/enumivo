@@ -147,26 +147,26 @@ BOOST_FIXTURE_TEST_CASE( bootseq_test, bootseq_tester ) {
     try {
 
         // Create the following accounts:
-        //  eosio.msig
+        //  enumivo.msig
         //  enumivo.coin
-        create_accounts({N(eosio.msig), N(enumivo.coin)});
+        create_accounts({N(enumivo.msig), N(enumivo.coin)});
 
         // Set code for the following accounts:
         //  eosio.system  (code: enumivo.bios)
-        //  eosio.msig (code: eosio.msig)
+        //  enumivo.msig (code: enumivo.msig)
         //  enumivo.coin    (code: enumivo.coin)
 // These contracts are still under dev
 #if _READY
-        set_code_abi(N(eosio.msig), eosio_msig_wast, eosio_msig_abi);
+        set_code_abi(N(enumivo.msig), enumivo_msig_wast, enumivo_msig_abi);
 #endif
 //        set_code_abi(config::system_account_name, enumivo_bios_wast, enumivo_bios_abi);
         set_code_abi(N(enumivo.coin), enumivo_coin_wast, enumivo_coin_abi);
 
         ilog(".");
-        // Set privileges for eosio.msig
+        // Set privileges for enumivo.msig
         auto trace = base_tester::push_action(config::system_account_name, N(setpriv), 
                                               config::system_account_name,  mutable_variant_object()
-                ("account", "eosio.msig")
+                ("account", "enumivo.msig")
                 ("is_priv", 1)
         );
 
