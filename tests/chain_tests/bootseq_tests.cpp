@@ -10,8 +10,8 @@
 #endif
 #include <eosio.bios/eosio.bios.wast.hpp>
 #include <eosio.bios/eosio.bios.abi.hpp>
-#include <eosio.token/eosio.token.wast.hpp>
-#include <eosio.token/eosio.token.abi.hpp>
+#include <enumivo.coin/enumivo.coin.wast.hpp>
+#include <enumivo.coin/enumivo.coin.abi.hpp>
 
 #include <Runtime/Runtime.h>
 
@@ -118,7 +118,7 @@ public:
 
     asset get_balance( const account_name& act )
     {
-         return get_currency_balance(N(eosio.token), symbol(SY(4,EOS)), act);
+         return get_currency_balance(N(enumivo.coin), symbol(SY(4,EOS)), act);
     }
 
     action_result regproducer( const account_name& acnt, int params_fixture = 1 ) {
@@ -148,19 +148,19 @@ BOOST_FIXTURE_TEST_CASE( bootseq_test, bootseq_tester ) {
 
         // Create the following accounts:
         //  eosio.msig
-        //  eosio.token
-        create_accounts({N(eosio.msig), N(eosio.token)});
+        //  enumivo.coin
+        create_accounts({N(eosio.msig), N(enumivo.coin)});
 
         // Set code for the following accounts:
         //  eosio.system  (code: eosio.bios)
         //  eosio.msig (code: eosio.msig)
-        //  eosio.token    (code: eosio.token)
+        //  enumivo.coin    (code: enumivo.coin)
 // These contracts are still under dev
 #if _READY
         set_code_abi(N(eosio.msig), eosio_msig_wast, eosio_msig_abi);
 #endif
 //        set_code_abi(config::system_account_name, eosio_bios_wast, eosio_bios_abi);
-        set_code_abi(N(eosio.token), eosio_token_wast, eosio_token_abi);
+        set_code_abi(N(enumivo.coin), eosio_token_wast, eosio_token_abi);
 
         ilog(".");
         // Set privileges for eosio.msig
@@ -175,14 +175,14 @@ BOOST_FIXTURE_TEST_CASE( bootseq_test, bootseq_tester ) {
 
 
         auto expected = asset::from_string("1000000000.0000 EOS");
-        // Create EOS tokens in eosio.token, set its manager as eosio.system
-        create_currency(N(eosio.token), config::system_account_name, expected);
+        // Create EOS tokens in enumivo.coin, set its manager as eosio.system
+        create_currency(N(enumivo.coin), config::system_account_name, expected);
 
         ilog(".");
 
         // Issue the genesis supply of 1 billion EOS tokens to eosio.system
         // Issue the genesis supply of 1 billion EOS tokens to eosio.system
-        issue(N(eosio.token), config::system_account_name, config::system_account_name, expected); 
+        issue(N(enumivo.coin), config::system_account_name, config::system_account_name, expected); 
 
         ilog(".");
 
@@ -201,7 +201,7 @@ BOOST_FIXTURE_TEST_CASE( bootseq_test, bootseq_tester ) {
             auto stake_quantity = "5000.0000 EOS";
 
             ilog(".");
-            auto trace = base_tester::push_action(N(eosio.token), N(transfer), config::system_account_name, mutable_variant_object()
+            auto trace = base_tester::push_action(N(enumivo.coin), N(transfer), config::system_account_name, mutable_variant_object()
                     ("from", name(config::system_account_name))
                     ("to", gen_acc)
                     ("quantity", quantity)

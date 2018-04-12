@@ -183,7 +183,7 @@ namespace eosiosystem {
                                  typename native<SystemAccount>::onerror,
                                  typename native<SystemAccount>::canceldelay,
                                  nonce>( code, act) ) {
-                  //TODO: Small hack until we refactor eosio.system like eosio.token
+                  //TODO: Small hack until we refactor eosio.system like enumivo.coin
                   using undelegatebw = typename delegate_bandwidth<SystemAccount>::undelegatebw;
                   if(code == undelegatebw::get_account() && act == undelegatebw::get_name() ){
                      contract().on( receiver, eosio::unpack_action_data<undelegatebw>() );

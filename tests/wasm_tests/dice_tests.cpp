@@ -5,8 +5,8 @@
 #include <dice/dice.wast.hpp>
 #include <dice/dice.abi.hpp>
 
-#include <eosio.token/eosio.token.wast.hpp>
-#include <eosio.token/eosio.token.abi.hpp>
+#include <enumivo.coin/enumivo.coin.wast.hpp>
+#include <enumivo.coin/enumivo.coin.abi.hpp>
 
 #include <Runtime/Runtime.h>
 
