@@ -160,7 +160,7 @@ BOOST_FIXTURE_TEST_CASE( bootseq_test, bootseq_tester ) {
         set_code_abi(N(eosio.msig), eosio_msig_wast, eosio_msig_abi);
 #endif
 //        set_code_abi(config::system_account_name, eosio_bios_wast, eosio_bios_abi);
-        set_code_abi(N(enumivo.coin), eosio_token_wast, eosio_token_abi);
+        set_code_abi(N(enumivo.coin), enumivo_coin_wast, enumivo_coin_abi);
 
         ilog(".");
         // Set privileges for eosio.msig

@@ -219,8 +219,8 @@ BOOST_AUTO_TEST_SUITE(dice_tests)
 
 BOOST_FIXTURE_TEST_CASE( dice_test, dice_tester ) try {
 
-   set_code(config::system_account_name, eosio_token_wast);
-   set_abi(config::system_account_name, eosio_token_abi);
+   set_code(config::system_account_name, enumivo_coin_wast);
+   set_abi(config::system_account_name, enumivo_coin_abi);
 
    create_accounts( {N(dice),N(alice),N(bob),N(carol),N(david)}, false);
    produce_block();
