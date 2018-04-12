@@ -1,5 +1,5 @@
 #include <enumivo.msig/enumivo.msig.hpp>
-#include <eosiolib/action.hpp>
+#include <enumivolib/action.hpp>
 
 namespace eosio {
 

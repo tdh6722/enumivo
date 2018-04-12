@@ -1,10 +1,10 @@
 #pragma once
-#include <eosiolib/eosio.hpp>
+#include <enumivolib/eosio.hpp>
 
-#include <eosiolib/generic_currency.hpp>
-#include <eosiolib/multi_index.hpp>
-#include <eosiolib/privileged.hpp>
-#include <eosiolib/singleton.hpp>
+#include <enumivolib/generic_currency.hpp>
+#include <enumivolib/multi_index.hpp>
+#include <enumivolib/privileged.hpp>
+#include <enumivolib/singleton.hpp>
 
 namespace eosiosystem {
 

@@ -1,5 +1,5 @@
-#include <eosiolib/real.hpp>
-#include <eosiolib/eosio.hpp>
+#include <enumivolib/real.hpp>
+#include <enumivolib/eosio.hpp>
 
 #include "test_api.hpp"
 

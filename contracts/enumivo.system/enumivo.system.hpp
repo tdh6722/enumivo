@@ -6,9 +6,9 @@
 
 #include "delegate_bandwidth.hpp"
 #include "native.hpp"
-#include <eosiolib/optional.hpp>
+#include <enumivolib/optional.hpp>
 
-#include <eosiolib/generic_currency.hpp>
+#include <enumivolib/generic_currency.hpp>
 
 namespace eosiosystem {
 

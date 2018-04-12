@@ -1,10 +1,10 @@
 #pragma once
 
-#include <eosiolib/chain.h>
-#include <eosiolib/dispatcher.hpp>
-#include <eosiolib/singleton.hpp>
-#include <eosiolib/multi_index.hpp>
-#include <eosiolib/vector.hpp>
+#include <enumivolib/chain.h>
+#include <enumivolib/dispatcher.hpp>
+#include <enumivolib/singleton.hpp>
+#include <enumivolib/multi_index.hpp>
+#include <enumivolib/vector.hpp>
 
 namespace identity {
    using eosio::action_meta;

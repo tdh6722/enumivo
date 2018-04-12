@@ -5,13 +5,13 @@
 
 #include <utility>
 #include <vector>
-#include <eosiolib/crypto.h>
-#include <eosiolib/types.hpp>
-#include <eosiolib/token.hpp>
-#include <eosiolib/print.hpp>
-#include <eosiolib/action.hpp>
-#include <eosiolib/multi_index.hpp>
-#include <eosiolib/contract.hpp>
+#include <enumivolib/crypto.h>
+#include <enumivolib/types.hpp>
+#include <enumivolib/token.hpp>
+#include <enumivolib/print.hpp>
+#include <enumivolib/action.hpp>
+#include <enumivolib/multi_index.hpp>
+#include <enumivolib/contract.hpp>
 
 #include <enumivo.system/enumivo.system.hpp>
 

@@ -3,8 +3,8 @@
  *  @copyright defined in eos/LICENSE.txt
  */
 
-#include <eosiolib/eosio.hpp>
-#include <eosiolib/asset.hpp>
+#include <enumivolib/eosio.hpp>
+#include <enumivolib/asset.hpp>
 #include <string>
 
 namespace eosio {

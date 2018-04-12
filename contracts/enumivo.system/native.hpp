@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <eosiolib/types.hpp>
+#include <enumivolib/types.hpp>
 
 namespace eosiosystem {
 

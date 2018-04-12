@@ -5,17 +5,17 @@
 #pragma once
 #include "common.hpp"
 
-#include <eosiolib/eosio.hpp>
-#include <eosiolib/token.hpp>
-#include <eosiolib/print.hpp>
+#include <enumivolib/eosio.hpp>
+#include <enumivolib/token.hpp>
+#include <enumivolib/print.hpp>
 
-#include <eosiolib/generic_currency.hpp>
-#include <eosiolib/datastream.hpp>
-#include <eosiolib/serialize.hpp>
-#include <eosiolib/multi_index.hpp>
-#include <eosiolib/privileged.hpp>
-#include <eosiolib/singleton.hpp>
-#include <eosiolib/transaction.hpp>
+#include <enumivolib/generic_currency.hpp>
+#include <enumivolib/datastream.hpp>
+#include <enumivolib/serialize.hpp>
+#include <enumivolib/multi_index.hpp>
+#include <enumivolib/privileged.hpp>
+#include <enumivolib/singleton.hpp>
+#include <enumivolib/transaction.hpp>
 
 #include <algorithm>
 #include <array>

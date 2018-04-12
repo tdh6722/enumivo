@@ -135,9 +135,9 @@
 #include <string>
 #include <stdexcept>
 */
-//include <eosiolib/eos.hpp>
-#include <eosiolib/token.hpp>
-#include <eosiolib/dispatcher.hpp>
+//include <enumivolib/eos.hpp>
+#include <enumivolib/token.hpp>
+#include <enumivolib/dispatcher.hpp>
 
 using namespace eosio;
 /*
