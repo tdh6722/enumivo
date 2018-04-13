@@ -1,7 +1,7 @@
 #!/bin/bash
 ##########################################################################
-# This is the EOSIO automated install script for Linux and Mac OS.
-# This file was downloaded from https://github.com/EOSIO/eos
+# This is the Enumivo automated install script for Linux and Mac OS.
+# This file was downloaded from https://github.com/enumivo/enumivo
 #
 # Copyright (c) 2017, Respective Authors all rights reserved.
 #
@@ -27,7 +27,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# https://github.com/EOSIO/eos/blob/master/LICENSE.txt
+# https://github.com/enumivo/enumivo/blob/master/LICENSE.txt
 ##########################################################################
 
 	VERSION=1.2
@@ -46,8 +46,8 @@
 
 	if [ ! -d .git ]; then
 		printf "\nThis build script only works with sources cloned from git\n"
-		printf "\tPlease clone a new eos directory with 'git clone https://github.com/EOSIO/eos --recursive'\n"
-		printf "\tSee the wiki for instructions: https://github.com/EOSIO/eos/wiki\n"
+		printf "\tPlease clone a new eos directory with 'git clone https://github.com/enumivo/enumivo --recursive'\n"
+		printf "\tSee the wiki for instructions: https://github.com/enumivo/enumivo/wiki\n"
 		exit 1
 	fi
 
@@ -67,7 +67,7 @@
 	if [ $ARCH == "Linux" ]; then
 		
 		if [ ! -e /etc/os-release ]; then
-			printf "\n\tEOSIO currently supports Amazon, Centos, Fedora, Mint & Ubuntu Linux only.\n"
+			printf "\n\tEnumivo currently supports Amazon, Centos, Fedora, Mint & Ubuntu Linux only.\n"
 			printf "\tPlease install on the latest version of one of these Linux distributions.\n"
 			printf "\thttps://aws.amazon.com/amazon-linux-ami/\n"
 			printf "\thttps://www.centos.org/\n"
@@ -167,14 +167,14 @@
 	..
 	
 	if [ $? -ne 0 ]; then
-		printf "\n\t>>>>>>>>>>>>>>>>>>>> CMAKE building EOSIO has exited with the above error.\n\n"
+		printf "\n\t>>>>>>>>>>>>>>>>>>>> CMAKE building Enumivo has exited with the above error.\n\n"
 		exit -1
 	fi
 
 	make -j${CPU_CORE}
 
 	if [ $? -ne 0 ]; then
-		printf "\n\t>>>>>>>>>>>>>>>>>>>> MAKE building EOSIO has exited with the above error.\n\n"
+		printf "\n\t>>>>>>>>>>>>>>>>>>>> MAKE building Enumivo has exited with the above error.\n\n"
 		exit -1
 	fi
 
@@ -217,9 +217,9 @@
 	printf "\tEOS.IO website: https://eos.io\n"
 	printf "\tEOS.IO Telegram channel @ https://t.me/EOSProject\n"
 	printf "\tEOS.IO resources: https://eos.io/resources/\n"
-	printf "\tEOS.IO wiki: https://github.com/EOSIO/eos/wiki\n\n\n"
+	printf "\tEOS.IO wiki: https://github.com/enumivo/enumivo/wiki\n\n\n"
 		 
-   if [ "x${EOSIO_BUILD_PACKAGE}" != "x" ]; then
+   if [ "x${ENUMIVO_BUILD_PACKAGE}" != "x" ]; then
       # Build eos.io package
       $CMAKE -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_CXX_COMPILER=${CXX_COMPILER} \
       -DCMAKE_C_COMPILER=${C_COMPILER} -DWASM_ROOT=${WASM_ROOT} \

@@ -83,7 +83,7 @@ namespace identity {
             account_name creator;
             uint64_t     identity = 0; ///< first 32 bits determinsitically derived from creator and tapos
 
-            EOSLIB_SERIALIZE( create, (creator)(identity) )
+            ENULIB_SERIALIZE( create, (creator)(identity) )
          };
 
 
@@ -95,7 +95,7 @@ namespace identity {
             uint8_t       confidence = 1; ///< used to define liability for lies,
                                           /// 0 to delete
 
-            EOSLIB_SERIALIZE( certvalue, (property)(type)(data)(memo)(confidence) )
+            ENULIB_SERIALIZE( certvalue, (property)(type)(data)(memo)(confidence) )
          };
 
          struct certprop : public action_meta< code, N(certprop) >
@@ -105,7 +105,7 @@ namespace identity {
             identity_name       identity;
             vector<certvalue>   values;
 
-            EOSLIB_SERIALIZE( certprop, (bill_storage_to)(certifier)(identity)(values) )
+            ENULIB_SERIALIZE( certprop, (bill_storage_to)(certifier)(identity)(values) )
          };
 
          struct settrust : public action_meta< code, N(settrust) >
@@ -114,7 +114,7 @@ namespace identity {
             account_name trusting; ///< the account receiving the trust
             uint8_t      trust = 0; /// 0 to remove, -1 to mark untrusted, 1 to mark trusted
 
-            EOSLIB_SERIALIZE( settrust, (trustor)(trusting)(trust) )
+            ENULIB_SERIALIZE( settrust, (trustor)(trusting)(trust) )
          };
 
          struct certrow {
@@ -138,7 +138,7 @@ namespace identity {
             }
             key256 get_key() const { return key(property, trusted, certifier); }
 
-            EOSLIB_SERIALIZE( certrow , (property)(trusted)(certifier)(confidence)(type)(data)(id) )
+            ENULIB_SERIALIZE( certrow , (property)(trusted)(certifier)(confidence)(type)(data)(id) )
          };
 
          struct identrow {
@@ -147,7 +147,7 @@ namespace identity {
 
             uint64_t primary_key() const { return identity; }
 
-            EOSLIB_SERIALIZE( identrow , (identity)(creator) )
+            ENULIB_SERIALIZE( identrow , (identity)(creator) )
          };
 
          struct trustrow {
@@ -155,7 +155,7 @@ namespace identity {
 
             uint64_t primary_key() const { return account; }
 
-            EOSLIB_SERIALIZE( trustrow, (account) )
+            ENULIB_SERIALIZE( trustrow, (account) )
          };
 
          typedef eosio::multi_index<N(certs), certrow,

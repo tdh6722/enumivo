@@ -36,7 +36,7 @@ namespace eosio {
       unsigned_int    kcpu_usage = 0UL; /// number of CPU usage units to bill transaction for
       unsigned_int    delay_sec = 0UL; /// number of CPU usage units to bill transaction for
 
-      EOSLIB_SERIALIZE( transaction_header, (expiration)(region)(ref_block_num)(ref_block_prefix)(net_usage_words)(kcpu_usage)(delay_sec) )
+      ENULIB_SERIALIZE( transaction_header, (expiration)(region)(ref_block_num)(ref_block_prefix)(net_usage_words)(kcpu_usage)(delay_sec) )
    };
 
    class transaction : public transaction_header {
@@ -51,7 +51,7 @@ namespace eosio {
       vector<action>  context_free_actions;
       vector<action>  actions;
 
-      EOSLIB_SERIALIZE_DERIVED( transaction, transaction_header, (context_free_actions)(actions) )
+      ENULIB_SERIALIZE_DERIVED( transaction, transaction_header, (context_free_actions)(actions) )
    };
 
    class deferred_transaction : public transaction {
@@ -65,7 +65,7 @@ namespace eosio {
             return unpack_action_data<deferred_transaction>();
          }
 
-         EOSLIB_SERIALIZE_DERIVED( deferred_transaction, transaction, (sender_id)(sender)(payer)(execute_after) )
+         ENULIB_SERIALIZE_DERIVED( deferred_transaction, transaction, (sender_id)(sender)(payer)(execute_after) )
    };
 
    /**

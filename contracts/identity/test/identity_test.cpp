@@ -23,14 +23,14 @@ namespace identity_test {
          {
             uint64_t identity;
 
-            EOSLIB_SERIALIZE( get_owner_for_identity, (identity) )
+            ENULIB_SERIALIZE( get_owner_for_identity, (identity) )
          };
 
          struct get_identity_for_account : public action_meta< code, N(getidentity) >
          {
             account_name account ;
 
-            EOSLIB_SERIALIZE( get_identity_for_account, (account) )
+            ENULIB_SERIALIZE( get_identity_for_account, (account) )
          };
 
          typedef singleton<code, N(result), code, uint64_t> result_table;

@@ -89,11 +89,11 @@ Namespaces</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:af9c1edb0e0da55ec6ba09f32f6839529"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dispatcher_8hpp.html#af9c1edb0e0da55ec6ba09f32f6839529">N</a>(<a class="el" href="class_x.html">X</a>)&#160;&#160;&#160;::eosio::string_to_name(#<a class="el" href="class_x.html">X</a>)</td></tr>
 <tr class="separator:af9c1edb0e0da55ec6ba09f32f6839529"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0e22fed21b7d26ebdf31b1d33640365"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dispatcher_8hpp.html#ab0e22fed21b7d26ebdf31b1d33640365">EOSIO_API_CALL</a>(r,  OP,  elem)</td></tr>
+<tr class="memitem:ab0e22fed21b7d26ebdf31b1d33640365"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dispatcher_8hpp.html#ab0e22fed21b7d26ebdf31b1d33640365">ENUMIVO_API_CALL</a>(r,  OP,  elem)</td></tr>
 <tr class="separator:ab0e22fed21b7d26ebdf31b1d33640365"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf49cf842e3e21ce66fc13f23b34aa72"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dispatcher_8hpp.html#abf49cf842e3e21ce66fc13f23b34aa72">EOSIO_API</a>(TYPE,  MEMBERS)&#160;&#160;&#160;BOOST_PP_SEQ_FOR_EACH( <a class="el" href="dispatcher_8hpp.html#ab0e22fed21b7d26ebdf31b1d33640365">EOSIO_API_CALL</a>, TYPE, MEMBERS )</td></tr>
+<tr class="memitem:abf49cf842e3e21ce66fc13f23b34aa72"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dispatcher_8hpp.html#abf49cf842e3e21ce66fc13f23b34aa72">ENUMIVO_API</a>(TYPE,  MEMBERS)&#160;&#160;&#160;BOOST_PP_SEQ_FOR_EACH( <a class="el" href="dispatcher_8hpp.html#ab0e22fed21b7d26ebdf31b1d33640365">ENUMIVO_API_CALL</a>, TYPE, MEMBERS )</td></tr>
 <tr class="separator:abf49cf842e3e21ce66fc13f23b34aa72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0506b73253cc40945741e86dde10164f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dispatcher_8hpp.html#a0506b73253cc40945741e86dde10164f">EOSIO_ABI</a>(TYPE,  MEMBERS)</td></tr>
+<tr class="memitem:a0506b73253cc40945741e86dde10164f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dispatcher_8hpp.html#a0506b73253cc40945741e86dde10164f">ENUMIVO_ABI</a>(TYPE,  MEMBERS)</td></tr>
 <tr class="separator:a0506b73253cc40945741e86dde10164f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -110,13 +110,13 @@ Functions</h2></td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a0506b73253cc40945741e86dde10164f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0506b73253cc40945741e86dde10164f">&#9670;&nbsp;</a></span>EOSIO_ABI</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0506b73253cc40945741e86dde10164f">&#9670;&nbsp;</a></span>ENUMIVO_ABI</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define EOSIO_ABI</td>
+          <td class="memname">#define ENUMIVO_ABI</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">TYPE, </td>
@@ -134,19 +134,19 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> { \</div><div class="line">   void <a class="code" href="asserter_8cpp.html#a569d3d0ca7b56fb8c580faaa3d73179a">apply</a>( <a class="code" href="musl_2upstream_2include_2bits_2stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a> receiver, <a class="code" href="musl_2upstream_2include_2bits_2stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a> code, <a class="code" href="musl_2upstream_2include_2bits_2stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a> action ) { \</div><div class="line">      auto <span class="keyword">self</span> = receiver; \</div><div class="line">      if( code == <span class="keyword">self</span> ) { \</div><div class="line">         TYPE thiscontract( <span class="keyword">self</span> ); \</div><div class="line">         switch( action ) { \</div><div class="line">            EOSIO_API( TYPE, MEMBERS ) \</div><div class="line">         } \</div><div class="line">         eosio_exit(0); \</div><div class="line">      } \</div><div class="line">   } \</div><div class="line">} \</div><div class="ttc" id="musl_2upstream_2include_2bits_2stdint_8h_html_aaa5d1cd013383c889537491c3cfd9aad"><div class="ttname"><a href="musl_2upstream_2include_2bits_2stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a></div><div class="ttdeci">unsigned long long uint64_t</div><div class="ttdef"><b>Definition:</b> stdint.h:5</div></div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> { \</div><div class="line">   void <a class="code" href="asserter_8cpp.html#a569d3d0ca7b56fb8c580faaa3d73179a">apply</a>( <a class="code" href="musl_2upstream_2include_2bits_2stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a> receiver, <a class="code" href="musl_2upstream_2include_2bits_2stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a> code, <a class="code" href="musl_2upstream_2include_2bits_2stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a> action ) { \</div><div class="line">      auto <span class="keyword">self</span> = receiver; \</div><div class="line">      if( code == <span class="keyword">self</span> ) { \</div><div class="line">         TYPE thiscontract( <span class="keyword">self</span> ); \</div><div class="line">         switch( action ) { \</div><div class="line">            ENUMIVO_API( TYPE, MEMBERS ) \</div><div class="line">         } \</div><div class="line">         eosio_exit(0); \</div><div class="line">      } \</div><div class="line">   } \</div><div class="line">} \</div><div class="ttc" id="musl_2upstream_2include_2bits_2stdint_8h_html_aaa5d1cd013383c889537491c3cfd9aad"><div class="ttname"><a href="musl_2upstream_2include_2bits_2stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a></div><div class="ttdeci">unsigned long long uint64_t</div><div class="ttdef"><b>Definition:</b> stdint.h:5</div></div>
 <div class="ttc" id="asserter_8cpp_html_a569d3d0ca7b56fb8c580faaa3d73179a"><div class="ttname"><a href="asserter_8cpp.html#a569d3d0ca7b56fb8c580faaa3d73179a">apply</a></div><div class="ttdeci">void apply(uint64_t receiver, uint64_t code, uint64_t action)</div><div class="ttdoc">The apply method implements the dispatch of events to this contract. </div><div class="ttdef"><b>Definition:</b> asserter.cpp:14</div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <a id="abf49cf842e3e21ce66fc13f23b34aa72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf49cf842e3e21ce66fc13f23b34aa72">&#9670;&nbsp;</a></span>EOSIO_API</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abf49cf842e3e21ce66fc13f23b34aa72">&#9670;&nbsp;</a></span>ENUMIVO_API</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define EOSIO_API</td>
+          <td class="memname">#define ENUMIVO_API</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">TYPE, </td>
@@ -160,7 +160,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;BOOST_PP_SEQ_FOR_EACH( <a class="el" href="dispatcher_8hpp.html#ab0e22fed21b7d26ebdf31b1d33640365">EOSIO_API_CALL</a>, TYPE, MEMBERS )</td>
+          <td></td><td>&#160;&#160;&#160;BOOST_PP_SEQ_FOR_EACH( <a class="el" href="dispatcher_8hpp.html#ab0e22fed21b7d26ebdf31b1d33640365">ENUMIVO_API_CALL</a>, TYPE, MEMBERS )</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -168,13 +168,13 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ab0e22fed21b7d26ebdf31b1d33640365"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0e22fed21b7d26ebdf31b1d33640365">&#9670;&nbsp;</a></span>EOSIO_API_CALL</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0e22fed21b7d26ebdf31b1d33640365">&#9670;&nbsp;</a></span>ENUMIVO_API_CALL</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define EOSIO_API_CALL</td>
+          <td class="memname">#define ENUMIVO_API_CALL</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">r, </td>

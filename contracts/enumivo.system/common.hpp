@@ -27,7 +27,7 @@ namespace enumivosystem {
             uint32_t          percent_of_max_inflation_rate = 0;
             uint32_t          storage_reserve_ratio = 1000;      // ratio * 1000
 
-            EOSLIB_SERIALIZE_DERIVED( eosio_parameters, eosio::blockchain_parameters, (percent_of_max_inflation_rate)(storage_reserve_ratio) )
+            ENULIB_SERIALIZE_DERIVED( eosio_parameters, eosio::blockchain_parameters, (percent_of_max_inflation_rate)(storage_reserve_ratio) )
          };
 
          struct eosio_global_state : eosio_parameters {
@@ -40,7 +40,7 @@ namespace enumivosystem {
             time                 last_bucket_fill_time = 0;
             system_token_type    eos_bucket = system_token_type();
 
-            EOSLIB_SERIALIZE_DERIVED( eosio_global_state, eosio_parameters, (total_storage_bytes_reserved)(total_storage_stake)
+            ENULIB_SERIALIZE_DERIVED( eosio_global_state, eosio_parameters, (total_storage_bytes_reserved)(total_storage_stake)
                                       (payment_per_block)(payment_to_eos_bucket)(first_block_time_in_cycle)(blocks_per_cycle)
                                       (last_bucket_fill_time)(eos_bucket) )
          };
