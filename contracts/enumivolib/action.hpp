@@ -86,7 +86,7 @@ namespace eosio {
          return std::tie( a.actor, a.permission ) == std::tie( b.actor, b.permission );
       }
 
-      EOSLIB_SERIALIZE( permission_level, (actor)(permission) )
+      ENULIB_SERIALIZE( permission_level, (actor)(permission) )
    };
 
    void require_auth(const permission_level& level) {
@@ -152,7 +152,7 @@ namespace eosio {
          data          = pack(value);
       }
 
-      EOSLIB_SERIALIZE( action, (account)(name)(authorization)(data) )
+      ENULIB_SERIALIZE( action, (account)(name)(authorization)(data) )
 
       void send() const {
          auto serialize = pack(*this);

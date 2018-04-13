@@ -443,7 +443,7 @@ namespace eosio {
 
     operator uint128_t()const { return base_per_quote; }
 
-    EOSLIB_SERIALIZE( price, (base_per_quote) )
+    ENULIB_SERIALIZE( price, (base_per_quote) )
   private:
     /**
     * Represents as number of base tokens to purchase 1 quote token.

@@ -56,7 +56,7 @@ namespace enumivosystem {
             uint128_t   by_votes()const    { return total_votes; }
             bool active() const { return packed_key.size() == sizeof(public_key); }
 
-            EOSLIB_SERIALIZE( producer_info, (owner)(total_votes)(prefs)(packed_key)
+            ENULIB_SERIALIZE( producer_info, (owner)(total_votes)(prefs)(packed_key)
                               (per_block_payments)(last_rewards_claim)
                               (time_became_active)(last_produced_block_time) )
          };
@@ -81,7 +81,7 @@ namespace enumivosystem {
 
             uint64_t primary_key()const { return owner; }
 
-            EOSLIB_SERIALIZE( voter_info, (owner)(proxy)(last_update)(is_proxy)(staked)(unstaking)(unstake_per_week)(proxied_votes)(producers)(deferred_trx_id)(last_unstake_time) )
+            ENULIB_SERIALIZE( voter_info, (owner)(proxy)(last_update)(is_proxy)(staked)(unstaking)(unstake_per_week)(proxied_votes)(producers)(deferred_trx_id)(last_unstake_time) )
          };
 
          typedef eosio::multi_index< N(voters), voter_info>  voters_table;
@@ -91,7 +91,7 @@ namespace enumivosystem {
             bytes            producer_key;
             eosio_parameters prefs;
 
-            EOSLIB_SERIALIZE( regproducer, (producer)(producer_key)(prefs) )
+            ENULIB_SERIALIZE( regproducer, (producer)(producer_key)(prefs) )
          };
 
          /**
@@ -126,7 +126,7 @@ namespace enumivosystem {
          ACTION( SystemAccount, unregprod ) {
             account_name producer;
 
-            EOSLIB_SERIALIZE( unregprod, (producer) )
+            ENULIB_SERIALIZE( unregprod, (producer) )
          };
 
          static void on( const unregprod& unreg ) {
@@ -385,7 +385,7 @@ namespace enumivosystem {
             account_name                proxy;
             std::vector<account_name>   producers;
 
-            EOSLIB_SERIALIZE( voteproducer, (voter)(proxy)(producers) )
+            ENULIB_SERIALIZE( voteproducer, (voter)(proxy)(producers) )
          };
 
          /**
@@ -489,7 +489,7 @@ namespace enumivosystem {
          ACTION( SystemAccount, regproxy ) {
             account_name proxy;
 
-            EOSLIB_SERIALIZE( regproxy, (proxy) )
+            ENULIB_SERIALIZE( regproxy, (proxy) )
          };
 
          static void on( const regproxy& reg ) {
@@ -528,7 +528,7 @@ namespace enumivosystem {
          ACTION( SystemAccount, unregproxy ) {
             account_name proxy;
 
-            EOSLIB_SERIALIZE( unregproxy, (proxy) )
+            ENULIB_SERIALIZE( unregproxy, (proxy) )
          };
 
          static void on( const unregproxy& reg ) {
