@@ -2,8 +2,8 @@
 #include <enumivo/testing/tester.hpp>
 #include <enumivo/chain/contracts/abi_serializer.hpp>
 
-#include <eosio/chain/resource_limits.hpp>
-#include <eosio/chain/resource_limits_private.hpp>
+#include <enumivo/chain/resource_limits.hpp>
+#include <enumivo/chain/resource_limits_private.hpp>
 
 #ifdef NON_VALIDATING_TEST
 #define TESTER tester
