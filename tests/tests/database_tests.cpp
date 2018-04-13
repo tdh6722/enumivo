@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_SUITE(database_tests)
          auto calc_exp_last_irr_block_num = [&](uint32_t head_block_num) -> uint32_t {
             const global_property_object &gpo = test.control->get_global_properties();
             const auto producers_size = gpo.active_producers.producers.size();
-            const auto max_reversible_rounds = ENU_PERCENT(producers_size, config::percent_100 - config::irreversible_threshold_percent);
+            const auto max_reversible_rounds = EOS_PERCENT(producers_size, config::percent_100 - config::irreversible_threshold_percent);
             if( max_reversible_rounds == 0) {
                return head_block_num - 1;
             } else {

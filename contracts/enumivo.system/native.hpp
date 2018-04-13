@@ -16,14 +16,14 @@ namespace enumivosystem {
       permission_level  permission;
       weight_type       weight;
 
-      ENULIB_SERIALIZE( permission_level_weight, (permission)(weight) )
+      EOSLIB_SERIALIZE( permission_level_weight, (permission)(weight) )
    };
 
    struct key_weight {
       public_key   key;
       weight_type  weight;
 
-      ENULIB_SERIALIZE( key_weight, (key)(weight) )
+      EOSLIB_SERIALIZE( key_weight, (key)(weight) )
    };
 
    struct authority {
@@ -31,7 +31,7 @@ namespace enumivosystem {
       std::vector<key_weight>               keys;
       std::vector<permission_level_weight>  accounts;
 
-      ENULIB_SERIALIZE( authority, (threshold)(keys)(accounts) )
+      EOSLIB_SERIALIZE( authority, (threshold)(keys)(accounts) )
    };
 
    template <account_name SystemAccount>
@@ -44,7 +44,7 @@ namespace enumivosystem {
             authority                        active;
             authority                        recovery;
 
-            ENULIB_SERIALIZE( newaccount, (creator)(name)(owner)(active)(recovery) )
+            EOSLIB_SERIALIZE( newaccount, (creator)(name)(owner)(active)(recovery) )
          };
 
          static void on( const newaccount& ) {
@@ -56,7 +56,7 @@ namespace enumivosystem {
             permission_name                   parent;
             authority                         data;
 
-            ENULIB_SERIALIZE( updateauth, (account)(permission)(parent)(data) )
+            EOSLIB_SERIALIZE( updateauth, (account)(permission)(parent)(data) )
          };
 
          static void on( const updateauth& ) {
@@ -66,7 +66,7 @@ namespace enumivosystem {
             account_name                      account;
             permission_name                   permission;
 
-            ENULIB_SERIALIZE( deleteauth, (account)(permission) )
+            EOSLIB_SERIALIZE( deleteauth, (account)(permission) )
          };
 
          static void on( const deleteauth& ) {
@@ -78,7 +78,7 @@ namespace enumivosystem {
             action_name                       type;
             permission_name                   requirement;
 
-            ENULIB_SERIALIZE( linkauth, (account)(code)(type)(requirement) )
+            EOSLIB_SERIALIZE( linkauth, (account)(code)(type)(requirement) )
          };
 
          static void on( const linkauth& ) {
@@ -89,7 +89,7 @@ namespace enumivosystem {
             account_name                      code;
             action_name                       type;
 
-            ENULIB_SERIALIZE( unlinkauth, (account)(code)(type) )
+            EOSLIB_SERIALIZE( unlinkauth, (account)(code)(type) )
          };
 
          static void on( const unlinkauth& ) {
@@ -100,7 +100,7 @@ namespace enumivosystem {
             authority          data;
             std::string        memo;
 
-            ENULIB_SERIALIZE( postrecovery, (account)(data)(memo) )
+            EOSLIB_SERIALIZE( postrecovery, (account)(data)(memo) )
          };
 
          static void on( const postrecovery& ) {
@@ -109,7 +109,7 @@ namespace enumivosystem {
          ACTION( SystemAccount, passrecovery ) {
             account_name   account;
 
-            ENULIB_SERIALIZE( passrecovery, (account) )
+            EOSLIB_SERIALIZE( passrecovery, (account) )
          };
 
          static void on( const passrecovery& ) {
@@ -118,14 +118,14 @@ namespace enumivosystem {
          ACTION( SystemAccount, vetorecovery ) {
             account_name   account;
 
-            ENULIB_SERIALIZE( vetorecovery, (account) )
+            EOSLIB_SERIALIZE( vetorecovery, (account) )
          };
 
          static void on( const vetorecovery& ) {
          }
 
          struct onerror: eosio::action_meta<SystemAccount, N(onerror)>, bytes {
-            ENULIB_SERIALIZE_DERIVED( onerror, bytes, BOOST_PP_SEQ_NIL )
+            EOSLIB_SERIALIZE_DERIVED( onerror, bytes, BOOST_PP_SEQ_NIL )
          };
 
          static void on( const onerror& ) {
@@ -134,7 +134,7 @@ namespace enumivosystem {
          ACTION( SystemAccount, canceldelay ) {
             transaction_id_type   trx_id;
 
-            ENULIB_SERIALIZE( canceldelay, (trx_id) )
+            EOSLIB_SERIALIZE( canceldelay, (trx_id) )
          };
 
          static void on( const canceldelay& ) {

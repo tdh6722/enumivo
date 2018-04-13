@@ -39,12 +39,12 @@ class dice : public eosio::contract {
 
          auto amount = eos_currency::token_type(bet);
 
-         enumivo_assert( amount.quantity > 0, "invalid bet" );
-         enumivo_assert( !has_offer( commitment ), "offer with this commitment already exist" );
+         eosio_assert( amount.quantity > 0, "invalid bet" );
+         eosio_assert( !has_offer( commitment ), "offer with this commitment already exist" );
          require_auth( player );
 
          auto cur_player_itr = accounts.find( player );
-         enumivo_assert(cur_player_itr != accounts.end(), "unknown account");
+         eosio_assert(cur_player_itr != accounts.end(), "unknown account");
 
          // Store new offer
          auto new_offer_itr = offers.emplace(_self, [&](auto& offer){
@@ -126,8 +126,8 @@ class dice : public eosio::contract {
          auto idx = offers.template get_index<N(commitment)>();
          auto offer_itr = idx.find( offer::get_commitment(commitment) );
 
-         enumivo_assert( offer_itr != idx.end(), "offer does not exists" );
-         enumivo_assert( offer_itr->gameid == 0, "unable to cancel offer" );
+         eosio_assert( offer_itr != idx.end(), "offer does not exists" );
+         eosio_assert( offer_itr->gameid == 0, "unable to cancel offer" );
          require_auth( offer_itr->owner );
 
          auto acnt_itr = accounts.find(offer_itr->owner);
@@ -147,8 +147,8 @@ class dice : public eosio::contract {
          auto idx = offers.template get_index<N(commitment)>();
          auto curr_revealer_offer = idx.find( offer::get_commitment(commitment)  );
 
-         enumivo_assert(curr_revealer_offer != idx.end(), "offer not found");
-         enumivo_assert(curr_revealer_offer->gameid > 0, "unable to reveal");
+         eosio_assert(curr_revealer_offer != idx.end(), "offer not found");
+         eosio_assert(curr_revealer_offer->gameid > 0, "unable to reveal");
 
          auto game_itr = games.find( curr_revealer_offer->gameid );
 
@@ -159,7 +159,7 @@ class dice : public eosio::contract {
             std::swap(curr_reveal, prev_reveal);
          }
 
-         enumivo_assert( is_zero(curr_reveal.reveal) == true, "player already revealed");
+         eosio_assert( is_zero(curr_reveal.reveal) == true, "player already revealed");
 
          if( !is_zero(prev_reveal.reveal) ) {
 
@@ -194,18 +194,18 @@ class dice : public eosio::contract {
 
          auto game_itr = games.find(gameid);
 
-         enumivo_assert(game_itr != games.end(), "game not found");
-         enumivo_assert(game_itr->deadline != 0 && now() > game_itr->deadline, "game not expired");
+         eosio_assert(game_itr != games.end(), "game not found");
+         eosio_assert(game_itr->deadline != 0 && now() > game_itr->deadline, "game not expired");
 
          auto idx = offers.template get_index<N(commitment)>();
          auto player1_offer = idx.find( offer::get_commitment(game_itr->player1.commitment) );
          auto player2_offer = idx.find( offer::get_commitment(game_itr->player2.commitment) );
 
          if( !is_zero(game_itr->player1.reveal) ) {
-            enumivo_assert( is_zero(game_itr->player2.reveal), "game error");
+            eosio_assert( is_zero(game_itr->player2.reveal), "game error");
             pay_and_clean(*game_itr, *player1_offer, *player2_offer);
          } else {
-            enumivo_assert( is_zero(game_itr->player1.reveal), "game error");
+            eosio_assert( is_zero(game_itr->player1.reveal), "game error");
             pay_and_clean(*game_itr, *player2_offer, *player1_offer);
          }
 
@@ -234,7 +234,7 @@ class dice : public eosio::contract {
          require_auth( to );
 
          auto itr = accounts.find( to );
-         enumivo_assert(itr != accounts.end(), "unknown account");
+         eosio_assert(itr != accounts.end(), "unknown account");
 
          auto amount = eos_currency::token_type(a);
          accounts.modify( itr, 0, [&]( auto& acnt ) {
@@ -268,7 +268,7 @@ class dice : public eosio::contract {
             return key256::make_from_word_sequence<uint64_t>(p64[0], p64[1], p64[2], p64[3]);
          }
 
-         ENULIB_SERIALIZE( offer, (id)(owner)(bet)(commitment)(gameid) )
+         EOSLIB_SERIALIZE( offer, (id)(owner)(bet)(commitment)(gameid) )
       };
 
       typedef eosio::multi_index< N(offer), offer,
@@ -280,7 +280,7 @@ class dice : public eosio::contract {
          checksum256 commitment;
          checksum256 reveal;
 
-         ENULIB_SERIALIZE( player, (commitment)(reveal) )
+         EOSLIB_SERIALIZE( player, (commitment)(reveal) )
       };
 
       //@abi table game i64
@@ -293,7 +293,7 @@ class dice : public eosio::contract {
 
          uint64_t primary_key()const { return id; }
 
-         ENULIB_SERIALIZE( game, (id)(bet)(deadline)(player1)(player2) )
+         EOSLIB_SERIALIZE( game, (id)(bet)(deadline)(player1)(player2) )
       };
 
       typedef eosio::multi_index< N(game), game> game_index;
@@ -305,7 +305,7 @@ class dice : public eosio::contract {
 
          uint64_t primary_key()const { return id; }
 
-         ENULIB_SERIALIZE( global_dice, (id)(nextgameid) )
+         EOSLIB_SERIALIZE( global_dice, (id)(nextgameid) )
       };
 
       typedef eosio::multi_index< N(global), global_dice> global_dice_index;
@@ -323,7 +323,7 @@ class dice : public eosio::contract {
 
          uint64_t primary_key()const { return owner; }
 
-         ENULIB_SERIALIZE( account, (owner)(eos_balance)(open_offers)(open_games) )
+         EOSLIB_SERIALIZE( account, (owner)(eos_balance)(open_offers)(open_games) )
       };
 
       typedef eosio::multi_index< N(account), account> account_index;

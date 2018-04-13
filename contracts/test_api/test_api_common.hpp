@@ -4,10 +4,10 @@
  */
 #pragma once
 
-#ifdef DISABLE_ENULIB_SERIALIZE
+#ifdef DISABLE_EOSLIB_SERIALIZE
 #include <enumivolib/serialize.hpp>
-#undef ENULIB_SERIALIZE
-#define ENULIB_SERIALIZE(...)
+#undef EOSLIB_SERIALIZE
+#define EOSLIB_SERIALIZE(...)
 #endif
 
 static constexpr unsigned int DJBH(const char* cp)
@@ -36,7 +36,7 @@ struct dummy_action {
   uint64_t b; //8
   int32_t  c; //4
 
-  ENULIB_SERIALIZE( dummy_action, (a)(b)(c) )
+  EOSLIB_SERIALIZE( dummy_action, (a)(b)(c) )
 };
 
 struct u128_action {
@@ -54,7 +54,7 @@ struct cf_action {
    uint32_t       payload = 100;
    uint32_t       cfd_idx = 0; // context free data index
 
-   ENULIB_SERIALIZE( cf_action, (payload)(cfd_idx) )
+   EOSLIB_SERIALIZE( cf_action, (payload)(cfd_idx) )
 };
 #pragma pack(pop)
 
@@ -71,5 +71,5 @@ struct invalid_access_action {
    uint32_t index;
    bool store;
 
-   ENULIB_SERIALIZE( invalid_access_action, (code)(val)(index)(store) )
+   EOSLIB_SERIALIZE( invalid_access_action, (code)(val)(index)(store) )
 };

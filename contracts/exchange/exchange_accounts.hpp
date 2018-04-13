@@ -18,7 +18,7 @@ namespace eosio {
       flat_map<extended_symbol, int64_t>   balances;
 
       uint64_t primary_key() const { return owner; }
-      ENULIB_SERIALIZE( exaccount, (owner)(balances) )
+      EOSLIB_SERIALIZE( exaccount, (owner)(balances) )
    };
 
    typedef eosio::multi_index<N(exaccounts), exaccount> exaccounts;

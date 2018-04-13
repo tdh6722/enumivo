@@ -27,7 +27,7 @@ namespace eosio {
       uint32_t max_inline_action_size;
       uint32_t max_generated_transaction_count;
 
-      ENULIB_SERIALIZE( blockchain_parameters,
+      EOSLIB_SERIALIZE( blockchain_parameters,
                         (base_per_transaction_net_usage)(base_per_transaction_cpu_usage)(base_per_action_cpu_usage)
                         (base_setcode_cpu_usage)(per_signature_cpu_usage)(per_lock_net_usage)
                         (context_free_discount_cpu_usage_num)(context_free_discount_cpu_usage_den)
@@ -47,14 +47,14 @@ namespace eosio {
       account_name producer_name;
       public_key   block_signing_key;
 
-      ENULIB_SERIALIZE( producer_key, (producer_name)(block_signing_key) )
+      EOSLIB_SERIALIZE( producer_key, (producer_name)(block_signing_key) )
    };
 
    struct producer_schedule {
       uint32_t             version = 0; ///< sequentially incrementing version number
       std::vector<producer_key> producers;
 
-      ENULIB_SERIALIZE( producer_schedule, (version)(producers) )
+      EOSLIB_SERIALIZE( producer_schedule, (version)(producers) )
    };
 
 }

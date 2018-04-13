@@ -13,7 +13,7 @@ struct testtype {
         T v2;
         ds.seekp(0);
         ds >> v2;
-        enumivo_assert(v == v2, errmsg);            
+        eosio_assert(v == v2, errmsg);            
     }
 };
 

@@ -384,7 +384,7 @@ BOOST_FIXTURE_TEST_CASE( dice_test, dice_tester ) try {
    BOOST_REQUIRE_EQUAL( balance_of(N(alice)), asset::from_string("1.0000 EOS"));
 
    BOOST_REQUIRE_EQUAL( 
-      get_currency_balance(N(eosio), ENU_SYMBOL, N(alice)),
+      get_currency_balance(N(eosio), EOS_SYMBOL, N(alice)),
       asset::from_string("10009.0000 EOS")
    );
 
@@ -396,7 +396,7 @@ BOOST_FIXTURE_TEST_CASE( dice_test, dice_tester ) try {
    withdraw( N(alice), asset::from_string("1.0000 EOS"));
 
    BOOST_REQUIRE_EQUAL( 
-      get_currency_balance(N(eosio), ENU_SYMBOL, N(alice)),
+      get_currency_balance(N(eosio), EOS_SYMBOL, N(alice)),
       asset::from_string("10010.0000 EOS")
    );
 

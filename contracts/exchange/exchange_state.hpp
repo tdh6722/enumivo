@@ -39,13 +39,13 @@ namespace eosio {
          total_lendable.amount -= result.amount;
          interest_shares -= ishares;
 
-         enumivo_assert( interest_shares >= 0, "underflow" );
-         enumivo_assert( total_lendable.amount >= 0, "underflow" );
+         eosio_assert( interest_shares >= 0, "underflow" );
+         eosio_assert( total_lendable.amount >= 0, "underflow" );
 
          return result;
       }
 
-      ENULIB_SERIALIZE( margin_state, (total_lendable)(total_lent)(least_collateralized)(interest_shares) )
+      EOSLIB_SERIALIZE( margin_state, (total_lendable)(total_lent)(least_collateralized)(interest_shares) )
    };
 
    /**
@@ -64,7 +64,7 @@ namespace eosio {
 
          margin_state   peer_margin; /// peer_connector collateral lending balance
 
-         ENULIB_SERIALIZE( connector, (balance)(weight)(peer_margin) )
+         EOSLIB_SERIALIZE( connector, (balance)(weight)(peer_margin) )
       };
 
       connector base;
@@ -79,7 +79,7 @@ namespace eosio {
       bool requires_margin_call( const exchange_state::connector& con )const;
       bool requires_margin_call()const;
 
-      ENULIB_SERIALIZE( exchange_state, (manager)(supply)(fee)(base)(quote) )
+      EOSLIB_SERIALIZE( exchange_state, (manager)(supply)(fee)(base)(quote) )
    };
 
    typedef eosio::multi_index<N(markets), exchange_state> markets;

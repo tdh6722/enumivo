@@ -36,7 +36,7 @@ namespace eosio {
       unsigned_int    kcpu_usage = 0UL; /// number of CPU usage units to bill transaction for
       unsigned_int    delay_sec = 0UL; /// number of CPU usage units to bill transaction for
 
-      ENULIB_SERIALIZE( transaction_header, (expiration)(region)(ref_block_num)(ref_block_prefix)(net_usage_words)(kcpu_usage)(delay_sec) )
+      EOSLIB_SERIALIZE( transaction_header, (expiration)(region)(ref_block_num)(ref_block_prefix)(net_usage_words)(kcpu_usage)(delay_sec) )
    };
 
    class transaction : public transaction_header {
@@ -51,7 +51,7 @@ namespace eosio {
       vector<action>  context_free_actions;
       vector<action>  actions;
 
-      ENULIB_SERIALIZE_DERIVED( transaction, transaction_header, (context_free_actions)(actions) )
+      EOSLIB_SERIALIZE_DERIVED( transaction, transaction_header, (context_free_actions)(actions) )
    };
 
    class deferred_transaction : public transaction {
@@ -65,7 +65,7 @@ namespace eosio {
             return unpack_action_data<deferred_transaction>();
          }
 
-         ENULIB_SERIALIZE_DERIVED( deferred_transaction, transaction, (sender_id)(sender)(payer)(execute_after) )
+         EOSLIB_SERIALIZE_DERIVED( deferred_transaction, transaction, (sender_id)(sender)(payer)(execute_after) )
    };
 
    /**
@@ -76,10 +76,10 @@ namespace eosio {
     */
    inline action get_action( uint32_t type, uint32_t index ) {
       auto size = ::get_action(type, index, nullptr, 0);
-      enumivo_assert( size > 0, "get_action size failed" );
+      eosio_assert( size > 0, "get_action size failed" );
       char buf[size];
       auto size2 = ::get_action(type, index, &buf[0], static_cast<size_t>(size) );
-      enumivo_assert( size == size2, "get_action failed" );
+      eosio_assert( size == size2, "get_action failed" );
       return eosio::unpack<eosio::action>(&buf[0], static_cast<size_t>(size));
    }
 

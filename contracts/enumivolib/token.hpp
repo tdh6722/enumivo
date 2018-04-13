@@ -49,8 +49,8 @@ namespace eosio {
     explicit operator asset()const { return asset( int64_t(quantity), Symbol ); }
 
     token( const asset& a ):quantity(NumberType(a.amount)) {
-       enumivo_assert( a.symbol == Symbol, "attempt to construct token from asset with different symbol" );
-       enumivo_assert( 0 <= a.amount, "attemt to convert asset with negative value to token" );
+       eosio_assert( a.symbol == Symbol, "attempt to construct token from asset with different symbol" );
+       eosio_assert( 0 <= a.amount, "attemt to convert asset with negative value to token" );
     }
 
     /**
@@ -74,7 +74,7 @@ namespace eosio {
     * @return this token after subtraction
     */
     token& operator-=( const token& a ) {
-      enumivo_assert( quantity >= a.quantity, "integer underflow subtracting token balance" );
+      eosio_assert( quantity >= a.quantity, "integer underflow subtracting token balance" );
       quantity -= a.quantity;
       return *this;
     }
@@ -87,7 +87,7 @@ namespace eosio {
     * @return this token after addition
     */
     token& operator+=( const token& a ) {
-      enumivo_assert( quantity + a.quantity >= a.quantity, "integer overflow adding token balance" );
+      eosio_assert( quantity + a.quantity >= a.quantity, "integer overflow adding token balance" );
       quantity += a.quantity;
       return *this;
     }
@@ -128,7 +128,7 @@ namespace eosio {
     * @return this token after addition
     */
     token& operator*=( uint64_t a ) {
-      enumivo_assert( a == 0 || (quantity * a) / a == quantity, "integer overflow multiplying token balance" );
+      eosio_assert( a == 0 || (quantity * a) / a == quantity, "integer overflow multiplying token balance" );
       quantity *= a;
       return *this;
     }
@@ -355,8 +355,8 @@ namespace eosio {
     * @param quote - quote token
     */
     price( BaseToken base, QuoteToken quote ) {
-      enumivo_assert( base  >= BaseToken(1ul), "invalid price" );
-      enumivo_assert( quote >= QuoteToken(1ul), "invalid price" );
+      eosio_assert( base  >= BaseToken(1ul), "invalid price" );
+      eosio_assert( quote >= QuoteToken(1ul), "invalid price" );
 
       base_per_quote = base.quantity;
       base_per_quote *= precision;
@@ -443,7 +443,7 @@ namespace eosio {
 
     operator uint128_t()const { return base_per_quote; }
 
-    ENULIB_SERIALIZE( price, (base_per_quote) )
+    EOSLIB_SERIALIZE( price, (base_per_quote) )
   private:
     /**
     * Represents as number of base tokens to purchase 1 quote token.

@@ -16,7 +16,7 @@ namespace proxy {
          auto it = db_find_i64(self, self, N(config), config::key);
          if (it != -1) {
             auto size = db_get_i64(it, (char*)&out, sizeof(config));
-            enumivo_assert(size == sizeof(config), "Wrong record size");
+            eosio_assert(size == sizeof(config), "Wrong record size");
             return true;
          } else {
             return false;
@@ -38,11 +38,11 @@ namespace proxy {
       config code_config;
       const auto self = receiver;
       auto get_res = configs::get(code_config, self);
-      enumivo_assert(get_res, "Attempting to use unconfigured proxy");
+      eosio_assert(get_res, "Attempting to use unconfigured proxy");
       if (transfer.from == self) {
-         enumivo_assert(transfer.to == code_config.owner,  "proxy may only pay its owner" );
+         eosio_assert(transfer.to == code_config.owner,  "proxy may only pay its owner" );
       } else {
-         enumivo_assert(transfer.to == self, "proxy is not involved in this transfer");
+         eosio_assert(transfer.to == self, "proxy is not involved in this transfer");
          T new_transfer = T(transfer);
          new_transfer.from = self;
          new_transfer.to = code_config.owner;
@@ -73,7 +73,7 @@ namespace proxy {
       eosio::print("starting onerror\n");
       const auto self = receiver;
       config code_config;
-      enumivo_assert(configs::get(code_config, self), "Attempting use of unconfigured proxy");
+      eosio_assert(configs::get(code_config, self), "Attempting use of unconfigured proxy");
 
       auto id = code_config.next_id++;
       configs::store(code_config, self);

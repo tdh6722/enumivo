@@ -27,7 +27,7 @@ namespace noop {
             string type;
             string data;
             
-            ENULIB_SERIALIZE(anyaction, (from)(type)(data))
+            EOSLIB_SERIALIZE(anyaction, (from)(type)(data))
          };
 
          static void on(const anyaction& act)

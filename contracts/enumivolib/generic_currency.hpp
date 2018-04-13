@@ -29,7 +29,7 @@ namespace eosio {
              account_name to;
              asset        quantity;
 
-             ENULIB_SERIALIZE( issue, (to)(quantity) )
+             EOSLIB_SERIALIZE( issue, (to)(quantity) )
           };
 
           ACTION( code, transfer ) {
@@ -47,7 +47,7 @@ namespace eosio {
              template<typename DataStream>
              friend DataStream& operator >> ( DataStream& ds, transfer& t ){
                 ds >> t.from >> t.to >> t.quantity;
-                enumivo_assert( t.quantity.symbol== token_type::symbol, "unexpected asset type" );
+                eosio_assert( t.quantity.symbol== token_type::symbol, "unexpected asset type" );
                 return ds;
              }
           };
@@ -59,7 +59,7 @@ namespace eosio {
 
              string       memo;
 
-             ENULIB_SERIALIZE_DERIVED( transfer_memo, transfer, (memo) )
+             EOSLIB_SERIALIZE_DERIVED( transfer_memo, transfer, (memo) )
           };
 
           struct account {
@@ -68,7 +68,7 @@ namespace eosio {
 
              auto primary_key() const { return symbol; }
 
-             ENULIB_SERIALIZE( account, (balance)(symbol) )
+             EOSLIB_SERIALIZE( account, (balance)(symbol) )
           };
 
           struct currency_stats {
@@ -77,7 +77,7 @@ namespace eosio {
 
              auto primary_key() const { return symbol; }
 
-             ENULIB_SERIALIZE( currency_stats, (supply)(symbol) )
+             EOSLIB_SERIALIZE( currency_stats, (supply)(symbol) )
           };
 
           /**

@@ -17,7 +17,7 @@ struct limit_order {
       uint64_t get_expiration()const { return expiration; }
       uint128_t get_price()const { return price; }
 
-      ENULIB_SERIALIZE( limit_order, (id)(price)(expiration)(owner) )
+      EOSLIB_SERIALIZE( limit_order, (id)(price)(expiration)(owner) )
    };
 
    struct test_k256 {
@@ -27,7 +27,7 @@ struct limit_order {
       auto primary_key()const { return id; }
       key256 get_val()const { return val; }
 
-      ENULIB_SERIALIZE( test_k256, (id)(val) )
+      EOSLIB_SERIALIZE( test_k256, (id)(val) )
    };
 
    class multi_index_test {
@@ -39,7 +39,7 @@ struct limit_order {
 
             uint32_t what;
 
-            ENULIB_SERIALIZE(trigger, (what))
+            EOSLIB_SERIALIZE(trigger, (what))
          };
 
          static void on(const trigger& act)
@@ -159,7 +159,7 @@ struct limit_order {
                }
                break;
                default:
-                  enumivo_assert(0, "Given what code is not supported.");
+                  eosio_assert(0, "Given what code is not supported.");
                break;
             }
          }
@@ -172,7 +172,7 @@ namespace multi_index_test {
       /// The apply method implements the dispatch of events to this contract
       void apply( uint64_t receiver, uint64_t code, uint64_t action ) {
          require_auth(code);
-         enumivo_assert(eosio::dispatch<multi_index_test, multi_index_test::trigger>(code, action),
+         eosio_assert(eosio::dispatch<multi_index_test, multi_index_test::trigger>(code, action),
                       "Could not dispatch");
       }
    }

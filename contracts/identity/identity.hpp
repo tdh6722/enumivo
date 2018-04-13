@@ -83,7 +83,7 @@ namespace identity {
             account_name creator;
             uint64_t     identity = 0; ///< first 32 bits determinsitically derived from creator and tapos
 
-            ENULIB_SERIALIZE( create, (creator)(identity) )
+            EOSLIB_SERIALIZE( create, (creator)(identity) )
          };
 
 
@@ -95,7 +95,7 @@ namespace identity {
             uint8_t       confidence = 1; ///< used to define liability for lies,
                                           /// 0 to delete
 
-            ENULIB_SERIALIZE( certvalue, (property)(type)(data)(memo)(confidence) )
+            EOSLIB_SERIALIZE( certvalue, (property)(type)(data)(memo)(confidence) )
          };
 
          struct certprop : public action_meta< code, N(certprop) >
@@ -105,7 +105,7 @@ namespace identity {
             identity_name       identity;
             vector<certvalue>   values;
 
-            ENULIB_SERIALIZE( certprop, (bill_storage_to)(certifier)(identity)(values) )
+            EOSLIB_SERIALIZE( certprop, (bill_storage_to)(certifier)(identity)(values) )
          };
 
          struct settrust : public action_meta< code, N(settrust) >
@@ -114,7 +114,7 @@ namespace identity {
             account_name trusting; ///< the account receiving the trust
             uint8_t      trust = 0; /// 0 to remove, -1 to mark untrusted, 1 to mark trusted
 
-            ENULIB_SERIALIZE( settrust, (trustor)(trusting)(trust) )
+            EOSLIB_SERIALIZE( settrust, (trustor)(trusting)(trust) )
          };
 
          struct certrow {
@@ -138,7 +138,7 @@ namespace identity {
             }
             key256 get_key() const { return key(property, trusted, certifier); }
 
-            ENULIB_SERIALIZE( certrow , (property)(trusted)(certifier)(confidence)(type)(data)(id) )
+            EOSLIB_SERIALIZE( certrow , (property)(trusted)(certifier)(confidence)(type)(data)(id) )
          };
 
          struct identrow {
@@ -147,7 +147,7 @@ namespace identity {
 
             uint64_t primary_key() const { return identity; }
 
-            ENULIB_SERIALIZE( identrow , (identity)(creator) )
+            EOSLIB_SERIALIZE( identrow , (identity)(creator) )
          };
 
          struct trustrow {
@@ -155,7 +155,7 @@ namespace identity {
 
             uint64_t primary_key() const { return account; }
 
-            ENULIB_SERIALIZE( trustrow, (account) )
+            EOSLIB_SERIALIZE( trustrow, (account) )
          };
 
          typedef eosio::multi_index<N(certs), certrow,
@@ -280,8 +280,8 @@ namespace identity {
             require_auth( c.creator );
             idents_table t( code, code);
             auto itr = t.find( c.identity );
-            enumivo_assert( itr == t.end(), "identity already exists" );
-            enumivo_assert( c.identity != 0, "identity=0 is not allowed" );
+            eosio_assert( itr == t.end(), "identity already exists" );
+            eosio_assert( c.identity != 0, "identity=0 is not allowed" );
             t.emplace(c.creator, [&](identrow& i) {
                   i.identity = c.identity;
                   i.creator = c.creator;
@@ -294,7 +294,7 @@ namespace identity {
                require_auth( cert.bill_storage_to );
 
             idents_table t( code, code );
-            enumivo_assert( t.find( cert.identity ) != t.end(), "identity does not exist" );
+            eosio_assert( t.find( cert.identity ) != t.end(), "identity does not exist" );
 
             /// the table exists in the scope of the identity
             certs_table certs( code, cert.identity );
@@ -303,7 +303,7 @@ namespace identity {
             for( const auto& value : cert.values ) {
                auto idx = certs.template get_index<N(bytuple)>();
                if (value.confidence) {
-                  enumivo_assert(value.type.size() <= 32, "certrow::type should be not longer than 32 bytes");
+                  eosio_assert(value.type.size() <= 32, "certrow::type should be not longer than 32 bytes");
                   auto itr = idx.lower_bound( certrow::key(value.property, trusted, cert.certifier) );
 
                   if (itr != idx.end() && itr->property == value.property && itr->trusted == trusted && itr->certifier == cert.certifier) {
@@ -332,7 +332,7 @@ namespace identity {
 
                   //special handling for owner
                   if (value.property == N(owner)) {
-                     enumivo_assert(sizeof(account_name) == value.data.size(), "data size doesn't match account_name size");
+                     eosio_assert(sizeof(account_name) == value.data.size(), "data size doesn't match account_name size");
                      account_name acnt = *reinterpret_cast<const account_name*>(value.data.data());
                      if (cert.certifier == acnt) { //only self-certitication affects accounts_table
                         accounts_table::set( cert.identity, acnt );
@@ -354,7 +354,7 @@ namespace identity {
                   }
                   //special handling for owner
                   if (value.property == N(owner)) {
-                     enumivo_assert(sizeof(account_name) == value.data.size(), "data size doesn't match account_name size");
+                     eosio_assert(sizeof(account_name) == value.data.size(), "data size doesn't match account_name size");
                      account_name acnt = *reinterpret_cast<const account_name*>(value.data.data());
                      if (cert.certifier == acnt) { //only self-certitication affects accounts_table
                         accounts_table::remove( acnt );
