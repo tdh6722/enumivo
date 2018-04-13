@@ -1,7 +1,7 @@
 #!/bin/bash
 ##########################################################################
 # This is the EOSIO automated install script for Linux and Mac OS.
-# This file was downloaded from https://github.com/EOSIO/eos
+# This file was downloaded from https://github.com/enumivo/enumivo
 #
 # Copyright (c) 2017, Respective Authors all rights reserved.
 #
@@ -27,7 +27,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# https://github.com/EOSIO/eos/blob/master/LICENSE.txt
+# https://github.com/enumivo/enumivo/blob/master/LICENSE.txt
 ##########################################################################
 
 	VERSION=1.2
@@ -46,8 +46,8 @@
 
 	if [ ! -d .git ]; then
 		printf "\nThis build script only works with sources cloned from git\n"
-		printf "\tPlease clone a new eos directory with 'git clone https://github.com/EOSIO/eos --recursive'\n"
-		printf "\tSee the wiki for instructions: https://github.com/EOSIO/eos/wiki\n"
+		printf "\tPlease clone a new eos directory with 'git clone https://github.com/enumivo/enumivo --recursive'\n"
+		printf "\tSee the wiki for instructions: https://github.com/enumivo/enumivo/wiki\n"
 		exit 1
 	fi
 
@@ -217,7 +217,7 @@
 	printf "\tEOS.IO website: https://eos.io\n"
 	printf "\tEOS.IO Telegram channel @ https://t.me/EOSProject\n"
 	printf "\tEOS.IO resources: https://eos.io/resources/\n"
-	printf "\tEOS.IO wiki: https://github.com/EOSIO/eos/wiki\n\n\n"
+	printf "\tEOS.IO wiki: https://github.com/enumivo/enumivo/wiki\n\n\n"
 		 
    if [ "x${ENUMIVO_BUILD_PACKAGE}" != "x" ]; then
       # Build eos.io package
