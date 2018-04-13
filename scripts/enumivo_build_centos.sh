@@ -342,7 +342,7 @@ mongodconf
 	if [ ! -d ${HOME}/opt/binaryen ]; then
 		printf "\tInstalling binaryen v1.37.14:\n"
 		cd ${TEMP_DIR}
-		git clone https://github.com/EOSIO/binaryen
+		git clone https://github.com/enumivo/binaryen
 		cd binaryen
 		git checkout eosio
 		$CMAKE . && make
