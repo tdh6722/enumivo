@@ -292,7 +292,7 @@ read_only::get_info_results read_only::get_info(const read_only::get_info_params
 abi_def get_abi( const chain_controller& db, const name& account ) {
    const auto &d = db.get_database();
    const account_object *code_accnt = d.find<account_object, by_name>(account);
-   EOS_ASSERT(code_accnt != nullptr, chain::account_query_exception, "Fail to retrieve account for ${account}", ("account", account) );
+   ENU_ASSERT(code_accnt != nullptr, chain::account_query_exception, "Fail to retrieve account for ${account}", ("account", account) );
    abi_def abi;
    abi_serializer::to_abi(code_accnt->abi, abi);
    return abi;
@@ -304,7 +304,7 @@ string get_table_type( const abi_def& abi, const name& table_name ) {
          return t.index_type;
       }
    }
-   EOS_ASSERT( false, chain::contract_table_query_exception, "Table ${table} is not specified in the ABI", ("table",table_name) );
+   ENU_ASSERT( false, chain::contract_table_query_exception, "Table ${table} is not specified in the ABI", ("table",table_name) );
 }
 
 read_only::get_table_rows_result read_only::get_table_rows( const read_only::get_table_rows_params& p )const {
@@ -315,7 +315,7 @@ read_only::get_table_rows_result read_only::get_table_rows( const read_only::get
       return get_table_rows_ex<contracts::key_value_index, contracts::by_scope_primary>(p,abi);
    }
 
-   EOS_ASSERT( false, chain::contract_table_query_exception,  "Invalid table type ${type}", ("type",table_type)("abi",abi));
+   ENU_ASSERT( false, chain::contract_table_query_exception,  "Invalid table type ${type}", ("type",table_type)("abi",abi));
 }
 
 vector<asset> read_only::get_currency_balance( const read_only::get_currency_balance_params& p )const {
@@ -384,7 +384,7 @@ fc::variant read_only::get_block(const read_only::get_block_params& params) cons
          block = db.fetch_block_by_number(fc::to_uint64(params.block_num_or_id));
       }
 
-   } EOS_RETHROW_EXCEPTIONS(chain::block_id_type_exception, "Invalid block ID: ${block_num_or_id}", ("block_num_or_id", params.block_num_or_id))
+   } ENU_RETHROW_EXCEPTIONS(chain::block_id_type_exception, "Invalid block ID: ${block_num_or_id}", ("block_num_or_id", params.block_num_or_id))
 
    if (!block)
       FC_THROW_EXCEPTION(unknown_block_exception,
@@ -411,7 +411,7 @@ read_write::push_transaction_results read_write::push_transaction(const read_wri
    auto resolver = make_resolver(this);
    try {
       abi_serializer::from_variant(params, pretty_input, resolver);
-   } EOS_RETHROW_EXCEPTIONS(chain::packed_transaction_type_exception, "Invalid packed transaction")
+   } ENU_RETHROW_EXCEPTIONS(chain::packed_transaction_type_exception, "Invalid packed transaction")
 
    auto result = db.push_transaction(pretty_input, skip_flags);
 #warning TODO: get transaction results asynchronously
@@ -489,14 +489,14 @@ read_only::get_account_results read_only::get_account( const get_account_params&
 read_only::abi_json_to_bin_result read_only::abi_json_to_bin( const read_only::abi_json_to_bin_params& params )const try {
    abi_json_to_bin_result result;
    const auto code_account = db.get_database().find<account_object,by_name>( params.code );
-   EOS_ASSERT(code_account != nullptr, contract_query_exception, "Contract can't be found ${contract}", ("contract", params.code));
+   ENU_ASSERT(code_account != nullptr, contract_query_exception, "Contract can't be found ${contract}", ("contract", params.code));
 
    abi_def abi;
    if( abi_serializer::to_abi(code_account->abi, abi) ) {
       abi_serializer abis( abi );
       try {
          result.binargs = abis.variant_to_binary(abis.get_action_type(params.action), params.args);
-      } EOS_RETHROW_EXCEPTIONS(chain::invalid_action_args_exception,
+      } ENU_RETHROW_EXCEPTIONS(chain::invalid_action_args_exception,
                                 "'${args}' is invalid args for action '${action}' code '${code}'",
                                 ("args", params.args)("action", params.action)("code", params.code))
    }
