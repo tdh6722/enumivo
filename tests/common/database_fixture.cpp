@@ -35,12 +35,12 @@
 
 #include "database_fixture.hpp"
 
-uint32_t EOS_TESTING_GENESIS_TIMESTAMP = 1431700005;
+uint32_t ENU_TESTING_GENESIS_TIMESTAMP = 1431700005;
 
 namespace eosio { namespace chain {
 
 testing_fixture::testing_fixture() {
-   default_genesis_state.initial_timestamp = fc::time_point_sec(EOS_TESTING_GENESIS_TIMESTAMP);
+   default_genesis_state.initial_timestamp = fc::time_point_sec(ENU_TESTING_GENESIS_TIMESTAMP);
    for (int i = 0; i < config::blocks_per_round; ++i) {
       auto name = std::string("inita"); name.back()+=i;
       auto private_key = fc::ecc::private_key::regenerate(fc::sha256::hash(name));
@@ -79,7 +79,7 @@ void testing_fixture::store_private_key(const private_key_type& key) {
 
 private_key_type testing_fixture::get_private_key(const public_key_type& public_key) const {
    auto itr = key_ring.find(public_key);
-   EOS_ASSERT(itr != key_ring.end(), missing_key_exception,
+   ENU_ASSERT(itr != key_ring.end(), missing_key_exception,
               "Private key corresponding to public key ${k} not known.", ("k", public_key));
    return itr->second;
 }

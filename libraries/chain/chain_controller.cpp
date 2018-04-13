@@ -282,7 +282,7 @@ transaction_trace chain_controller::push_transaction(const packed_transaction& t
          return _push_transaction(trx);
       });
    });
-} EOS_CAPTURE_AND_RETHROW( transaction_exception ) }
+} ENU_CAPTURE_AND_RETHROW( transaction_exception ) }
 
 transaction_trace chain_controller::_push_transaction(const packed_transaction& packed_trx)
 { try {
@@ -300,7 +300,7 @@ transaction_trace chain_controller::_push_transaction(const packed_transaction& 
    validate_uniqueness(trx);
    if( should_check_authorization() ) {
       auto enforced_delay = check_transaction_authorization(trx, packed_trx.signatures, mtrx.context_free_data);
-      EOS_ASSERT( mtrx.delay >= enforced_delay,
+      ENU_ASSERT( mtrx.delay >= enforced_delay,
                   transaction_exception,
                   "authorization imposes a delay (${enforced_delay} sec) greater than the delay specified in transaction header (${specified_delay} sec)",
                   ("enforced_delay", enforced_delay.to_seconds())("specified_delay", mtrx.delay.to_seconds()) );
@@ -611,8 +611,8 @@ void chain_controller::_finalize_block( const block_trace& trace, const producer
 
    const auto& chain_config = this->get_global_properties().configuration;
    _resource_limits.set_block_parameters(
-      {EOS_PERCENT(chain_config.max_block_cpu_usage, chain_config.target_block_cpu_usage_pct), chain_config.max_block_cpu_usage, config::block_cpu_usage_average_window_ms / config::block_interval_ms, 1000, {99, 100}, {1000, 999}},
-      {EOS_PERCENT(chain_config.max_block_net_usage, chain_config.target_block_net_usage_pct), chain_config.max_block_net_usage, config::block_size_average_window_ms / config::block_interval_ms, 1000, {99, 100}, {1000, 999}}
+      {ENU_PERCENT(chain_config.max_block_cpu_usage, chain_config.target_block_cpu_usage_pct), chain_config.max_block_cpu_usage, config::block_cpu_usage_average_window_ms / config::block_interval_ms, 1000, {99, 100}, {1000, 999}},
+      {ENU_PERCENT(chain_config.max_block_net_usage, chain_config.target_block_net_usage_pct), chain_config.max_block_net_usage, config::block_size_average_window_ms / config::block_interval_ms, 1000, {99, 100}, {1000, 999}}
    );
 
    // trigger an update of our elastic values for block limits
@@ -712,7 +712,7 @@ void chain_controller::pop_block()
    auto head_id = head_block_id();
    optional<signed_block> head_block = fetch_block_by_id( head_id );
 
-   EOS_ASSERT( head_block.valid(), pop_empty_chain, "there are no blocks to pop" );
+   ENU_ASSERT( head_block.valid(), pop_empty_chain, "there are no blocks to pop" );
    wlog( "\rpop block #${n} from ${pro} ${time}  ${id}", ("n",head_block->block_num())("pro",name(head_block->producer))("time",head_block->timestamp)("id",head_block->id()));
 
    _fork_db.pop_block();
@@ -756,8 +756,8 @@ static void validate_shard_locks(const vector<shard_lock>& locks, const string& 
 
    for (auto cur = locks.begin() + 1; cur != locks.end(); ++cur) {
       auto prev = cur - 1;
-      EOS_ASSERT(*prev != *cur, block_lock_exception, "${tag} lock \"${a}::${s}\" is not unique", ("tag",tag)("a",cur->account)("s",cur->scope));
-      EOS_ASSERT(*prev < *cur,  block_lock_exception, "${tag} locks are not sorted", ("tag",tag));
+      ENU_ASSERT(*prev != *cur, block_lock_exception, "${tag} lock \"${a}::${s}\" is not unique", ("tag",tag)("a",cur->account)("s",cur->scope));
+      ENU_ASSERT(*prev < *cur,  block_lock_exception, "${tag} locks are not sorted", ("tag",tag));
    }
 }
 
@@ -810,7 +810,7 @@ void chain_controller::__apply_block(const signed_block& next_block)
       region_trace r_trace;
       r_trace.cycle_traces.reserve(r.cycles_summary.size());
 
-      EOS_ASSERT(!r.cycles_summary.empty(), tx_empty_region,"region[${r_index}] has no cycles", ("r_index",region_index));
+      ENU_ASSERT(!r.cycles_summary.empty(), tx_empty_region,"region[${r_index}] has no cycles", ("r_index",region_index));
       for (uint32_t cycle_index = 0; cycle_index < r.cycles_summary.size(); cycle_index++) {
          const auto& cycle = r.cycles_summary.at(cycle_index);
          cycle_trace c_trace;
@@ -821,10 +821,10 @@ void chain_controller::__apply_block(const signed_block& next_block)
          set<shard_lock> read_locks;
          map<shard_lock, uint32_t> write_locks;
 
-         EOS_ASSERT(!cycle.empty(), tx_empty_cycle,"region[${r_index}] cycle[${c_index}] has no shards", ("r_index",region_index)("c_index",cycle_index));
+         ENU_ASSERT(!cycle.empty(), tx_empty_cycle,"region[${r_index}] cycle[${c_index}] has no shards", ("r_index",region_index)("c_index",cycle_index));
          for (uint32_t shard_index = 0; shard_index < cycle.size(); shard_index++) {
             const auto& shard = cycle.at(shard_index);
-            EOS_ASSERT(!shard.empty(), tx_empty_shard,"region[${r_index}] cycle[${c_index}] shard[${s_index}] is empty",
+            ENU_ASSERT(!shard.empty(), tx_empty_shard,"region[${r_index}] cycle[${c_index}] shard[${s_index}] is empty",
                        ("r_index",region_index)("c_index",cycle_index)("s_index",shard_index));
 
             // Validate that the shards locks are unique and sorted
@@ -832,17 +832,17 @@ void chain_controller::__apply_block(const signed_block& next_block)
             validate_shard_locks(shard.write_locks, "write");
 
             for (const auto& s: shard.read_locks) {
-               EOS_ASSERT(write_locks.count(s) == 0, block_concurrency_exception,
+               ENU_ASSERT(write_locks.count(s) == 0, block_concurrency_exception,
                   "shard ${i} requires read lock \"${a}::${s}\" which is locked for write by shard ${j}",
                   ("i", shard_index)("s", s)("j", write_locks[s]));
                read_locks.emplace(s);
             }
 
             for (const auto& s: shard.write_locks) {
-               EOS_ASSERT(write_locks.count(s) == 0, block_concurrency_exception,
+               ENU_ASSERT(write_locks.count(s) == 0, block_concurrency_exception,
                   "shard ${i} requires write lock \"${a}::${s}\" which is locked for write by shard ${j}",
                   ("i", shard_index)("a", s.account)("s", s.scope)("j", write_locks[s]));
-               EOS_ASSERT(read_locks.count(s) == 0, block_concurrency_exception,
+               ENU_ASSERT(read_locks.count(s) == 0, block_concurrency_exception,
                   "shard ${i} requires write lock \"${a}::${s}\" which is locked for read",
                   ("i", shard_index)("a", s.account)("s", s.scope));
                write_locks[s] = shard_index;
@@ -870,7 +870,7 @@ void chain_controller::__apply_block(const signed_block& next_block)
                         auto enforced_delay = check_authorization( trx.actions,
                                                                    should_check_signatures() ? *trx_meta.signing_keys
                                                                                              : flat_set<public_key_type>() );
-                        EOS_ASSERT( trx_meta.delay >= enforced_delay,
+                        ENU_ASSERT( trx_meta.delay >= enforced_delay,
                                     transaction_exception,
                                     "authorization imposes a delay (${enforced_delay} sec) greater than the delay specified in transaction header (${specified_delay} sec)",
                                     ("enforced_delay", enforced_delay.to_seconds())("specified_delay", trx_meta.delay.to_seconds()) );
@@ -924,21 +924,21 @@ void chain_controller::__apply_block(const signed_block& next_block)
                t_trace.cycle_index = cycle_index;
                t_trace.shard_index = shard_index;
 
-               EOS_ASSERT( receipt.status == s_trace.transaction_traces.back().status, tx_receipt_inconsistent_status,
+               ENU_ASSERT( receipt.status == s_trace.transaction_traces.back().status, tx_receipt_inconsistent_status,
                            "Received status of transaction from block (${rstatus}) does not match the applied transaction's status (${astatus})",
                            ("rstatus",receipt.status)("astatus",s_trace.transaction_traces.back().status) );
-               EOS_ASSERT( receipt.kcpu_usage == s_trace.transaction_traces.back().kcpu_usage, tx_receipt_inconsistent_cpu,
+               ENU_ASSERT( receipt.kcpu_usage == s_trace.transaction_traces.back().kcpu_usage, tx_receipt_inconsistent_cpu,
                            "Received kcpu_usage of transaction from block (${rcpu}) does not match the applied transaction's kcpu_usage (${acpu})",
                            ("rcpu",receipt.kcpu_usage)("acpu",s_trace.transaction_traces.back().kcpu_usage) );
-               EOS_ASSERT( receipt.net_usage_words == s_trace.transaction_traces.back().net_usage_words, tx_receipt_inconsistent_net,
+               ENU_ASSERT( receipt.net_usage_words == s_trace.transaction_traces.back().net_usage_words, tx_receipt_inconsistent_net,
                            "Received net_usage_words of transaction from block (${rnet}) does not match the applied transaction's net_usage_words (${anet})",
                            ("rnet",receipt.net_usage_words)("anet",s_trace.transaction_traces.back().net_usage_words) );
 
             } /// for each transaction id
 
-            EOS_ASSERT( boost::equal( used_read_locks, shard.read_locks ),
+            ENU_ASSERT( boost::equal( used_read_locks, shard.read_locks ),
                block_lock_exception, "Read locks for executing shard: ${s} do not match those listed in the block", ("s", shard_index));
-            EOS_ASSERT( boost::equal( used_write_locks, shard.write_locks ),
+            ENU_ASSERT( boost::equal( used_write_locks, shard.write_locks ),
                block_lock_exception, "Write locks for executing shard: ${s} do not match those listed in the block", ("s", shard_index));
 
             s_trace.finalize_shard();
@@ -970,7 +970,7 @@ flat_set<public_key_type> chain_controller::get_required_keys(const transaction&
    for (const auto& act : trx.actions ) {
       for (const auto& declared_auth : act.authorization) {
          if (!checker.satisfied(declared_auth)) {
-            EOS_ASSERT(checker.satisfied(declared_auth), tx_missing_sigs,
+            ENU_ASSERT(checker.satisfied(declared_auth), tx_missing_sigs,
                        "transaction declares authority '${auth}', but does not have signatures for it.",
                        ("auth", declared_auth));
          }
@@ -1053,7 +1053,7 @@ fc::microseconds chain_controller::check_authorization( const vector<action>& ac
             const auto& min_permission = _db.get<permission_object, by_owner>(boost::make_tuple(declared_auth.actor, *min_permission_name));
             const auto& index = _db.get_index<permission_index>().indices();
             const optional<fc::microseconds> delay = get_permission(declared_auth).satisfies(min_permission, index);
-            EOS_ASSERT( delay.valid(),
+            ENU_ASSERT( delay.valid(),
                         tx_irrelevant_auth,
                         "action declares irrelevant authority '${auth}'; minimum authority is ${min}",
                         ("auth", declared_auth)("min", min_permission.name) );
@@ -1092,7 +1092,7 @@ fc::microseconds chain_controller::check_authorization( const vector<action>& ac
          }
 
          if( should_check_signatures() ) {
-            EOS_ASSERT(checker.satisfied(declared_auth), tx_missing_sigs,
+            ENU_ASSERT(checker.satisfied(declared_auth), tx_missing_sigs,
                        "transaction declares authority '${auth}', but does not have signatures for it.",
                        ("auth", declared_auth));
          }
@@ -1100,7 +1100,7 @@ fc::microseconds chain_controller::check_authorization( const vector<action>& ac
    }
 
    if( !allow_unused_signatures && should_check_signatures() ) {
-      EOS_ASSERT( checker.all_keys_used(), tx_irrelevant_sig,
+      ENU_ASSERT( checker.all_keys_used(), tx_irrelevant_sig,
                   "transaction bears irrelevant signatures from these keys: ${keys}",
                   ("keys", checker.unused_keys()) );
    }
@@ -1124,7 +1124,7 @@ bool chain_controller::check_authorization( account_name account, permission_nam
    auto satisfied = checker.satisfied({account, permission});
 
    if( satisfied && !allow_unused_signatures ) {
-      EOS_ASSERT(checker.all_keys_used(), tx_irrelevant_sig,
+      ENU_ASSERT(checker.all_keys_used(), tx_irrelevant_sig,
                  "irrelevant signatures from these keys: ${keys}",
                  ("keys", checker.unused_keys()));
    }
@@ -1194,7 +1194,7 @@ optional<permission_name> chain_controller::lookup_linked_permission(account_nam
 void chain_controller::validate_uniqueness( const transaction& trx )const {
    if( !should_check_for_duplicate_transactions() ) return;
    auto transaction = _db.find<transaction_object, by_trx_id>(trx.id());
-   EOS_ASSERT(transaction == nullptr, tx_duplicate, "Transaction is not unique");
+   ENU_ASSERT(transaction == nullptr, tx_duplicate, "Transaction is not unique");
 }
 
 void chain_controller::record_transaction(const transaction& trx)
@@ -1205,7 +1205,7 @@ void chain_controller::record_transaction(const transaction& trx)
            transaction.expiration = trx.expiration;
        });
    } catch ( ... ) {
-       EOS_ASSERT( false, transaction_exception,
+       ENU_ASSERT( false, transaction_exception,
                   "duplicate transaction ${id}",
                   ("id", trx.id() ) );
    }
@@ -1243,7 +1243,7 @@ static uint32_t calculate_transaction_cpu_usage( const transaction_trace& trace,
    actual_cpu_usage = ((actual_cpu_usage + 1023)/1024) * 1024; // Round up to nearest multiple of 1024
 
    uint32_t cpu_usage_limit = meta.trx().max_kcpu_usage.value * 1024UL; // overflow checked in validate_transaction_without_state
-   EOS_ASSERT( cpu_usage_limit == 0 || actual_cpu_usage <= cpu_usage_limit, tx_resource_exhausted,
+   ENU_ASSERT( cpu_usage_limit == 0 || actual_cpu_usage <= cpu_usage_limit, tx_resource_exhausted,
                "declared cpu usage limit of transaction is too low: ${actual_cpu_usage} > ${declared_limit}",
                ("actual_cpu_usage", actual_cpu_usage)("declared_limit",cpu_usage_limit) );
 
@@ -1261,7 +1261,7 @@ static uint32_t calculate_transaction_net_usage( const transaction_trace& trace,
 
 
    uint32_t net_usage_limit = meta.trx().max_net_usage_words.value * 8UL; // overflow checked in validate_transaction_without_state
-   EOS_ASSERT( net_usage_limit == 0 || actual_net_usage <= net_usage_limit, tx_resource_exhausted,
+   ENU_ASSERT( net_usage_limit == 0 || actual_net_usage <= net_usage_limit, tx_resource_exhausted,
                "declared net usage limit of transaction is too low: ${actual_net_usage} > ${declared_limit}",
                ("actual_net_usage", actual_net_usage)("declared_limit",net_usage_limit) );
 
@@ -1277,11 +1277,11 @@ void chain_controller::update_resource_usage( transaction_trace& trace, const tr
    trace.net_usage_words = trace.net_usage / 8;
 
    // enforce that the system controlled per tx limits are not violated
-   EOS_ASSERT(trace.cpu_usage <= chain_configuration.max_transaction_cpu_usage,
+   ENU_ASSERT(trace.cpu_usage <= chain_configuration.max_transaction_cpu_usage,
               tx_resource_exhausted, "Transaction exceeds the maximum cpu usage [used: ${used}, max: ${max}]",
               ("used", trace.cpu_usage)("max", chain_configuration.max_transaction_cpu_usage));
 
-   EOS_ASSERT(trace.net_usage <= chain_configuration.max_transaction_net_usage,
+   ENU_ASSERT(trace.net_usage <= chain_configuration.max_transaction_net_usage,
               tx_resource_exhausted, "Transaction exceeds the maximum net usage [used: ${used}, max: ${max}]",
               ("used", trace.net_usage)("max", chain_configuration.max_transaction_net_usage));
 
@@ -1304,7 +1304,7 @@ void chain_controller::validate_tapos(const transaction& trx)const {
    const auto& tapos_block_summary = _db.get<block_summary_object>((uint16_t)trx.ref_block_num);
 
    //Verify TaPoS block summary has correct ID prefix, and that this block's time is not past the expiration
-   EOS_ASSERT(trx.verify_reference_block(tapos_block_summary.block_id), invalid_ref_block_exception,
+   ENU_ASSERT(trx.verify_reference_block(tapos_block_summary.block_id), invalid_ref_block_exception,
               "Transaction's reference block did not match. Is this transaction from a different fork?",
               ("tapos_summary", tapos_block_summary));
 }
@@ -1322,7 +1322,7 @@ void chain_controller::validate_not_expired( const transaction& trx )const
 { try {
    fc::time_point now = head_block_time();
 
-   EOS_ASSERT( now < time_point(trx.expiration),
+   ENU_ASSERT( now < time_point(trx.expiration),
                expired_tx_exception,
                "Transaction is expired, now is ${now}, expiration is ${trx.exp}",
                ("now",now)("trx.expiration",trx.expiration) );
@@ -1332,7 +1332,7 @@ void chain_controller::validate_expiration_not_too_far( const transaction& trx, 
 { try {
    const auto& chain_configuration = get_global_properties().configuration;
 
-   EOS_ASSERT( time_point(trx.expiration) <= reference_time + fc::seconds(chain_configuration.max_transaction_lifetime),
+   ENU_ASSERT( time_point(trx.expiration) <= reference_time + fc::seconds(chain_configuration.max_transaction_lifetime),
                tx_exp_too_far_exception,
                "Transaction expiration is too far in the future relative to the reference time of ${reference_time}, "
                "expiration is ${trx.expiration} and the maximum transaction lifetime is ${max_til_exp} seconds",
@@ -1343,7 +1343,7 @@ void chain_controller::validate_expiration_not_too_far( const transaction& trx, 
 
 void chain_controller::validate_transaction_without_state( const transaction& trx )const
 { try {
-   EOS_ASSERT( !trx.actions.empty(), tx_no_action, "transaction must have at least one action" );
+   ENU_ASSERT( !trx.actions.empty(), tx_no_action, "transaction must have at least one action" );
 
    // Check for at least one authorization in the context-aware actions
    bool has_auth = false;
@@ -1351,15 +1351,15 @@ void chain_controller::validate_transaction_without_state( const transaction& tr
       has_auth |= !act.authorization.empty();
       if( has_auth ) break;
    }
-   EOS_ASSERT( has_auth, tx_no_auths, "transaction must have at least one authorization" );
+   ENU_ASSERT( has_auth, tx_no_auths, "transaction must have at least one authorization" );
 
    // Check that there are no authorizations in any of the context-free actions
    for (const auto &act : trx.context_free_actions) {
-      EOS_ASSERT( act.authorization.empty(), cfa_irrelevant_auth, "context-free actions cannot require authorization" );
+      ENU_ASSERT( act.authorization.empty(), cfa_irrelevant_auth, "context-free actions cannot require authorization" );
    }
 
-   EOS_ASSERT( trx.max_kcpu_usage.value < UINT32_MAX / 1024UL, transaction_exception, "declared max_kcpu_usage overflows when expanded to max cpu usage" );
-   EOS_ASSERT( trx.max_net_usage_words.value < UINT32_MAX / 8UL, transaction_exception, "declared max_net_usage_words overflows when expanded to max net usage" );
+   ENU_ASSERT( trx.max_kcpu_usage.value < UINT32_MAX / 1024UL, transaction_exception, "declared max_kcpu_usage overflows when expanded to max cpu usage" );
+   ENU_ASSERT( trx.max_net_usage_words.value < UINT32_MAX / 8UL, transaction_exception, "declared max_net_usage_words overflows when expanded to max net usage" );
 
 } FC_CAPTURE_AND_RETHROW((trx)) }
 
@@ -1370,7 +1370,7 @@ void chain_controller::validate_transaction_with_minimal_state( const transactio
    validate_tapos(trx);
 
    uint32_t net_usage_limit = trx.max_net_usage_words.value * 8; // overflow checked in validate_transaction_without_state
-   EOS_ASSERT( net_usage_limit == 0 || min_net_usage <= net_usage_limit,
+   ENU_ASSERT( net_usage_limit == 0 || min_net_usage <= net_usage_limit,
                transaction_exception,
                "Packed transaction and associated data does not fit into the space committed to by the transaction's header! [usage=${usage},commitment=${commit}]",
                ("usage", min_net_usage)("commit", net_usage_limit));
@@ -1393,9 +1393,9 @@ void chain_controller::require_account(const account_name& name) const {
 }
 
 const producer_object& chain_controller::validate_block_header(uint32_t skip, const signed_block& next_block)const { try {
-   EOS_ASSERT(head_block_id() == next_block.previous, block_validate_exception, "",
+   ENU_ASSERT(head_block_id() == next_block.previous, block_validate_exception, "",
               ("head_block_id",head_block_id())("next.prev",next_block.previous));
-   EOS_ASSERT(head_block_time() < (fc::time_point)next_block.timestamp, block_validate_exception, "",
+   ENU_ASSERT(head_block_time() < (fc::time_point)next_block.timestamp, block_validate_exception, "",
               ("head_block_time",head_block_time())("next",next_block.timestamp)("blocknum",next_block.block_num()));
    if (((fc::time_point)next_block.timestamp) > head_block_time() + fc::microseconds(config::block_interval_ms*1000)) {
       elog("head_block_time ${h}, next_block ${t}, block_interval ${bi}",
@@ -1406,25 +1406,25 @@ const producer_object& chain_controller::validate_block_header(uint32_t skip, co
 
 
    if( !is_start_of_round( next_block.block_num() ) )  {
-      EOS_ASSERT(!next_block.new_producers, block_validate_exception,
+      ENU_ASSERT(!next_block.new_producers, block_validate_exception,
                  "Producer changes may only occur at the end of a round.");
    }
 
    const producer_object& producer = get_producer(get_scheduled_producer(get_slot_at_time(next_block.timestamp)));
 
    if(!(skip&skip_producer_signature))
-      EOS_ASSERT(next_block.validate_signee(producer.signing_key), block_validate_exception,
+      ENU_ASSERT(next_block.validate_signee(producer.signing_key), block_validate_exception,
                  "Incorrect block producer key: expected ${e} but got ${a}",
                  ("e", producer.signing_key)("a", public_key_type(next_block.signee())));
 
    if(!(skip&skip_producer_schedule_check)) {
-      EOS_ASSERT(next_block.producer == producer.owner, block_validate_exception,
+      ENU_ASSERT(next_block.producer == producer.owner, block_validate_exception,
                  "Producer produced block at wrong time",
                  ("block producer",next_block.producer)("scheduled producer",producer.owner));
    }
 
    auto expected_schedule_version = get_global_properties().active_producers.version;
-   EOS_ASSERT( next_block.schedule_version == expected_schedule_version , block_validate_exception,"wrong producer schedule version specified ${x} expectd ${y}",
+   ENU_ASSERT( next_block.schedule_version == expected_schedule_version , block_validate_exception,"wrong producer schedule version specified ${x} expectd ${y}",
                ("x", next_block.schedule_version)("y",expected_schedule_version) );
 
    return producer;
@@ -1496,7 +1496,7 @@ void chain_controller::update_global_properties(const signed_block& b) { try {
 
 void chain_controller::_update_producers_authority() {
    const auto& gpo = get_global_properties();
-   uint32_t authority_threshold = EOS_PERCENT_CEIL(gpo.active_producers.producers.size(), config::producers_authority_threshold_pct);
+   uint32_t authority_threshold = ENU_PERCENT_CEIL(gpo.active_producers.producers.size(), config::producers_authority_threshold_pct);
    auto active_producers_authority = authority(authority_threshold, {}, {});
    for(auto& name : gpo.active_producers.producers ) {
       active_producers_authority.accounts.push_back({{name.producer_name, config::active_name}, 1});
@@ -1556,7 +1556,7 @@ const permission_object&   chain_controller::get_permission( const permission_le
 { try {
    FC_ASSERT( !level.actor.empty() && !level.permission.empty(), "Invalid permission" );
    return _db.get<permission_object, by_owner>( boost::make_tuple(level.actor,level.permission) );
-} EOS_RETHROW_EXCEPTIONS( chain::permission_query_exception, "Failed to retrieve permission: ${level}", ("level", level) ) }
+} ENU_RETHROW_EXCEPTIONS( chain::permission_query_exception, "Failed to retrieve permission: ${level}", ("level", level) ) }
 
 uint32_t chain_controller::last_irreversible_block_num() const {
    return get_dynamic_global_properties().last_irreversible_block_num;
@@ -1685,7 +1685,7 @@ void chain_controller::_spinup_fork_db()
 ProducerRound chain_controller::calculate_next_round(const signed_block& next_block) {
    auto schedule = _admin->get_next_round(_db);
    auto changes = get_global_properties().active_producers - schedule;
-   EOS_ASSERT(boost::range::equal(next_block.producer_changes, changes), block_validate_exception,
+   ENU_ASSERT(boost::range::equal(next_block.producer_changes, changes), block_validate_exception,
               "Unexpected round changes in new block header",
               ("expected changes", changes)("block changes", next_block.producer_changes));
 
@@ -1812,7 +1812,7 @@ void chain_controller::update_last_irreversible_block()
 
    static_assert(config::irreversible_threshold_percent > 0, "irreversible threshold must be nonzero");
 
-   size_t offset = EOS_PERCENT(producer_objs.size(), config::percent_100- config::irreversible_threshold_percent);
+   size_t offset = ENU_PERCENT(producer_objs.size(), config::percent_100- config::irreversible_threshold_percent);
    std::nth_element(producer_objs.begin(), producer_objs.begin() + offset, producer_objs.end(),
       [](const producer_object* a, const producer_object* b) {
          return a->last_confirmed_block_num < b->last_confirmed_block_num;

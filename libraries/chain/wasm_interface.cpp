@@ -36,7 +36,7 @@ namespace eosio { namespace chain {
          Serialization::MemoryInputStream stream((U8*)code.data(), code.size());
          WASM::serialize(stream, module);
       } catch(Serialization::FatalSerializationException& e) {
-         EOS_ASSERT(false, wasm_serialization_error, e.message.c_str());
+         ENU_ASSERT(false, wasm_serialization_error, e.message.c_str());
       }
 
       wasm_validations::wasm_binary_validation validator(module);
@@ -128,9 +128,9 @@ class privileged_api : public context_aware_api {
        * @param cpu_weight - the weight for determining share of compute capacity
        */
       void set_resource_limits( account_name account, int64_t ram_bytes, int64_t net_weight, int64_t cpu_weight) {
-         EOS_ASSERT(ram_bytes >= -1, wasm_execution_error, "invalid value for ram resource limit expected [-1,INT64_MAX]");
-         EOS_ASSERT(net_weight >= -1, wasm_execution_error, "invalid value for net resource weight expected [-1,INT64_MAX]");
-         EOS_ASSERT(cpu_weight >= -1, wasm_execution_error, "invalid value for cpu resource weight expected [-1,INT64_MAX]");
+         ENU_ASSERT(ram_bytes >= -1, wasm_execution_error, "invalid value for ram resource limit expected [-1,INT64_MAX]");
+         ENU_ASSERT(net_weight >= -1, wasm_execution_error, "invalid value for net resource weight expected [-1,INT64_MAX]");
+         ENU_ASSERT(cpu_weight >= -1, wasm_execution_error, "invalid value for cpu resource weight expected [-1,INT64_MAX]");
          context.mutable_controller.get_mutable_resource_limits_manager().set_account_limits(account, ram_bytes, net_weight, cpu_weight);
       }
 
@@ -145,10 +145,10 @@ class privileged_api : public context_aware_api {
          // check that producers are unique
          std::set<account_name> unique_producers;
          for (const auto& p: psch.producers) {
-            EOS_ASSERT(context.is_account(p.producer_name), wasm_execution_error, "producer schedule includes a nonexisting account");
+            ENU_ASSERT(context.is_account(p.producer_name), wasm_execution_error, "producer schedule includes a nonexisting account");
             unique_producers.insert(p.producer_name);
          }
-         EOS_ASSERT(psch.producers.size() == unique_producers.size(), wasm_execution_error, "duplicate producer name in producer schedule");
+         ENU_ASSERT(psch.producers.size() == unique_producers.size(), wasm_execution_error, "duplicate producer name in producer schedule");
          context.mutable_db.modify( context.controller.get_global_properties(),
             [&]( auto& gprops ) {
                  gprops.new_active_producers = psch;
