@@ -243,7 +243,7 @@ var searchData=
   ['fiosetown',['FIOSETOWN',['../ioctl_8h.html#a75dec78dcfd7423e4707e0f7b8e19910',1,'ioctl.h']]],
   ['first',['first',['../struct_a.html#a2275f992f2979a4082a65bab3609d48d',1,'A::first()'],['../structpair.html#aed925258783c91efbc5432030709d54e',1,'pair::first()']]],
   ['first_5fargument_5ftype',['first_argument_type',['../classtest__func.html#a4d6dba0164bd85ae2f81b966748dff91',1,'test_func::first_argument_type()'],['../structstd_1_1hash_3_01_x_01_4.html#a80b5428791776cd6d03f53e7fddf6cf5',1,'std::hash&lt; X &gt;::first_argument_type()']]],
-  ['first_5fblock_5ftime_5fin_5fcycle',['first_block_time_in_cycle',['../structenumivosystem_1_1common_1_1eosio__global__state.html#abb5f9db74c679bae459b340eced32883',1,'enumivosystem::common::eosio_global_state']]],
+  ['first_5fblock_5ftime_5fin_5fcycle',['first_block_time_in_cycle',['../structenumivosystem_1_1common_1_1eosio__global__state.html#abb5f9db74c679bae459b340eced32883',1,'enumivosystem::common::enumivo_global_state']]],
   ['first_5fcurrency',['first_currency',['../classbancor_1_1converter__contract.html#a7a46709d66c95ad9c7e4e515e959763f',1,'bancor::converter_contract']]],
   ['first_5fonly',['first_only',['../structfirst__only.html',1,'']]],
   ['fittingcurve',['FittingCurve',['../namespacebenchmark.html#a0659b946a30396a82274ec88dd70c158',1,'benchmark']]],

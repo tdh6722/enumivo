@@ -474,7 +474,7 @@ BOOST_FIXTURE_TEST_CASE(cpu_usage_tests, tester ) try {
    std::string code = R"=====(
 (module
   (import "env" "require_auth" (func $require_auth (param i64)))
-  (import "env" "eosio_assert" (func $eosio_assert (param i32 i32)))
+  (import "env" "enumivo_assert" (func $enumivo_assert (param i32 i32)))
    (table 0 anyfunc)
    (memory $0 1)
    (export "apply" (func $apply))
@@ -1304,7 +1304,7 @@ BOOST_FIXTURE_TEST_CASE(net_usage_tests, tester ) try {
       std::string code = R"=====(
    (module
    (import "env" "require_auth" (func $require_auth (param i64)))
-   (import "env" "eosio_assert" (func $eosio_assert (param i32 i32)))
+   (import "env" "enumivo_assert" (func $enumivo_assert (param i32 i32)))
       (table 0 anyfunc)
       (memory $0 1)
       (export "apply" (func $apply))

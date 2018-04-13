@@ -234,7 +234,7 @@ var searchData=
   ['block_5fsigning_5fkey',['block_signing_key',['../structeosio_1_1producer__key.html#af5899a46ea38009f20643792af38d26b',1,'eosio::producer_key']]],
   ['blockchain_5fparameters',['blockchain_parameters',['../structeosio_1_1blockchain__parameters.html',1,'eosio']]],
   ['blocked_5freader',['blocked_reader',['../try__lock__until__deadlock__bug_8pass_8cpp.html#a6869e53564cb94b866a57a20dd6672d0',1,'try_lock_until_deadlock_bug.pass.cpp']]],
-  ['blocks_5fper_5fcycle',['blocks_per_cycle',['../structenumivosystem_1_1common_1_1eosio__global__state.html#af6b025ac99646b1847c98ee168d857b4',1,'enumivosystem::common::eosio_global_state']]],
+  ['blocks_5fper_5fcycle',['blocks_per_cycle',['../structenumivosystem_1_1common_1_1eosio__global__state.html#af6b025ac99646b1847c98ee168d857b4',1,'enumivosystem::common::enumivo_global_state']]],
   ['blocks_5fper_5fproducer',['blocks_per_producer',['../classenumivosystem_1_1common.html#a45a0c11c81b3df8f81fe296c2c9f0b5d',1,'enumivosystem::common']]],
   ['blocks_5fper_5fyear',['blocks_per_year',['../classenumivosystem_1_1voting.html#aedea6294b9e58133d3d118829c46a70b',1,'enumivosystem::voting']]],
   ['blowsuponconstcopy',['BlowsUpOnConstCopy',['../struct_blows_up_on_const_copy.html',1,'BlowsUpOnConstCopy&lt; T &gt;'],['../struct_blows_up_on_const_copy.html#a845a3876a8cd104aecc4547770ae63ba',1,'BlowsUpOnConstCopy::BlowsUpOnConstCopy()=default'],['../struct_blows_up_on_const_copy.html#afd55624aa10ac762fa1c517a7e46b651',1,'BlowsUpOnConstCopy::BlowsUpOnConstCopy(BlowsUpOnConstCopy const &amp;)'],['../struct_blows_up_on_const_copy.html#a7b40051542785bf5bc9669399196d837',1,'BlowsUpOnConstCopy::BlowsUpOnConstCopy(BlowsUpOnConstCopy &amp;)=default']]],

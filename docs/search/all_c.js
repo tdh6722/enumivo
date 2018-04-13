@@ -33,7 +33,7 @@ var searchData=
   ['last_5falloc_5fpointer',['last_alloc_pointer',['../struct_alloc_controller.html#a6f7628f770fa702a617cde2bb1e94e9c',1,'AllocController']]],
   ['last_5falloc_5fsize',['last_alloc_size',['../struct_alloc_controller.html#a7471b4bc854bcdc7bb038c132a9d6349',1,'AllocController']]],
   ['last_5fbenchmark_5finstance',['last_benchmark_instance',['../structbenchmark_1_1internal_1_1_benchmark_1_1_instance.html#aa18a090edea50ffe3df15e41db295502',1,'benchmark::internal::Benchmark::Instance']]],
-  ['last_5fbucket_5ffill_5ftime',['last_bucket_fill_time',['../structenumivosystem_1_1common_1_1eosio__global__state.html#aa3680cef278b9fe821f2ce41712abb51',1,'enumivosystem::common::eosio_global_state']]],
+  ['last_5fbucket_5ffill_5ftime',['last_bucket_fill_time',['../structenumivosystem_1_1common_1_1eosio__global__state.html#aa3680cef278b9fe821f2ce41712abb51',1,'enumivosystem::common::enumivo_global_state']]],
   ['last_5fcall_5fargs',['last_call_args',['../struct_forwarding_call_object.html#aeb896b72ae8d495ecced4830725c059f',1,'ForwardingCallObject::last_call_args()'],['../struct_forwarding_call_object.html#acee2119932a35f233576591c12573969',1,'ForwardingCallObject::last_call_args()']]],
   ['last_5fcall_5ftype',['last_call_type',['../struct_forwarding_call_object.html#a044204aab704d73ee5fa1c2810b49531',1,'ForwardingCallObject']]],
   ['last_5fconstruct_5falloc',['last_construct_alloc',['../struct_alloc_controller.html#a9f1b797d1fae3e7e0e80326e15da60a0',1,'AllocController']]],

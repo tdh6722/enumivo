@@ -29,7 +29,7 @@ extern "C" {
       WASM_TEST_HANDLER(test_memory, test_memcmp);
 
       //unhandled test call
-      eosio_assert(false, "Unknown Test");
+      enumivo_assert(false, "Unknown Test");
    }
 
 }
