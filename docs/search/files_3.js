@@ -419,7 +419,7 @@ var searchData=
   ['curr_5fsymbol_2epass_2ecpp',['curr_symbol.pass.cpp',['../locale_8moneypunct_8members_2curr__symbol_8pass_8cpp.html',1,'(Global Namespace)'],['../byname_2curr__symbol_8pass_8cpp.html',1,'(Global Namespace)']]],
   ['currency_2eabi_2ehpp',['currency.abi.hpp',['../currency_8abi_8hpp.html',1,'']]],
   ['currency_2ecpp',['currency.cpp',['../currency_8cpp.html',1,'']]],
-  ['currency_2ehpp',['currency.hpp',['../currency_2currency_8hpp.html',1,'(Global Namespace)'],['../eosiolib_2currency_8hpp.html',1,'(Global Namespace)']]],
+  ['currency_2ehpp',['currency.hpp',['../currency_2currency_8hpp.html',1,'(Global Namespace)'],['../enumivolib_2currency_8hpp.html',1,'(Global Namespace)']]],
   ['currency_2ewast_2ehpp',['currency.wast.hpp',['../currency_8wast_8hpp.html',1,'']]],
   ['current_5fexception_2epass_2ecpp',['current_exception.pass.cpp',['../current__exception_8pass_8cpp.html',1,'']]],
   ['current_5fpath_2epass_2ecpp',['current_path.pass.cpp',['../current__path_8pass_8cpp.html',1,'']]],

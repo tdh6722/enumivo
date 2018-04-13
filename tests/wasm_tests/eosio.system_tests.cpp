@@ -3,8 +3,8 @@
 #include <eosio/chain/contracts/abi_serializer.hpp>
 #include <eosio/chain_plugin/chain_plugin.hpp>
 
-#include <eosio.system/eosio.system.wast.hpp>
-#include <eosio.system/eosio.system.abi.hpp>
+#include <enumivo.system/enumivo.system.wast.hpp>
+#include <enumivo.system/enumivo.system.abi.hpp>
 
 #include <Runtime/Runtime.h>
 
@@ -26,17 +26,17 @@ using namespace fc;
 
 using mvo = fc::mutable_variant_object;
 
-class eosio_system_tester : public TESTER {
+class enumivo_system_tester : public TESTER {
 public:
 
-   eosio_system_tester() {
+   enumivo_system_tester() {
       produce_blocks( 2 );
 
       create_accounts( { N(alice), N(bob), N(carol) } );
       produce_blocks( 1000 );
 
-      set_code( config::system_account_name, eosio_system_wast );
-      set_abi( config::system_account_name, eosio_system_abi );
+      set_code( config::system_account_name, enumivo_system_wast );
+      set_abi( config::system_account_name, enumivo_system_abi );
 
       produce_blocks();
 
@@ -192,9 +192,9 @@ inline uint64_t M( const string& eos_str ) {
    return asset::from_string( eos_str ).amount;
 }
 
-BOOST_AUTO_TEST_SUITE(eosio_system_tests)
+BOOST_AUTO_TEST_SUITE(enumivo_system_tests)
 
-BOOST_FIXTURE_TEST_CASE( stake_unstake, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( stake_unstake, enumivo_system_tester ) try {
    issue( "alice", "1000.0000 EOS", config::system_account_name );
    BOOST_REQUIRE_EQUAL( asset::from_string("1000.0000 EOS"), get_balance( "alice" ) );
 
@@ -234,7 +234,7 @@ BOOST_FIXTURE_TEST_CASE( stake_unstake, eosio_system_tester ) try {
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( fail_without_auth, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( fail_without_auth, enumivo_system_tester ) try {
    issue( "alice", "1000.0000 EOS",  config::system_account_name );
 
    BOOST_REQUIRE_EQUAL( error("missing authority of alice"),
@@ -262,7 +262,7 @@ BOOST_FIXTURE_TEST_CASE( fail_without_auth, eosio_system_tester ) try {
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( stake_negative, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( stake_negative, enumivo_system_tester ) try {
    issue( "alice", "1000.0000 EOS",  config::system_account_name );
 
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: must stake a positive amount"),
@@ -285,7 +285,7 @@ BOOST_FIXTURE_TEST_CASE( stake_negative, eosio_system_tester ) try {
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( unstake_negative, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( unstake_negative, enumivo_system_tester ) try {
    issue( "alice", "1000.0000 EOS",  config::system_account_name );
 
    BOOST_REQUIRE_EQUAL( success(), stake( "alice", "bob", "200.0001 EOS", "100.0001 EOS", "300.0000 EOS" ) );
@@ -310,7 +310,7 @@ BOOST_FIXTURE_TEST_CASE( unstake_negative, eosio_system_tester ) try {
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( unstake_more_than_at_stake, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( unstake_more_than_at_stake, enumivo_system_tester ) try {
    issue( "alice", "1000.0000 EOS",  config::system_account_name );
    BOOST_REQUIRE_EQUAL( success(), stake( "alice", "200.0000 EOS", "100.0000 EOS", "150.0000 EOS" ) );
 
@@ -348,7 +348,7 @@ BOOST_FIXTURE_TEST_CASE( unstake_more_than_at_stake, eosio_system_tester ) try {
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( delegate_to_another_user, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( delegate_to_another_user, enumivo_system_tester ) try {
    issue( "alice", "1000.0000 EOS",  config::system_account_name );
 
    BOOST_REQUIRE_EQUAL( success(), stake ( "alice", "bob", "200.0000 EOS", "100.0000 EOS", "80.0000 EOS" ) );
@@ -408,7 +408,7 @@ BOOST_FIXTURE_TEST_CASE( delegate_to_another_user, eosio_system_tester ) try {
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( stake_unstake_separate, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( stake_unstake_separate, enumivo_system_tester ) try {
    issue( "alice", "1000.0000 EOS",  config::system_account_name );
    BOOST_REQUIRE_EQUAL( asset::from_string("1000.0000 EOS"), get_balance( "alice" ) );
 
@@ -473,7 +473,7 @@ BOOST_FIXTURE_TEST_CASE( stake_unstake_separate, eosio_system_tester ) try {
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( adding_stake_partial_unstake, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( adding_stake_partial_unstake, enumivo_system_tester ) try {
    issue( "alice", "1000.0000 EOS",  config::system_account_name );
    BOOST_REQUIRE_EQUAL( success(), stake( "alice", "bob", "200.0000 EOS", "100.0000 EOS", "80.0000 EOS" ) );
 
@@ -523,7 +523,7 @@ BOOST_FIXTURE_TEST_CASE( adding_stake_partial_unstake, eosio_system_tester ) try
 
 // Tests for voting
 
-BOOST_FIXTURE_TEST_CASE( producer_register_unregister, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( producer_register_unregister, enumivo_system_tester ) try {
    issue( "alice", "1000.0000 EOS",  config::system_account_name );
 
    fc::variant params = producer_parameters_example(1);
@@ -582,7 +582,7 @@ BOOST_FIXTURE_TEST_CASE( producer_register_unregister, eosio_system_tester ) try
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( vote_for_producer, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( vote_for_producer, enumivo_system_tester ) try {
    issue( "alice", "1000.0000 EOS",  config::system_account_name );
    fc::variant params = producer_parameters_example(1);
    vector<char> key = fc::raw::pack( get_public_key( N(alice), "active" ) );
@@ -678,7 +678,7 @@ BOOST_FIXTURE_TEST_CASE( vote_for_producer, eosio_system_tester ) try {
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( unregistered_producer_voting, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( unregistered_producer_voting, enumivo_system_tester ) try {
    issue( "bob", "2000.0000 EOS",  config::system_account_name );
    BOOST_REQUIRE_EQUAL( success(), stake( "bob", "13.0000 EOS", "0.5791 EOS", "0.0000 EOS" ) );
    REQUIRE_MATCHING_OBJECT( voter( "bob", "13.5791 EOS" ), get_voter_info( "bob" ) );
@@ -723,7 +723,7 @@ BOOST_FIXTURE_TEST_CASE( unregistered_producer_voting, eosio_system_tester ) try
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( more_than_30_producer_voting, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( more_than_30_producer_voting, enumivo_system_tester ) try {
    issue( "bob", "2000.0000 EOS",  config::system_account_name );
    BOOST_REQUIRE_EQUAL( success(), stake( "bob", "13.0000 EOS", "0.5791 EOS", "0.0000 EOS" ) );
    REQUIRE_MATCHING_OBJECT( voter( "bob", "13.5791 EOS" ), get_voter_info( "bob" ) );
@@ -740,7 +740,7 @@ BOOST_FIXTURE_TEST_CASE( more_than_30_producer_voting, eosio_system_tester ) try
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( vote_same_producer_30_times, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( vote_same_producer_30_times, enumivo_system_tester ) try {
    issue( "bob", "2000.0000 EOS",  config::system_account_name );
    BOOST_REQUIRE_EQUAL( success(), stake( "bob", "50.0000 EOS", "50.0000 EOS", "0.0000 EOS" ) );
    REQUIRE_MATCHING_OBJECT( voter( "bob", "100.0000 EOS" ), get_voter_info( "bob" ) );
@@ -771,7 +771,7 @@ BOOST_FIXTURE_TEST_CASE( vote_same_producer_30_times, eosio_system_tester ) try 
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( producer_keep_votes, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( producer_keep_votes, enumivo_system_tester ) try {
    issue( "alice", "1000.0000 EOS",  config::system_account_name );
    fc::variant params = producer_parameters_example(1);
    vector<char> key = fc::raw::pack( get_public_key( N(alice), "active" ) );
@@ -841,7 +841,7 @@ BOOST_FIXTURE_TEST_CASE( producer_keep_votes, eosio_system_tester ) try {
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( vote_for_two_producers, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( vote_for_two_producers, enumivo_system_tester ) try {
    //alice becomes a producer
    fc::variant params = producer_parameters_example(1);
    vector<char> key = fc::raw::pack( get_public_key( N(alice), "active" ) );
@@ -907,7 +907,7 @@ BOOST_FIXTURE_TEST_CASE( vote_for_two_producers, eosio_system_tester ) try {
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( proxy_register_unregister_keeps_stake, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( proxy_register_unregister_keeps_stake, enumivo_system_tester ) try {
    //register proxy by first action for this user ever
    BOOST_REQUIRE_EQUAL( success(), push_action(N(alice), N(regproxy), mvo()
                                                ("proxy",  "alice")
@@ -957,7 +957,7 @@ BOOST_FIXTURE_TEST_CASE( proxy_register_unregister_keeps_stake, eosio_system_tes
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( proxy_stake_unstake_keeps_proxy_flag, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( proxy_stake_unstake_keeps_proxy_flag, enumivo_system_tester ) try {
    BOOST_REQUIRE_EQUAL( success(), push_action( N(alice), N(regproxy), mvo()
                                                ("proxy",  "alice")
                         )
@@ -986,7 +986,7 @@ BOOST_FIXTURE_TEST_CASE( proxy_stake_unstake_keeps_proxy_flag, eosio_system_test
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( proxy_actions_affect_producers, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( proxy_actions_affect_producers, enumivo_system_tester ) try {
    create_accounts( {  N(producer1), N(producer2), N(producer3) } );
    BOOST_REQUIRE_EQUAL( success(), regproducer( "producer1", 1) );
    BOOST_REQUIRE_EQUAL( success(), regproducer( "producer2", 2) );
@@ -1065,7 +1065,7 @@ BOOST_FIXTURE_TEST_CASE( proxy_actions_affect_producers, eosio_system_tester ) t
 
 } FC_LOG_AND_RETHROW()
 
-BOOST_FIXTURE_TEST_CASE(producer_pay, eosio_system_tester) try {
+BOOST_FIXTURE_TEST_CASE(producer_pay, enumivo_system_tester) try {
    issue( "alice", "10000000.0000 EOS",  config::system_account_name );
    fc::variant params = producer_parameters_example(50);
    vector<char> key = fc::raw::pack(get_public_key(N(alice), "active"));
@@ -1122,7 +1122,7 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, eosio_system_tester) try {
 
 
 
-BOOST_FIXTURE_TEST_CASE( voters_actions_affect_proxy_and_producers, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( voters_actions_affect_proxy_and_producers, enumivo_system_tester ) try {
    create_accounts( { N(donald), N(producer1), N(producer2), N(producer3) } );
    BOOST_REQUIRE_EQUAL( success(), regproducer( "producer1", 1) );
    BOOST_REQUIRE_EQUAL( success(), regproducer( "producer2", 2) );
@@ -1225,7 +1225,7 @@ BOOST_FIXTURE_TEST_CASE( voters_actions_affect_proxy_and_producers, eosio_system
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( vote_both_proxy_and_producers, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( vote_both_proxy_and_producers, enumivo_system_tester ) try {
    //alice becomes a proxy
    BOOST_REQUIRE_EQUAL( success(), push_action( N(alice), N(regproxy), mvo()
                                                 ("proxy",  "alice")
@@ -1250,7 +1250,7 @@ BOOST_FIXTURE_TEST_CASE( vote_both_proxy_and_producers, eosio_system_tester ) tr
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( select_invalid_proxy, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( select_invalid_proxy, enumivo_system_tester ) try {
    //accumulate proxied votes
    issue( "bob", "1000.0000 EOS",  config::system_account_name );
    BOOST_REQUIRE_EQUAL( success(), stake( "bob", "100.0002 EOS", "50.0001 EOS", "50.0000 EOS" ) );
@@ -1276,7 +1276,7 @@ BOOST_FIXTURE_TEST_CASE( select_invalid_proxy, eosio_system_tester ) try {
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( double_register_unregister_proxy_keeps_votes, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( double_register_unregister_proxy_keeps_votes, enumivo_system_tester ) try {
    //alice becomes a proxy
    BOOST_REQUIRE_EQUAL( success(), push_action( N(alice), N(regproxy), mvo()
                                                 ("proxy",  "alice")
@@ -1323,7 +1323,7 @@ BOOST_FIXTURE_TEST_CASE( double_register_unregister_proxy_keeps_votes, eosio_sys
 } FC_LOG_AND_RETHROW()
 
 
-BOOST_FIXTURE_TEST_CASE( proxy_cannot_use_another_proxy, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( proxy_cannot_use_another_proxy, enumivo_system_tester ) try {
    //alice becomes a proxy
    BOOST_REQUIRE_EQUAL( success(), push_action( N(alice), N(regproxy), mvo()
                                                 ("proxy",  "alice")
@@ -1396,7 +1396,7 @@ fc::mutable_variant_object config_to_variant( const eosio::chain::chain_config& 
       ( "max_generated_transaction_count", config.max_generated_transaction_count );
 }
 
-BOOST_FIXTURE_TEST_CASE( elect_producers_and_parameters, eosio_system_tester ) try {
+BOOST_FIXTURE_TEST_CASE( elect_producers_and_parameters, enumivo_system_tester ) try {
    create_accounts( {  N(producer1), N(producer2), N(producer3) } );
    BOOST_REQUIRE_EQUAL( success(), regproducer( "producer1", 1) );
    BOOST_REQUIRE_EQUAL( success(), regproducer( "producer2", 2) );

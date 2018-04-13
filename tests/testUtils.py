@@ -1633,7 +1633,7 @@ class Cluster(object):
                 Utils.Print("ERROR: Failed to import %s account keys into ignition wallet." % (eosioName))
                 return False
 
-            contract="eosio.bios"
+            contract="enumivo.bios"
             contractDir="contracts/%s" % (contract)
             wastFile="contracts/%s/%s.wast" % (contract, contract)
             abiFile="contracts/%s/%s.abi" % (contract, contract)
@@ -1701,7 +1701,7 @@ class Cluster(object):
             if not biosNode.waitForTransIdOnNode(transId):
                 return False
 
-            contract="eosio.system"
+            contract="enumivo.system"
             contractDir="contracts/%s" % (contract)
             wastFile="contracts/%s/%s.wast" % (contract, contract)
             abiFile="contracts/%s/%s.abi" % (contract, contract)

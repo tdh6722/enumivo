@@ -1,7 +1,7 @@
-#include <eosiolib/chain.h>
-#include <eosiolib/dispatcher.hpp>
-#include <eosiolib/singleton.hpp>
-#include <eosiolib/vector.hpp>
+#include <enumivolib/chain.h>
+#include <enumivolib/dispatcher.hpp>
+#include <enumivolib/singleton.hpp>
+#include <enumivolib/vector.hpp>
 
 #include <identity/identity.hpp>
 

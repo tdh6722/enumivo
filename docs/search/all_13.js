@@ -17,7 +17,7 @@ var searchData=
   ['sanitize',['sanitize',['../namespacefilesystem__dynamic__test__helper.html#adcc369016f461a0edbfe7f5849b4ab04',1,'filesystem_dynamic_test_helper']]],
   ['save',['save',['../structeosio_1_1market__state.html#afcc29cb329dfbfec76bb71382f257471',1,'eosio::market_state']]],
   ['sb',['SB',['../internal_8h.html#a5c5526b246db088c8f509c0a52e574d7',1,'internal.h']]],
-  ['sbrk',['sbrk',['../eosiolib_8cpp.html#aeda051d5eb402437e0d2289cc6321fcd',1,'sbrk(size_t num_bytes):&#160;eosiolib.cpp'],['../memory_8hpp.html#aeda051d5eb402437e0d2289cc6321fcd',1,'sbrk(size_t num_bytes):&#160;eosiolib.cpp'],['../unistd_8h.html#a87ed00a8f774a9d36d650b80a36ad932',1,'sbrk(uint32_t num_bytes):&#160;unistd.h']]],
+  ['sbrk',['sbrk',['../enumivolib_8cpp.html#aeda051d5eb402437e0d2289cc6321fcd',1,'sbrk(size_t num_bytes):&#160;enumivolib.cpp'],['../memory_8hpp.html#aeda051d5eb402437e0d2289cc6321fcd',1,'sbrk(size_t num_bytes):&#160;enumivolib.cpp'],['../unistd_8h.html#a87ed00a8f774a9d36d650b80a36ad932',1,'sbrk(uint32_t num_bytes):&#160;unistd.h']]],
   ['sbumpc_2epass_2ecpp',['sbumpc.pass.cpp',['../sbumpc_8pass_8cpp.html',1,'']]],
   ['scalar_5fdivide_5fcomplex_2epass_2ecpp',['scalar_divide_complex.pass.cpp',['../scalar__divide__complex_8pass_8cpp.html',1,'']]],
   ['scalar_5fequals_5fcomplex_2epass_2ecpp',['scalar_equals_complex.pass.cpp',['../scalar__equals__complex_8pass_8cpp.html',1,'']]],

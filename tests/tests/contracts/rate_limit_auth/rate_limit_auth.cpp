@@ -2,8 +2,8 @@
  *  @file
  *  @copyright defined in eos/LICENSE.txt
  */
-#include <eosiolib/message.h>
-#include <eosiolib/types.hpp>
+#include <enumivolib/message.h>
+#include <enumivolib/types.hpp>
 #include <currency/currency.hpp>
 
 extern "C" {

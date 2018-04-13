@@ -1,8 +1,8 @@
 #include <boost/test/unit_test.hpp>
 #include <eosio/testing/tester_network.hpp>
 #include <eosio/chain/producer_object.hpp>
-#include <eosio.system/eosio.system.wast.hpp>
-#include <eosio.system/eosio.system.abi.hpp>
+#include <enumivo.system/enumivo.system.wast.hpp>
+#include <enumivo.system/enumivo.system.abi.hpp>
 #include <currency/currency.wast.hpp>
 #include <currency/currency.abi.hpp>
 
@@ -30,8 +30,8 @@ BOOST_AUTO_TEST_CASE( link_delay_direct_test ) { try {
 
    const auto& tester_account = N(tester);
 
-   chain.set_code(config::system_account_name, eosio_system_wast);
-   chain.set_abi(config::system_account_name, eosio_system_abi);
+   chain.set_code(config::system_account_name, enumivo_system_wast);
+   chain.set_abi(config::system_account_name, enumivo_system_abi);
 
    chain.produce_blocks();
    chain.create_account(N(currency));
@@ -170,8 +170,8 @@ BOOST_AUTO_TEST_CASE( link_delay_direct_parent_permission_test ) { try {
 
    const auto& tester_account = N(tester);
 
-   chain.set_code(config::system_account_name, eosio_system_wast);
-   chain.set_abi(config::system_account_name, eosio_system_abi);
+   chain.set_code(config::system_account_name, enumivo_system_wast);
+   chain.set_abi(config::system_account_name, enumivo_system_abi);
 
    chain.produce_blocks();
    chain.create_account(N(currency));
@@ -310,8 +310,8 @@ BOOST_AUTO_TEST_CASE( link_delay_direct_walk_parent_permissions_test ) { try {
 
    const auto& tester_account = N(tester);
 
-   chain.set_code(config::system_account_name, eosio_system_wast);
-   chain.set_abi(config::system_account_name, eosio_system_abi);
+   chain.set_code(config::system_account_name, enumivo_system_wast);
+   chain.set_abi(config::system_account_name, enumivo_system_abi);
 
    chain.produce_blocks();
    chain.create_account(N(currency));
@@ -456,8 +456,8 @@ BOOST_AUTO_TEST_CASE( link_delay_permission_change_test ) { try {
 
    const auto& tester_account = N(tester);
 
-   chain.set_code(config::system_account_name, eosio_system_wast);
-   chain.set_abi(config::system_account_name, eosio_system_abi);
+   chain.set_code(config::system_account_name, enumivo_system_wast);
+   chain.set_abi(config::system_account_name, enumivo_system_abi);
 
    chain.produce_blocks();
    chain.create_account(N(currency));
@@ -643,8 +643,8 @@ BOOST_AUTO_TEST_CASE( link_delay_permission_change_with_delay_heirarchy_test ) {
 
    const auto& tester_account = N(tester);
 
-   chain.set_code(config::system_account_name, eosio_system_wast);
-   chain.set_abi(config::system_account_name, eosio_system_abi);
+   chain.set_code(config::system_account_name, enumivo_system_wast);
+   chain.set_abi(config::system_account_name, enumivo_system_abi);
 
    chain.produce_blocks();
    chain.create_account(N(currency));
@@ -837,8 +837,8 @@ BOOST_AUTO_TEST_CASE( link_delay_link_change_test ) { try {
 
    const auto& tester_account = N(tester);
 
-   chain.set_code(config::system_account_name, eosio_system_wast);
-   chain.set_abi(config::system_account_name, eosio_system_abi);
+   chain.set_code(config::system_account_name, enumivo_system_wast);
+   chain.set_abi(config::system_account_name, enumivo_system_abi);
 
    chain.produce_blocks();
    chain.create_account(N(currency));
@@ -1030,8 +1030,8 @@ BOOST_AUTO_TEST_CASE( link_delay_link_change_heirarchy_test ) { try {
 
    const auto& tester_account = N(tester);
 
-   chain.set_code(config::system_account_name, eosio_system_wast);
-   chain.set_abi(config::system_account_name, eosio_system_abi);
+   chain.set_code(config::system_account_name, enumivo_system_wast);
+   chain.set_abi(config::system_account_name, enumivo_system_abi);
 
    chain.produce_blocks();
    chain.create_account(N(currency));
@@ -1229,8 +1229,8 @@ BOOST_AUTO_TEST_CASE( mindelay_test ) { try {
 
    const auto& tester_account = N(tester);
 
-   chain.set_code(config::system_account_name, eosio_system_wast);
-   chain.set_abi(config::system_account_name, eosio_system_abi);
+   chain.set_code(config::system_account_name, enumivo_system_wast);
+   chain.set_abi(config::system_account_name, enumivo_system_abi);
 
    chain.produce_blocks();
    chain.create_account(N(currency));
@@ -1363,8 +1363,8 @@ BOOST_AUTO_TEST_CASE( canceldelay_test ) { try {
 
    const auto& tester_account = N(tester);
    std::vector<transaction_id_type> ids;
-   chain.set_code(config::system_account_name, eosio_system_wast);
-   chain.set_abi(config::system_account_name, eosio_system_abi);
+   chain.set_code(config::system_account_name, enumivo_system_wast);
+   chain.set_abi(config::system_account_name, enumivo_system_abi);
 
    chain.produce_blocks();
    chain.create_account(N(currency));

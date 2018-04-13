@@ -105,7 +105,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>void pointer to the previous end of allocated bytes</dd></dl>
-<p>Example: </p><div class="fragment"><div class="line"><span class="comment">// allocate a whole new page, the returned offset is the pointer to the</span></div><div class="line"><span class="comment">// newly allocated page</span></div><div class="line"><span class="keywordtype">char</span>* new_page = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(<a class="code" href="eosiolib_8cpp.html#aeda051d5eb402437e0d2289cc6321fcd">sbrk</a>(65536));</div><div class="line"><a class="code" href="musl_2upstream_2include_2string_8h.html#a68d2b40ef2213b9227a1ce3b81997ae5">memset</a>(new_page, 0, 65536);</div></div><!-- fragment --> 
+<p>Example: </p><div class="fragment"><div class="line"><span class="comment">// allocate a whole new page, the returned offset is the pointer to the</span></div><div class="line"><span class="comment">// newly allocated page</span></div><div class="line"><span class="keywordtype">char</span>* new_page = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(<a class="code" href="enumivolib_8cpp.html#aeda051d5eb402437e0d2289cc6321fcd">sbrk</a>(65536));</div><div class="line"><a class="code" href="musl_2upstream_2include_2string_8h.html#a68d2b40ef2213b9227a1ce3b81997ae5">memset</a>(new_page, 0, 65536);</div></div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

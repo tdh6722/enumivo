@@ -4,8 +4,8 @@
  */
 #pragma once
 
-#include <eosiolib/eosio.hpp>
-#include <eosiolib/dispatcher.hpp>
+#include <enumivolib/eosio.hpp>
+#include <enumivolib/dispatcher.hpp>
 
 namespace noop {
    using std::string;
