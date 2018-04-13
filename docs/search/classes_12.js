@@ -13,7 +13,7 @@ var searchData=
   ['record_5fidx64',['record_idx64',['../struct__test__multi__index_1_1record__idx64.html',1,'_test_multi_index']]],
   ['record_5fidx_5fdouble',['record_idx_double',['../struct__test__multi__index_1_1record__idx__double.html',1,'_test_multi_index']]],
   ['reflector',['reflector',['../structeosio_1_1reflector.html',1,'eosio']]],
-  ['refund_5frequest',['refund_request',['../structeosiosystem_1_1delegate__bandwidth_1_1refund__request.html',1,'eosiosystem::delegate_bandwidth']]],
+  ['refund_5frequest',['refund_request',['../structenumivosystem_1_1delegate__bandwidth_1_1refund__request.html',1,'enumivosystem::delegate_bandwidth']]],
   ['regex',['Regex',['../classbenchmark_1_1_regex.html',1,'benchmark']]],
   ['registrar',['registrar',['../classrapid__cxx__test_1_1registrar.html',1,'rapid_cxx_test']]],
   ['remoteexecutor',['RemoteExecutor',['../classlibcxx_1_1test_1_1executor_1_1_remote_executor.html',1,'libcxx::test::executor']]],

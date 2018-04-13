@@ -30,7 +30,7 @@ var searchData=
   ['bios',['bios',['../classeosio_1_1bios.html',1,'eosio']]],
   ['bit_5fone',['bit_one',['../structbit__one.html',1,'']]],
   ['bit_5fzero',['bit_zero',['../structbit__zero.html',1,'']]],
-  ['block_5fheader',['block_header',['../structeosiosystem_1_1block__header.html',1,'eosiosystem']]],
+  ['block_5fheader',['block_header',['../structenumivosystem_1_1block__header.html',1,'enumivosystem']]],
   ['blockchain_5fparameters',['blockchain_parameters',['../structeosio_1_1blockchain__parameters.html',1,'eosio']]],
   ['blowsuponconstcopy',['BlowsUpOnConstCopy',['../struct_blows_up_on_const_copy.html',1,'']]],
   ['bool',['Bool',['../struct_bool.html',1,'']]],

@@ -15,7 +15,7 @@
 
 #include <enumivo.system/enumivo.system.hpp>
 
-using eos_currency = eosiosystem::contract<N(eosio)>::currency;
+using eos_currency = enumivosystem::contract<N(eosio)>::currency;
 
 using eosio::key256;
 using eosio::indexed_by;

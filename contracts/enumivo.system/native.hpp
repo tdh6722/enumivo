@@ -6,7 +6,7 @@
 
 #include <enumivolib/types.hpp>
 
-namespace eosiosystem {
+namespace enumivosystem {
 
    typedef std::vector<char> bytes;
    typedef std::string type_name;

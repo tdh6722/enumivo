@@ -6,7 +6,7 @@
 #include <enumivolib/privileged.hpp>
 #include <enumivolib/singleton.hpp>
 
-namespace eosiosystem {
+namespace enumivosystem {
 
    template<account_name SystemAccount>
    class common {

@@ -59,5 +59,5 @@ var searchData=
   ['assigndeleter',['AssignDeleter',['../struct_assign_deleter.html',1,'']]],
   ['associativecontainerchecks',['AssociativeContainerChecks',['../struct_associative_container_checks.html',1,'']]],
   ['atomic_5ftest',['atomic_test',['../structatomic__test.html',1,'']]],
-  ['authority',['authority',['../structeosiosystem_1_1authority.html',1,'eosiosystem']]]
+  ['authority',['authority',['../structenumivosystem_1_1authority.html',1,'enumivosystem']]]
 ];

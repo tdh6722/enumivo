@@ -7,7 +7,7 @@ var searchData=
   ['vector',['vector',['../namespace_t_c_t.html#adeeecbddf9efc355c820ea8b4c802392',1,'TCT']]],
   ['void_5fpointer',['void_pointer',['../struct_c.html#aa06bde389c72d40c9c7bd95e9c931842',1,'C']]],
   ['volatilecaster',['VolatileCaster',['../invoke__helpers_8h.html#a12e2cae62d22659a4238a9c6d25367ed',1,'invoke_helpers.h']]],
-  ['voters_5ftable',['voters_table',['../classeosiosystem_1_1voting.html#aa379fd407ed1c0369a2fd7f1ce783acd',1,'eosiosystem::voting']]],
+  ['voters_5ftable',['voters_table',['../classenumivosystem_1_1voting.html#aa379fd407ed1c0369a2fd7f1ce783acd',1,'enumivosystem::voting']]],
   ['vpt',['VPT',['../ctor1_8fail_8cpp.html#a4ed4636954a398f3bcb5c67eb80e2159',1,'VPT():&#160;ctor1.fail.cpp'],['../ctor2_8fail_8cpp.html#a4ed4636954a398f3bcb5c67eb80e2159',1,'VPT():&#160;ctor2.fail.cpp']]],
   ['vt',['VT',['../missing__hash__specialization_8fail_8cpp.html#aa2bac9848910c597016961d9058cc4fa',1,'missing_hash_specialization.fail.cpp']]]
 ];

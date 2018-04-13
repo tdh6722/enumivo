@@ -13,8 +13,8 @@ var searchData=
   ['vector_3c_20eosio_3a_3aaction_20_3e',['vector&lt; eosio::action &gt;',['../classstd_1_1vector.html',1,'std']]],
   ['vector_3c_20eosio_3a_3apermission_5flevel_20_3e',['vector&lt; eosio::permission_level &gt;',['../classstd_1_1vector.html',1,'std']]],
   ['vector_3c_20eosio_3a_3aproducer_5fkey_20_3e',['vector&lt; eosio::producer_key &gt;',['../classstd_1_1vector.html',1,'std']]],
-  ['vector_3c_20eosiosystem_3a_3akey_5fweight_20_3e',['vector&lt; eosiosystem::key_weight &gt;',['../classstd_1_1vector.html',1,'std']]],
-  ['vector_3c_20eosiosystem_3a_3apermission_5flevel_5fweight_20_3e',['vector&lt; eosiosystem::permission_level_weight &gt;',['../classstd_1_1vector.html',1,'std']]],
+  ['vector_3c_20enumivosystem_3a_3akey_5fweight_20_3e',['vector&lt; enumivosystem::key_weight &gt;',['../classstd_1_1vector.html',1,'std']]],
+  ['vector_3c_20enumivosystem_3a_3apermission_5flevel_5fweight_20_3e',['vector&lt; enumivosystem::permission_level_weight &gt;',['../classstd_1_1vector.html',1,'std']]],
   ['vector_3c_20identity_3a_3acontract_3a_3acertvalue_20_3e',['vector&lt; identity::contract::certvalue &gt;',['../classstd_1_1vector.html',1,'std']]],
   ['vector_3c_20int_20_3e',['vector&lt; int &gt;',['../classstd_1_1vector.html',1,'std']]],
   ['vector_3c_20item_5fptr_20_3e',['vector&lt; item_ptr &gt;',['../classstd_1_1vector.html',1,'std']]],
@@ -34,6 +34,6 @@ var searchData=
   ['void_5fpointer',['void_pointer',['../struct_c_1_1void__pointer.html',1,'C']]],
   ['voider',['Voider',['../struct_voider.html',1,'']]],
   ['vote_5faction',['vote_action',['../structvote__action.html',1,'']]],
-  ['voter_5finfo',['voter_info',['../structeosiosystem_1_1voting_1_1voter__info.html',1,'eosiosystem::voting']]],
-  ['voting',['voting',['../classeosiosystem_1_1voting.html',1,'eosiosystem']]]
+  ['voter_5finfo',['voter_info',['../structenumivosystem_1_1voting_1_1voter__info.html',1,'enumivosystem::voting']]],
+  ['voting',['voting',['../classenumivosystem_1_1voting.html',1,'enumivosystem']]]
 ];
