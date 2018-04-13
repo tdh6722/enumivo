@@ -53,7 +53,7 @@ else
 fi
 
 total_nodes="${total_nodes:-`echo $pnodes`}"
-launcherPath="programs/eosio-launcher/eosio-launcher"
+launcherPath="programs/enumivo-launcher/enumivo-launcher"
 clientPath="programs/cleos/cleos"
 
 rm -rf etc/eosio/node_* var/lib/* stage

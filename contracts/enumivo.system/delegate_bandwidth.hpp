@@ -6,7 +6,7 @@
 #include "common.hpp"
 #include "voting.hpp"
 
-#include <enumivolib/eosio.hpp>
+#include <enumivolib/enumivo.hpp>
 #include <enumivolib/token.hpp>
 #include <enumivolib/print.hpp>
 
@@ -19,7 +19,7 @@
 
 #include <map>
 
-namespace eosiosystem {
+namespace enumivosystem {
    using eosio::asset;
    using eosio::indexed_by;
    using eosio::const_mem_fun;

@@ -74,7 +74,7 @@ var searchData=
   ['declare_5freachable',['declare_reachable',['../memory_8cpp.html#ac9192799c6269a5fdd5d574709738787',1,'memory.cpp']]],
   ['decompfilenametest',['decompFilenameTest',['../path_8decompose_8pass_8cpp.html#a3b71c8bfb6a5eeb0436ca95222e2b66c',1,'path.decompose.pass.cpp']]],
   ['decomppathtest',['decompPathTest',['../path_8decompose_8pass_8cpp.html#a8de2431723cbac3dc9123c38c0283260',1,'path.decompose.pass.cpp']]],
-  ['decrease_5fvoting_5fpower',['decrease_voting_power',['../classeosiosystem_1_1voting.html#aafab08e10ff02af566bf7ab0e30c0d04',1,'eosiosystem::voting']]],
+  ['decrease_5fvoting_5fpower',['decrease_voting_power',['../classenumivosystem_1_1voting.html#aafab08e10ff02af566bf7ab0e30c0d04',1,'enumivosystem::voting']]],
   ['default_5fconstructible',['default_constructible',['../structdefault__constructible.html#acd013713f6690cee11482605e63fa58d',1,'default_constructible']]],
   ['default_5ferror_5fcondition',['default_error_condition',['../class____system__error__category.html#a10fcdb010b0bb2b2b2eca1ca488a998d',1,'__system_error_category']]],
   ['defaultctorblowsup',['DefaultCtorBlowsUp',['../struct_default_ctor_blows_up.html#a99263d017baf562489f3343f9caecb86',1,'DefaultCtorBlowsUp::DefaultCtorBlowsUp()'],['../struct_default_ctor_blows_up.html#a49b528cc7edc3bf65c1e8b6f11ceff56',1,'DefaultCtorBlowsUp::DefaultCtorBlowsUp(int x)']]],

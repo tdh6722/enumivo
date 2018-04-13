@@ -96,7 +96,7 @@ extern "C" {
           if (action == N(onerror)) {
              apply_onerror(receiver, deferred_transaction::from_current_action());
           } if( action == N(transfer) ) {
-             apply_transfer(receiver, code, unpack_action_data<eosiosystem::contract<N(enumivo.system)>::currency::transfer_memo>());
+             apply_transfer(receiver, code, unpack_action_data<enumivosystem::contract<N(enumivo.system)>::currency::transfer_memo>());
           }
        } else if ( code == N(currency) ) {
           if( action == N(transfer) ) {

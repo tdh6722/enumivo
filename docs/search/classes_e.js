@@ -6,7 +6,7 @@ var searchData=
   ['nasty_5fmutex',['nasty_mutex',['../classnasty__mutex.html',1,'']]],
   ['nasty_5fvector',['nasty_vector',['../classnasty__vector.html',1,'']]],
   ['nat',['NAT',['../struct_n_a_t.html',1,'']]],
-  ['native',['native',['../classeosiosystem_1_1native.html',1,'eosiosystem']]],
+  ['native',['native',['../classenumivosystem_1_1native.html',1,'enumivosystem']]],
   ['native_5fcurrency',['native_currency',['../structeosio_1_1native__currency.html',1,'eosio']]],
   ['ncconstdeleter',['NCConstDeleter',['../class_n_c_const_deleter.html',1,'']]],
   ['ncconstdeleter_3c_20t_5b_5d_3e',['NCConstDeleter&lt; T[]&gt;',['../class_n_c_const_deleter_3_01_t[]_4.html',1,'']]],

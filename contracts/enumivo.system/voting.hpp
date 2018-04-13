@@ -5,7 +5,7 @@
 #pragma once
 #include "common.hpp"
 
-#include <enumivolib/eosio.hpp>
+#include <enumivolib/enumivo.hpp>
 #include <enumivolib/token.hpp>
 #include <enumivolib/print.hpp>
 
@@ -21,7 +21,7 @@
 #include <array>
 #include <cmath>
 
-namespace eosiosystem {
+namespace enumivosystem {
    using eosio::indexed_by;
    using eosio::const_mem_fun;
    using eosio::bytes;

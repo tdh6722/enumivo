@@ -11,7 +11,7 @@ var searchData=
   ['env_5fpath_5fglobal',['env_path_global',['../namespacefilesystem__dynamic__test__helper.html#a4cd860cd205e79acc4636874c340df84',1,'filesystem_dynamic_test_helper']]],
   ['environ',['environ',['../vis_8h.html#abb6ebe787bea156751c985729dfe5147',1,'vis.h']]],
   ['eos_5fbalance',['eos_balance',['../structeosio_1_1account_1_1account__balance.html#ae6e474168121f22423e9d2cded3da975',1,'eosio::account::account_balance']]],
-  ['eos_5fbucket',['eos_bucket',['../structeosiosystem_1_1common_1_1eosio__global__state.html#aa6b696b2c2e3826026496980e9f33ba3',1,'eosiosystem::common::eosio_global_state']]],
+  ['eos_5fbucket',['eos_bucket',['../structenumivosystem_1_1common_1_1eosio__global__state.html#aa6b696b2c2e3826026496980e9f33ba3',1,'enumivosystem::common::eosio_global_state']]],
   ['eosio_5fbios_5fabi',['enumivo_bios_abi',['../eosio_8bios_8abi_8hpp.html#ac16c9625aab0e108b32a5e6fb521bdc7',1,'enumivo.bios.abi.hpp']]],
   ['eosio_5fbios_5fwast',['enumivo_bios_wast',['../eosio_8bios_8wast_8hpp.html#a3a24b375d5a857ff25f40cbcbd19f5c2',1,'enumivo.bios.wast.hpp']]],
   ['eosio_5fmsig_5fabi',['enumivo_msig_abi',['../eosio_8msig_8abi_8hpp.html#abe4ca53e39c821277dd728b202c61ab4',1,'enumivo.msig.abi.hpp']]],

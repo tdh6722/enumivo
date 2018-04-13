@@ -10,8 +10,8 @@ add_library( eosio_chain
              block_trace.cpp
              wast_to_wasm.cpp
              wasm_interface.cpp
-             wasm_eosio_validation.cpp
-             wasm_eosio_injection.cpp
+             wasm_enumivo_validation.cpp
+             wasm_enumivo_injection.cpp
              apply_context.cpp
              resource_limits.cpp
 
@@ -24,7 +24,7 @@ add_library( eosio_chain
              global_property_object.cpp
              chain_controller.cpp
 
-             contracts/eosio_contract.cpp
+             contracts/enumivo_contract.cpp
              contracts/chain_initializer.cpp
              contracts/genesis_state.cpp
              contracts/abi_serializer.cpp

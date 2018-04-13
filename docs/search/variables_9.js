@@ -46,7 +46,7 @@ var searchData=
   ['iofuncs',['iofuncs',['../structfcookie.html#a230d767121e346d62f9e6a88fe1518bd',1,'fcookie']]],
   ['is_5fequal_5fcount',['is_equal_count',['../struct_alloc_controller.html#ac13132acc089e9d67936e347c988f989',1,'AllocController']]],
   ['is_5ffrozen',['is_frozen',['../structeosio_1_1currency_1_1currency__stats.html#ae7ab0434250653638ea5a3dafabae9fe',1,'eosio::currency::currency_stats']]],
-  ['is_5fproxy',['is_proxy',['../structeosiosystem_1_1voting_1_1voter__info.html#a8a9b402a8d3e6d850ca811c8a5b3c5b2',1,'eosiosystem::voting::voter_info']]],
+  ['is_5fproxy',['is_proxy',['../structenumivosystem_1_1voting_1_1voter__info.html#a8a9b402a8d3e6d850ca811c8a5b3c5b2',1,'enumivosystem::voting::voter_info']]],
   ['is_5fsteady',['is_steady',['../struct_test_clock.html#a2629db16f53df37417aa7dfb3e17b376',1,'TestClock::is_steady()'],['../struct_clock.html#a4229a57db7fb8a5dbb9049aeeee5f01a',1,'Clock::is_steady()']]],
   ['is_5fwindows',['is_windows',['../classlibcxx_1_1test_1_1config_1_1_configuration.html#ab01d98758cbb1c8c73b8e6064b2c52bc',1,'libcxx.test.config.Configuration.is_windows()'],['../classlibcxx_1_1test_1_1executor_1_1_local_executor.html#a84f59bd971fc82eda774e10db54a1e88',1,'libcxx.test.executor.LocalExecutor.is_windows()']]],
   ['isbidir',['IsBiDir',['../struct_iterator_debug_checks_1_1_basic_container_checks.html#a80cc784e8b10599f19a005655492944a',1,'IteratorDebugChecks::BasicContainerChecks']]],

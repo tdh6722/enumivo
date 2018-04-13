@@ -1,5 +1,5 @@
-configure_file( eosiocpp.in eosiocpp @ONLY)
-install( FILES ${CMAKE_CURRENT_BINARY_DIR}/eosiocpp DESTINATION ${CMAKE_INSTALL_FULL_BINDIR}
+configure_file( enumivocpp.in enumivocpp @ONLY)
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/enumivocpp DESTINATION ${CMAKE_INSTALL_FULL_BINDIR}
          PERMISSIONS OWNER_READ
                      OWNER_WRITE
                      OWNER_EXECUTE

@@ -10,7 +10,7 @@
 
 #include <enumivolib/generic_currency.hpp>
 
-namespace eosiosystem {
+namespace enumivosystem {
 
    struct block_header {
       checksum256                               previous;
@@ -194,4 +194,4 @@ namespace eosiosystem {
          } /// apply
    };
 
-} /// eosiosystem
+} /// enumivosystem

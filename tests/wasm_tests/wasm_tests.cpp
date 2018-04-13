@@ -1,7 +1,7 @@
 #include <boost/test/unit_test.hpp>
 #include <enumivo/testing/tester.hpp>
 #include <enumivo/chain/contracts/abi_serializer.hpp>
-#include <enumivo/chain/wasm_eosio_constraints.hpp>
+#include <enumivo/chain/wasm_enumivo_constraints.hpp>
 #include <enumivo/chain/exceptions.hpp>
 #include <enumivo/chain/wast_to_wasm.hpp>
 #include <asserter/asserter.wast.hpp>

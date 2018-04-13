@@ -137,7 +137,7 @@ var searchData=
   ['tmoveassignntcopyassign',['TMoveAssignNTCopyAssign',['../struct_t_move_assign_n_t_copy_assign.html',1,'']]],
   ['tmoventcopy',['TMoveNTCopy',['../struct_t_move_n_t_copy.html',1,'']]],
   ['token',['token',['../classeosio_1_1token.html',1,'eosio']]],
-  ['total_5fresources',['total_resources',['../structeosiosystem_1_1delegate__bandwidth_1_1total__resources.html',1,'eosiosystem::delegate_bandwidth']]],
+  ['total_5fresources',['total_resources',['../structenumivosystem_1_1delegate__bandwidth_1_1total__resources.html',1,'enumivosystem::delegate_bandwidth']]],
   ['tracked',['Tracked',['../struct_tracked.html',1,'']]],
   ['trackedcallable',['TrackedCallable',['../struct_tracked_callable.html',1,'']]],
   ['trackedvalue',['TrackedValue',['../struct_tracked_value.html',1,'']]],

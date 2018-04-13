@@ -8,7 +8,7 @@ pipeline {
                     steps {
                         sh '''
                             . $HOME/.bash_profile
-                            echo 1 | ./eosio_build.sh
+                            echo 1 | ./enumivo_build.sh
                         '''
                         stash includes: 'build/**/*', name: 'buildUbuntu'
                     }
@@ -18,7 +18,7 @@ pipeline {
                     steps {
                         sh '''
                             . $HOME/.bash_profile
-                            echo 1 | ./eosio_build.sh
+                            echo 1 | ./enumivo_build.sh
                         '''
                         stash includes: 'build/**/*', name: 'buildMacOS'
                     }
@@ -28,7 +28,7 @@ pipeline {
                     steps {
                         sh '''
                             . $HOME/.bash_profile
-                            echo 1 | ./eosio_build.sh
+                            echo 1 | ./enumivo_build.sh
                         '''
                         stash includes: 'build/**/*', name: 'buildFedora'
                     }

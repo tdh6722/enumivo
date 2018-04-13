@@ -93,7 +93,7 @@ var searchData=
   ['bullet_5ffive_5ftests',['bullet_five_tests',['../std_2utilities_2function_8objects_2func_8invoke_2invoke_8pass_8cpp.html#a0354c347050863e3c8040a54e524e9c0',1,'invoke.pass.cpp']]],
   ['bullet_5fone_5ftwo_5ftests',['bullet_one_two_tests',['../std_2utilities_2function_8objects_2func_8invoke_2invoke_8pass_8cpp.html#aaaee5261b11567e133e99858aa969898',1,'invoke.pass.cpp']]],
   ['bullet_5fthree_5ffour_5ftests',['bullet_three_four_tests',['../std_2utilities_2function_8objects_2func_8invoke_2invoke_8pass_8cpp.html#af22463b595597bd6c5c45012d15f5d5e',1,'invoke.pass.cpp']]],
-  ['by_5fvotes',['by_votes',['../structeosiosystem_1_1voting_1_1producer__info.html#a4817eab11a44b0f64fb4b9301d66637f',1,'eosiosystem::voting::producer_info']]],
+  ['by_5fvotes',['by_votes',['../structenumivosystem_1_1voting_1_1producer__info.html#a4817eab11a44b0f64fb4b9301d66637f',1,'enumivosystem::voting::producer_info']]],
   ['bytes_5fprocessed',['bytes_processed',['../classbenchmark_1_1_state.html#a2db1a44415d32e3bc7608dab3fe78399',1,'benchmark::State']]],
   ['bzero',['bzero',['../bzero_8c.html#a59505af7f1c47ff01fdb944801642033',1,'bzero.c']]]
 ];
