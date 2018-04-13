@@ -98,7 +98,7 @@ void test_transaction::send_action_large() {
    copy_data(large_message, 8*1024, test_action.data);
    action act(vector<permission_level>{{N(testapi), N(active)}}, test_action);
    act.send();
-   enumivo_assert(false, "send_message_large() should've thrown an error");
+   eosio_assert(false, "send_message_large() should've thrown an error");
 }
 
 /**
@@ -132,14 +132,14 @@ void test_transaction::test_tapos_block_prefix() {
    using namespace eosio;
    int tbp;
    read_action_data( (char*)&tbp, sizeof(int) );
-   enumivo_assert( tbp == tapos_block_prefix(), "tapos_block_prefix does not match" );
+   eosio_assert( tbp == tapos_block_prefix(), "tapos_block_prefix does not match" );
 }
 
 void test_transaction::test_tapos_block_num() {
    using namespace eosio;
    int tbn;
    read_action_data( (char*)&tbn, sizeof(int) );
-   enumivo_assert( tbn == tapos_block_num(), "tapos_block_num does not match" );
+   eosio_assert( tbn == tapos_block_num(), "tapos_block_num does not match" );
 }
 
 
@@ -158,7 +158,7 @@ void test_transaction::test_transaction_size() {
    uint32_t trans_size = 0;
    read_action_data( (char*)&trans_size, sizeof(uint32_t) );
    print( "size: ", transaction_size() );
-   enumivo_assert( trans_size == transaction_size(), "transaction size does not match" );
+   eosio_assert( trans_size == transaction_size(), "transaction size does not match" );
 }
 
 void test_transaction::send_transaction(uint64_t receiver, uint64_t, uint64_t) {
@@ -190,7 +190,7 @@ void test_transaction::send_transaction_empty(uint64_t receiver, uint64_t, uint6
    auto trx = transaction();
    trx.send(0, receiver);
 
-   enumivo_assert(false, "send_transaction_empty() should've thrown an error");
+   eosio_assert(false, "send_transaction_empty() should've thrown an error");
 }
 
 void test_transaction::send_transaction_trigger_error_handler(uint64_t receiver, uint64_t, uint64_t) {
@@ -203,7 +203,7 @@ void test_transaction::send_transaction_trigger_error_handler(uint64_t receiver,
 
 void test_transaction::assert_false_error_handler(const eosio::deferred_transaction& dtrx) {
    auto onerror_action = eosio::get_action(1, 0);
-   enumivo_assert( onerror_action.authorization.at(0).actor == dtrx.actions.at(0).account,
+   eosio_assert( onerror_action.authorization.at(0).actor == dtrx.actions.at(0).account,
                 "authorizer of onerror action does not match receiver of original action in the deferred transaction" );
 }
 
@@ -222,7 +222,7 @@ void test_transaction::send_transaction_large(uint64_t receiver, uint64_t, uint6
 
    trx.send(0, receiver);
 
-   enumivo_assert(false, "send_transaction_large() should've thrown an error");
+   eosio_assert(false, "send_transaction_large() should've thrown an error");
 }
 
 void test_transaction::send_transaction_expiring_late(uint64_t receiver, uint64_t, uint64_t) {
@@ -236,7 +236,7 @@ void test_transaction::send_transaction_expiring_late(uint64_t receiver, uint64_
    trx.actions.emplace_back(vector<permission_level>{{N(testapi), N(active)}}, test_action);
    trx.send(0, receiver);
 
-   enumivo_assert(false, "send_transaction_expiring_late() should've thrown an error");
+   eosio_assert(false, "send_transaction_expiring_late() should've thrown an error");
 }
 
 /**
@@ -272,7 +272,7 @@ void test_transaction::send_cf_action_fail() {
    test_action_action<N(dummy), N(event1)> cfa;
    action act(vector<permission_level>{{N(dummy), N(active)}}, cfa);
    act.send_context_free();
-   enumivo_assert(false, "send_cfa_action_fail() should've thrown an error");
+   eosio_assert(false, "send_cfa_action_fail() should've thrown an error");
 }
 
 void test_transaction::read_inline_action() {
@@ -281,7 +281,7 @@ void test_transaction::read_inline_action() {
 
    char buffer[64];
    auto res = get_action( 3, 0, buffer, 64);
-   enumivo_assert(res == -1, "get_action error 0");
+   eosio_assert(res == -1, "get_action error 0");
 
    auto dummy_act = dummy_act_t{1, 2, 3};
 
@@ -289,7 +289,7 @@ void test_transaction::read_inline_action() {
    act.send();
 
    res = get_action( 3, 0, buffer, 64);
-   enumivo_assert(res != -1, "get_action error");
+   eosio_assert(res != -1, "get_action error");
 
    action tmp;
    datastream<char *> ds(buffer, (size_t)res);
@@ -299,10 +299,10 @@ void test_transaction::read_inline_action() {
    ds >> tmp.data;
 
    auto dres = tmp.data_as<dummy_act_t>();
-   enumivo_assert(dres.a == 1 && dres.b == 2 && dres.c == 3, "data_as error");
+   eosio_assert(dres.a == 1 && dres.b == 2 && dres.c == 3, "data_as error");
 
    res = get_action( 3, 1, buffer, 64);
-   enumivo_assert(res == -1, "get_action error -1");
+   eosio_assert(res == -1, "get_action error -1");
 }
 
 void test_transaction::read_inline_cf_action() {
@@ -311,7 +311,7 @@ void test_transaction::read_inline_cf_action() {
 
    char buffer[64];
    auto res = get_action( 2, 0, buffer, 64);
-   enumivo_assert(res == -1, "get_action error 0");
+   eosio_assert(res == -1, "get_action error 0");
 
    auto dummy_act = dummy_act_t{1, 2, 3};
 
@@ -319,7 +319,7 @@ void test_transaction::read_inline_cf_action() {
    act.send_context_free();
 
    res = get_action( 2, 0, buffer, 64);
-   enumivo_assert(res != -1, "get_action error");
+   eosio_assert(res != -1, "get_action error");
 
    action tmp;
    datastream<char *> ds(buffer, (size_t)res);
@@ -329,8 +329,8 @@ void test_transaction::read_inline_cf_action() {
    ds >> tmp.data;
 
    auto dres = tmp.data_as<dummy_act_t>();
-   enumivo_assert(dres.a == 1 && dres.b == 2 && dres.c == 3, "data_as error");
+   eosio_assert(dres.a == 1 && dres.b == 2 && dres.c == 3, "data_as error");
 
    res = get_action( 2, 1, buffer, 64);
-   enumivo_assert(res == -1, "get_action error -1");
+   eosio_assert(res == -1, "get_action error -1");
 }

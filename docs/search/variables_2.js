@@ -46,7 +46,7 @@ var searchData=
   ['bittab',['bittab',['../internal_8c.html#a41c9f452c51c40de2e93c628a4143eb7',1,'bittab():&#160;internal.c'],['../internal_8h.html#a41c9f452c51c40de2e93c628a4143eb7',1,'bittab():&#160;internal.c']]],
   ['block_5fmroot',['block_mroot',['../structenumivosystem_1_1block__header.html#a45486cae1bc257275b34608ce94a58bb',1,'enumivosystem::block_header']]],
   ['block_5fsigning_5fkey',['block_signing_key',['../structeosio_1_1producer__key.html#af5899a46ea38009f20643792af38d26b',1,'eosio::producer_key']]],
-  ['blocks_5fper_5fcycle',['blocks_per_cycle',['../structenumivosystem_1_1common_1_1eosio__global__state.html#af6b025ac99646b1847c98ee168d857b4',1,'enumivosystem::common::enumivo_global_state']]],
+  ['blocks_5fper_5fcycle',['blocks_per_cycle',['../structenumivosystem_1_1common_1_1eosio__global__state.html#af6b025ac99646b1847c98ee168d857b4',1,'enumivosystem::common::eosio_global_state']]],
   ['blocks_5fper_5fproducer',['blocks_per_producer',['../classenumivosystem_1_1common.html#a45a0c11c81b3df8f81fe296c2c9f0b5d',1,'enumivosystem::common']]],
   ['blocks_5fper_5fyear',['blocks_per_year',['../classenumivosystem_1_1voting.html#aedea6294b9e58133d3d118829c46a70b',1,'enumivosystem::voting']]],
   ['board',['board',['../structtic__tac__toe_1_1game.html#a43126031fa1433bd394348e453c102bf',1,'tic_tac_toe::game']]],

@@ -726,7 +726,7 @@ var searchData=
   ['stoptimer',['StopTimer',['../classbenchmark_1_1internal_1_1_thread_timer.html#ab46b1ecb8c46f3383a2ef025518e5b70',1,'benchmark::internal::ThreadTimer']]],
   ['storage',['Storage',['../struct_storage.html',1,'']]],
   ['storage_5fbytes',['storage_bytes',['../structenumivosystem_1_1delegate__bandwidth_1_1total__resources.html#aba41ddeb41aee7da941c0027a866af38',1,'enumivosystem::delegate_bandwidth::total_resources::storage_bytes()'],['../structenumivosystem_1_1delegate__bandwidth_1_1delegated__bandwidth.html#ae608c822bafa8b9661015860844815b2',1,'enumivosystem::delegate_bandwidth::delegated_bandwidth::storage_bytes()']]],
-  ['storage_5freserve_5fratio',['storage_reserve_ratio',['../structenumivosystem_1_1common_1_1eosio__parameters.html#a166f49f1e57d43eb39c0ecaaac363a13',1,'enumivosystem::common::enumivo_parameters']]],
+  ['storage_5freserve_5fratio',['storage_reserve_ratio',['../structenumivosystem_1_1common_1_1eosio__parameters.html#a166f49f1e57d43eb39c0ecaaac363a13',1,'enumivosystem::common::eosio_parameters']]],
   ['storage_5fstake',['storage_stake',['../structenumivosystem_1_1delegate__bandwidth_1_1total__resources.html#a82063824f8cbe69d4f0ff16e3042f133',1,'enumivosystem::delegate_bandwidth::total_resources::storage_stake()'],['../structenumivosystem_1_1delegate__bandwidth_1_1delegated__bandwidth.html#a88f1599465a636ec6b31a0670914e342',1,'enumivosystem::delegate_bandwidth::delegated_bandwidth::storage_stake()']]],
   ['storage_5ftype',['storage_type',['../classeosio_1_1optional.html#a984f4986860538e2a0a73744c9c9b57e',1,'eosio::optional']]],
   ['store',['store',['../namespaceproxy_1_1configs.html#a1421e84615477726e8ae01d5dfea5d7b',1,'proxy::configs']]],

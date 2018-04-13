@@ -31,7 +31,7 @@ var searchData=
   ['max_5finline_5faction_5fsize',['max_inline_action_size',['../structeosio_1_1blockchain__parameters.html#a7dbcbc6c005be48b9d42fe21ee3c034f',1,'eosio::blockchain_parameters']]],
   ['max_5finline_5fdepth',['max_inline_depth',['../structeosio_1_1blockchain__parameters.html#a6fe6a0319c0cb989ea12cbdd485e8742',1,'eosio::blockchain_parameters']]],
   ['max_5fiterations',['max_iterations',['../classbenchmark_1_1_state.html#a68d3a9324fafbe40ac6d99c0538b8783',1,'benchmark::State']]],
-  ['max_5fstorage_5fsize',['max_storage_size',['../structenumivosystem_1_1common_1_1eosio__parameters.html#a481159f539c38bc59473281634628067',1,'enumivosystem::common::enumivo_parameters']]],
+  ['max_5fstorage_5fsize',['max_storage_size',['../structenumivosystem_1_1common_1_1eosio__parameters.html#a481159f539c38bc59473281634628067',1,'enumivosystem::common::eosio_parameters']]],
   ['max_5fstring_5flen',['MAX_STRING_LEN',['../string_8bench_8cpp.html#a09d4862d3d0c0b1c286a97b098c93a95',1,'string.bench.cpp']]],
   ['max_5fsupply',['max_supply',['../structeosio_1_1currency_1_1currency__stats.html#aaca603cf13e5b43ba10b47dcc4ced29c',1,'eosio::currency::currency_stats']]],
   ['max_5ftime_5ft',['max_time_t',['../structcheck__is__representable_3_01_file_time_t_00_01_time_t_00_01_time_spec_t_00_01_base_00_01_t_k__64_bit_01_4.html#ac939668bbd49916346c2594506cb57cf',1,'check_is_representable&lt; FileTimeT, TimeT, TimeSpecT, Base, TK_64Bit &gt;::max_time_t()'],['../structcheck__is__representable_3_01_file_time_t_00_01_time_t_00_01_time_spec_t_00_01_base_00_01_t_k__32_bit_01_4.html#ac8aa6ca4368c50c9a2a9a7e554bf52d9',1,'check_is_representable&lt; FileTimeT, TimeT, TimeSpecT, Base, TK_32Bit &gt;::max_time_t()']]],

@@ -76,10 +76,10 @@ namespace eosio {
     */
    inline action get_action( uint32_t type, uint32_t index ) {
       auto size = ::get_action(type, index, nullptr, 0);
-      enumivo_assert( size > 0, "get_action size failed" );
+      eosio_assert( size > 0, "get_action size failed" );
       char buf[size];
       auto size2 = ::get_action(type, index, &buf[0], static_cast<size_t>(size) );
-      enumivo_assert( size == size2, "get_action failed" );
+      eosio_assert( size == size2, "get_action failed" );
       return eosio::unpack<eosio::action>(&buf[0], static_cast<size_t>(size));
    }
 
