@@ -1,6 +1,6 @@
 #!/bin/bash
 ##########################################################################
-# This is the EOSIO automated install script for Linux and Mac OS.
+# This is the Enumivo automated install script for Linux and Mac OS.
 # This file was downloaded from https://github.com/enumivo/enumivo
 #
 # Copyright (c) 2017, Respective Authors all rights reserved.
@@ -67,7 +67,7 @@
 	if [ $ARCH == "Linux" ]; then
 		
 		if [ ! -e /etc/os-release ]; then
-			printf "\n\tEOSIO currently supports Amazon, Centos, Fedora, Mint & Ubuntu Linux only.\n"
+			printf "\n\tEnumivo currently supports Amazon, Centos, Fedora, Mint & Ubuntu Linux only.\n"
 			printf "\tPlease install on the latest version of one of these Linux distributions.\n"
 			printf "\thttps://aws.amazon.com/amazon-linux-ami/\n"
 			printf "\thttps://www.centos.org/\n"
@@ -167,14 +167,14 @@
 	..
 	
 	if [ $? -ne 0 ]; then
-		printf "\n\t>>>>>>>>>>>>>>>>>>>> CMAKE building EOSIO has exited with the above error.\n\n"
+		printf "\n\t>>>>>>>>>>>>>>>>>>>> CMAKE building Enumivo has exited with the above error.\n\n"
 		exit -1
 	fi
 
 	make -j${CPU_CORE}
 
 	if [ $? -ne 0 ]; then
-		printf "\n\t>>>>>>>>>>>>>>>>>>>> MAKE building EOSIO has exited with the above error.\n\n"
+		printf "\n\t>>>>>>>>>>>>>>>>>>>> MAKE building Enumivo has exited with the above error.\n\n"
 		exit -1
 	fi
 

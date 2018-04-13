@@ -52,7 +52,7 @@ void new_chain_banner(const eosio::chain::chain_controller& db)
       "*******************************\n"
       "*                             *\n"
       "*   ------ NEW CHAIN ------   *\n"
-      "*   -  Welcome to EOSIO!  -   *\n"
+      "*   -  Welcome to Enumivo!  -   *\n"
       "*   -----------------------   *\n"
       "*                             *\n"
       "*******************************\n"
