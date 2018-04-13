@@ -1,6 +1,6 @@
 #pragma once
 
-#include <enumivo/chain/wasm_eosio_binary_ops.hpp>
+#include <enumivo/chain/wasm_enumivo_binary_ops.hpp>
 #include <enumivo/chain/webassembly/common.hpp>
 #include <fc/exception/exception.hpp>
 #include <enumivo/chain/exceptions.hpp>

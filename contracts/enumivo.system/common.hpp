@@ -1,5 +1,5 @@
 #pragma once
-#include <enumivolib/eosio.hpp>
+#include <enumivolib/enumivo.hpp>
 
 #include <enumivolib/generic_currency.hpp>
 #include <enumivolib/multi_index.hpp>

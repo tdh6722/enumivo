@@ -47,7 +47,7 @@ programs/eos-walletd/eos-walletd
 programs/eosiod/eosiod
 programs/eosioc/eosioc
 programs/launcher/launcher
-programs/eosio-abigen/eosio-abigen
+programs/enumivo-abigen/enumivo-abigen
 
 scripts/tn_init.sh
 

@@ -8,8 +8,8 @@
 #include <boost/multiprecision/cpp_bin_float.hpp>
 #include <enumivo/chain/resource_limits.hpp>
 #include <enumivo/chain/wasm_interface_private.hpp>
-#include <enumivo/chain/wasm_eosio_validation.hpp>
-#include <enumivo/chain/wasm_eosio_injection.hpp>
+#include <enumivo/chain/wasm_enumivo_validation.hpp>
+#include <enumivo/chain/wasm_enumivo_injection.hpp>
 #include <fc/exception/exception.hpp>
 #include <fc/crypto/sha256.hpp>
 #include <fc/crypto/sha1.hpp>

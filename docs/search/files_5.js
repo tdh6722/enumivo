@@ -51,7 +51,7 @@ var searchData=
   ['eosio_2ebios_2ecpp',['enumivo.bios.cpp',['../eosio_8bios_8cpp.html',1,'']]],
   ['eosio_2ebios_2ehpp',['enumivo.bios.hpp',['../eosio_8bios_8hpp.html',1,'']]],
   ['eosio_2ebios_2ewast_2ehpp',['enumivo.bios.wast.hpp',['../eosio_8bios_8wast_8hpp.html',1,'']]],
-  ['eosio_2ehpp',['eosio.hpp',['../eosio_8hpp.html',1,'']]],
+  ['eosio_2ehpp',['enumivo.hpp',['../eosio_8hpp.html',1,'']]],
   ['eosio_2emsig_2eabi_2ehpp',['enumivo.msig.abi.hpp',['../eosio_8msig_8abi_8hpp.html',1,'']]],
   ['eosio_2emsig_2ecpp',['enumivo.msig.cpp',['../eosio_8msig_8cpp.html',1,'']]],
   ['eosio_2emsig_2ehpp',['enumivo.msig.hpp',['../eosio_8msig_8hpp.html',1,'']]],
