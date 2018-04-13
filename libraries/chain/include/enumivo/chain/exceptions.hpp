@@ -104,7 +104,7 @@ namespace eosio { namespace chain {
    FC_DECLARE_DERIVED_EXCEPTION( rate_limiting_overcommitment,      eosio::chain::rate_limiting_invariant_exception, 3150002, "chain resource limits are overcommitted" )
 
 
-   #define EOS_RECODE_EXC( cause_type, effect_type ) \
+   #define ENU_RECODE_EXC( cause_type, effect_type ) \
       catch( const cause_type& e ) \
       { throw( effect_type( e.what(), e.get_log() ) ); }
 

@@ -49,7 +49,7 @@ namespace enumivosystem {
 
             uint64_t primary_key()const { return owner; }
 
-            EOSLIB_SERIALIZE( total_resources, (owner)(net_weight)(cpu_weight)(storage_stake)(storage_bytes) )
+            ENULIB_SERIALIZE( total_resources, (owner)(net_weight)(cpu_weight)(storage_stake)(storage_bytes) )
          };
 
 
@@ -66,7 +66,7 @@ namespace enumivosystem {
 
             uint64_t  primary_key()const { return to; }
 
-            EOSLIB_SERIALIZE( delegated_bandwidth, (from)(to)(net_weight)(cpu_weight)(storage_stake)(storage_bytes) )
+            ENULIB_SERIALIZE( delegated_bandwidth, (from)(to)(net_weight)(cpu_weight)(storage_stake)(storage_bytes) )
 
          };
 
@@ -77,7 +77,7 @@ namespace enumivosystem {
 
             uint64_t  primary_key()const { return owner; }
 
-            EOSLIB_SERIALIZE( refund_request, (owner)(request_time)(amount) )
+            ENULIB_SERIALIZE( refund_request, (owner)(request_time)(amount) )
          };
 
          typedef eosio::multi_index< N(totalband), total_resources>   total_resources_table;
@@ -92,7 +92,7 @@ namespace enumivosystem {
             asset        stake_storage_quantity;
 
 
-            EOSLIB_SERIALIZE( delegatebw, (from)(receiver)(stake_net_quantity)(stake_cpu_quantity)(stake_storage_quantity) )
+            ENULIB_SERIALIZE( delegatebw, (from)(receiver)(stake_net_quantity)(stake_cpu_quantity)(stake_storage_quantity) )
          };
 
          ACTION( SystemAccount, undelegatebw ) {
@@ -102,13 +102,13 @@ namespace enumivosystem {
             asset        unstake_cpu_quantity;
             uint64_t     unstake_storage_bytes;
 
-            EOSLIB_SERIALIZE( undelegatebw, (from)(receiver)(unstake_net_quantity)(unstake_cpu_quantity)(unstake_storage_bytes) )
+            ENULIB_SERIALIZE( undelegatebw, (from)(receiver)(unstake_net_quantity)(unstake_cpu_quantity)(unstake_storage_bytes) )
          };
 
          ACTION( SystemAccount, refund ) {
             account_name owner;
 
-            EOSLIB_SERIALIZE( refund, (owner) )
+            ENULIB_SERIALIZE( refund, (owner) )
          };
 
          static void on( const delegatebw& del ) {

@@ -29,7 +29,7 @@ namespace eosio {
              account_name to;
              asset        quantity;
 
-             EOSLIB_SERIALIZE( issue, (to)(quantity) )
+             ENULIB_SERIALIZE( issue, (to)(quantity) )
           };
 
           ACTION( code, transfer ) {
@@ -59,7 +59,7 @@ namespace eosio {
 
              string       memo;
 
-             EOSLIB_SERIALIZE_DERIVED( transfer_memo, transfer, (memo) )
+             ENULIB_SERIALIZE_DERIVED( transfer_memo, transfer, (memo) )
           };
 
           struct account {
@@ -68,7 +68,7 @@ namespace eosio {
 
              auto primary_key() const { return symbol; }
 
-             EOSLIB_SERIALIZE( account, (balance)(symbol) )
+             ENULIB_SERIALIZE( account, (balance)(symbol) )
           };
 
           struct currency_stats {
@@ -77,7 +77,7 @@ namespace eosio {
 
              auto primary_key() const { return symbol; }
 
-             EOSLIB_SERIALIZE( currency_stats, (supply)(symbol) )
+             ENULIB_SERIALIZE( currency_stats, (supply)(symbol) )
           };
 
           /**

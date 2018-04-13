@@ -22,7 +22,7 @@ namespace enumivosystem {
       uint32_t                                  schedule_version;
       eosio::optional<eosio::producer_schedule> new_producers;
 
-      EOSLIB_SERIALIZE(block_header, (previous)(timestamp)(transaction_mroot)(action_mroot)(block_mroot)
+      ENULIB_SERIALIZE(block_header, (previous)(timestamp)(transaction_mroot)(action_mroot)(block_mroot)
                                      (producer)(schedule_version)(new_producers))
    };
 
@@ -45,7 +45,7 @@ namespace enumivosystem {
          ACTION( SystemAccount, nonce ) {
             eosio::string                   value;
 
-            EOSLIB_SERIALIZE( nonce, (value) )
+            ENULIB_SERIALIZE( nonce, (value) )
          };
 
          static void on( const nonce& ) {
@@ -76,7 +76,7 @@ namespace enumivosystem {
          ACTION(SystemAccount, onblock) {
             block_header header;
 
-            EOSLIB_SERIALIZE(onblock, (header))
+            ENULIB_SERIALIZE(onblock, (header))
          };
 
          static void on(const onblock& ob) {
@@ -106,7 +106,7 @@ namespace enumivosystem {
          ACTION(SystemAccount, claimrewards) {
             account_name owner;
 
-            EOSLIB_SERIALIZE(claimrewards, (owner))
+            ENULIB_SERIALIZE(claimrewards, (owner))
          };
 
          static void on(const claimrewards& cr) {

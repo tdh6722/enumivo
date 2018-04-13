@@ -238,7 +238,7 @@ namespace eosio { namespace chain {
           * Use the get_slot_time() and get_slot_at_time() functions
           * to convert between slot_num and timestamp.
           *
-          * Passing slot_num == 0 returns EOS_NULL_PRODUCER
+          * Passing slot_num == 0 returns ENU_NULL_PRODUCER
           */
          account_name get_scheduled_producer(uint32_t slot_num)const;
 

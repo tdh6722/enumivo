@@ -7,6 +7,6 @@ namespace eosio {
       unsigned_int        type;
       std::array<char,33> data;
 
-      EOSLIB_SERIALIZE( public_key, (type)(data) )
+      ENULIB_SERIALIZE( public_key, (type)(data) )
    };
 }

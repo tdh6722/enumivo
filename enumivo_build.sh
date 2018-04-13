@@ -146,10 +146,10 @@
 	COMPILE_EOS=1
 	COMPILE_CONTRACTS=1
 
-# 	export EOS_BUILD_TYPE=[Debug|Release|RelWithDebInfo|MinSizeRel] to enable
+# 	export ENU_BUILD_TYPE=[Debug|Release|RelWithDebInfo|MinSizeRel] to enable
 	CMAKE_BUILD_TYPE=Release
-	if [ ! -z $EOS_BUILD_TYPE ]; then
-		CMAKE_BUILD_TYPE=$EOS_BUILD_TYPE
+	if [ ! -z $ENU_BUILD_TYPE ]; then
+		CMAKE_BUILD_TYPE=$ENU_BUILD_TYPE
 	fi
 
 	cd ${WORK_DIR}
