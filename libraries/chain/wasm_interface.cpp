@@ -798,7 +798,7 @@ class system_api : public context_aware_api {
          FC_ASSERT( false, "abort() called");
       }
 
-      void eosio_assert(bool condition, null_terminated_ptr str) {
+      void enumivo_assert(bool condition, null_terminated_ptr str) {
          if( !condition ) {
             std::string message( str );
             edump((message));
@@ -1543,7 +1543,7 @@ REGISTER_INTRINSICS(string_api,
 
 REGISTER_INTRINSICS(system_api,
    (abort,        void())
-   (eosio_assert, void(int, int))
+   (enumivo_assert, void(int, int))
    (eosio_exit,   void(int ))
    (now,          int())
 );

@@ -47,7 +47,7 @@ namespace eosio {
              template<typename DataStream>
              friend DataStream& operator >> ( DataStream& ds, transfer& t ){
                 ds >> t.from >> t.to >> t.quantity;
-                eosio_assert( t.quantity.symbol== token_type::symbol, "unexpected asset type" );
+                enumivo_assert( t.quantity.symbol== token_type::symbol, "unexpected asset type" );
                 return ds;
              }
           };

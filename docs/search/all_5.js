@@ -225,7 +225,7 @@ var searchData=
   ['eosio_5fabi',['EOSIO_ABI',['../dispatcher_8hpp.html#a0506b73253cc40945741e86dde10164f',1,'dispatcher.hpp']]],
   ['eosio_5fapi',['EOSIO_API',['../dispatcher_8hpp.html#abf49cf842e3e21ce66fc13f23b34aa72',1,'dispatcher.hpp']]],
   ['eosio_5fapi_5fcall',['EOSIO_API_CALL',['../dispatcher_8hpp.html#ab0e22fed21b7d26ebdf31b1d33640365',1,'dispatcher.hpp']]],
-  ['eosio_5fassert',['eosio_assert',['../group__systemcapi.html#ga8566f3999bfc932b2190d05e97abbe1f',1,'eosio_assert(uint32_t test, const char *cstr):&#160;system.h'],['../test__exchange_8cpp.html#abd37258755b6a22178f10d1590256eaf',1,'eosio_assert(bool test, const string &amp;msg):&#160;test_exchange.cpp']]],
+  ['eosio_5fassert',['enumivo_assert',['../group__systemcapi.html#ga8566f3999bfc932b2190d05e97abbe1f',1,'enumivo_assert(uint32_t test, const char *cstr):&#160;system.h'],['../test__exchange_8cpp.html#abd37258755b6a22178f10d1590256eaf',1,'enumivo_assert(bool test, const string &amp;msg):&#160;test_exchange.cpp']]],
   ['eosio_5fbios_5fabi',['enumivo_bios_abi',['../eosio_8bios_8abi_8hpp.html#ac16c9625aab0e108b32a5e6fb521bdc7',1,'enumivo.bios.abi.hpp']]],
   ['eosio_5fbios_5fwast',['enumivo_bios_wast',['../eosio_8bios_8wast_8hpp.html#a3a24b375d5a857ff25f40cbcbd19f5c2',1,'enumivo.bios.wast.hpp']]],
   ['eosio_5fexit',['eosio_exit',['../group__systemcapi.html#gae6b0de62b1edad98f29873b53f75dda0',1,'system.h']]],

@@ -18,7 +18,7 @@ var searchData=
   ['eosio_5fassert',['enumivo_assert',['../group__systemcapi.html#ga8566f3999bfc932b2190d05e97abbe1f',1,'enumivo_assert(uint32_t test, const char *cstr):&#160;system.h'],['../test__exchange_8cpp.html#abd37258755b6a22178f10d1590256eaf',1,'enumivo_assert(bool test, const string &amp;msg):&#160;test_exchange.cpp']]],
   ['eosio_5fexit',['enumivo_exit',['../group__systemcapi.html#gae6b0de62b1edad98f29873b53f75dda0',1,'system.h']]],
   ['eoslib_5fserialize',['ENULIB_SERIALIZE',['../structeosio_1_1action.html#a848cfa77395aa8447c5468c619c4a42a',1,'eosio::action']]],
-  ['eosio_5fassert',['eosio_assert',['../group__systemcapi.html#ga8566f3999bfc932b2190d05e97abbe1f',1,'eosio_assert(uint32_t test, const char *cstr):&#160;system.h'],['../test__exchange_8cpp.html#abd37258755b6a22178f10d1590256eaf',1,'eosio_assert(bool test, const string &amp;msg):&#160;test_exchange.cpp']]],
+  ['eosio_5fassert',['enumivo_assert',['../group__systemcapi.html#ga8566f3999bfc932b2190d05e97abbe1f',1,'enumivo_assert(uint32_t test, const char *cstr):&#160;system.h'],['../test__exchange_8cpp.html#abd37258755b6a22178f10d1590256eaf',1,'enumivo_assert(bool test, const string &amp;msg):&#160;test_exchange.cpp']]],
   ['eosio_5fexit',['eosio_exit',['../group__systemcapi.html#gae6b0de62b1edad98f29873b53f75dda0',1,'system.h']]],
   ['eosio_5fserialize',['ENULIB_SERIALIZE',['../structeosio_1_1action.html#a848cfa77395aa8447c5468c619c4a42a',1,'eosio::action']]],
   ['epptr',['epptr',['../structtest__buf.html#a443a700343ba98e69ac49bf9a5280944',1,'test_buf::epptr() const'],['../structtest__buf.html#a443a700343ba98e69ac49bf9a5280944',1,'test_buf::epptr() const']]],
