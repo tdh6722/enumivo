@@ -70,7 +70,7 @@ namespace eosio { namespace chain { namespace wasm_injections {
             int actual_index;
             get_next_indices( module, index, actual_index );
             registered_injected.emplace( func_name, index );
-            decltype(module.functions.imports) new_import = { {{func_type_index}, EOSIO_INJECTED_MODULE_NAME, std::move(func_name)} };
+            decltype(module.functions.imports) new_import = { {{func_type_index}, ENUMIVO_INJECTED_MODULE_NAME, std::move(func_name)} };
             // prepend to the head of the imports
             module.functions.imports.insert( module.functions.imports.begin()+(registered_injected.size()-1), new_import.begin(), new_import.end() ); 
             injected_index_mapping.emplace( index, actual_index ); 
@@ -789,7 +789,7 @@ namespace eosio { namespace chain { namespace wasm_injections {
          void inject() {
             _module_injectors.inject( *_module );
             for ( auto& fd : _module->functions.defs ) {
-               wasm_ops::EOSIO_OperatorDecoderStream<pre_op_injectors> pre_decoder(fd.code);
+               wasm_ops::ENUMIVO_OperatorDecoderStream<pre_op_injectors> pre_decoder(fd.code);
                std::vector<U8> new_code;
                while ( pre_decoder ) {
                   std::vector<U8> new_inst;
@@ -800,7 +800,7 @@ namespace eosio { namespace chain { namespace wasm_injections {
                fd.code = new_code;
             }
             for ( auto& fd : _module->functions.defs ) {
-               wasm_ops::EOSIO_OperatorDecoderStream<post_op_injectors> post_decoder(fd.code);
+               wasm_ops::ENUMIVO_OperatorDecoderStream<post_op_injectors> post_decoder(fd.code);
                std::vector<U8> post_code;
                while ( post_decoder ) {
                   std::vector<U8> new_inst;
