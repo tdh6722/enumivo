@@ -141,7 +141,7 @@
 
 	. $FILE
 
-	printf "\n\n>>>>>>>> ALL dependencies sucessfully found or installed . Installing EOS.IO\n\n"
+	printf "\n\n>>>>>>>> ALL dependencies sucessfully found or installed . Installing Enumivo\n\n"
 
 	COMPILE_EOS=1
 	COMPILE_CONTRACTS=1
