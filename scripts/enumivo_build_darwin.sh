@@ -64,7 +64,7 @@
 	printf "\tChecking Home Brew installation\n"
 	BREW=$(which brew)
 	if [ $? -ne 0 ]; then
-		printf "\tHomebrew must be installed to compile EOS.IO\n\n"
+		printf "\tHomebrew must be installed to compile Enumivo\n\n"
 		printf "\tDo you wish to install Home Brew?\n"
 		select yn in "Yes" "No"; do
 			case $yn in
