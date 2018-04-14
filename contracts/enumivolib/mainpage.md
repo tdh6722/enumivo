@@ -1,9 +1,7 @@
-Welcome to the EOS.IO Documentation
+Welcome to the Enumivo Documentation
 -----------------------------------
 
-@note This documentation is in progress and subject to change due to rapid development. Please report inaccuracies identified to the [EOS.IO Developer Telegram Group](https://t.me/joinchat/EaEnSUPktgfoI-XPfMYtcQ)
-
-## EOS.IO
+## Enumivo
  - [Additional resources - Github Readme](https://github.com/enumivo/enumivo#readme)
 
 ## Smart Contract Developers

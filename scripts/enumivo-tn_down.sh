@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # enumivo-tn_down.sh is used by the enumivo-tn_bounce.sh and enumivo-tn_roll.sh scripts.
-# It is intended to terminate specific EOS.IO daemon processes.
+# It is intended to terminate specific Enumivo daemon processes.
 #
 
 
