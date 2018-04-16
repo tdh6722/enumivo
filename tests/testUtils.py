@@ -691,7 +691,7 @@ class Node(object):
 
             account=self.getEosAccountFromDb(name)
             if account is not None:
-                field=account["eos_balance"]
+                field=account["enu_balance"]
                 balanceStr=field.split()[0]
                 balance=int(float(balanceStr)*10000)
                 return balance

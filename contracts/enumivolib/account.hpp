@@ -28,7 +28,7 @@ namespace enumivo { namespace account {
 *  test1_balance.account = N(test1);
 *  if (account_api::get(test1_balance))
 *  {
-*     enumivo::print("test1 balance=", test1_balance.eos_balance, "\n");
+*     enumivo::print("test1 balance=", test1_balance.enu_balance, "\n");
 *  }
 *  @endcode
 *  @{
@@ -44,7 +44,7 @@ struct PACKED(account_balance) {
   * @brief Balance for this account
   * @details Balance for this account
   */
-  asset eos_balance;
+  asset enu_balance;
 
   /**
   * @brief Staked balance for this account

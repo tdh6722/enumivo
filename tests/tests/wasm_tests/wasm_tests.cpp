@@ -36,7 +36,7 @@ BOOST_FIXTURE_TEST_CASE(rate_limit_single_authority_test, testing_fixture)
          enumivo::chain::signed_transaction txn;
          txn.scope = {"currency"};
          txn.messages.resize(1);
-         txn.messages[0].code = config::eos_contract_name;
+         txn.messages[0].code = config::enu_contract_name;
          txn.messages[0].authorization.emplace_back(types::account_permission{"currency","active"});
          transaction_set_message(txn, 0, "setcode", handler);
          txn.expiration = chain.head_block_time() + 100;
@@ -173,7 +173,7 @@ BOOST_FIXTURE_TEST_CASE(rate_limit_multi_authority_test, testing_fixture)
       enumivo::chain::signed_transaction txn;
       txn.scope = {"currency"};
       txn.messages.resize(1);
-      txn.messages[0].code = config::eos_contract_name;
+      txn.messages[0].code = config::enu_contract_name;
       txn.messages[0].authorization.emplace_back(types::account_permission{"currency","active"});
       transaction_set_message(txn, 0, "setcode", handler);
       txn.expiration = chain.head_block_time() + 100;
@@ -188,7 +188,7 @@ BOOST_FIXTURE_TEST_CASE(rate_limit_multi_authority_test, testing_fixture)
       enumivo::chain::signed_transaction txn;
       txn.scope = {"test1"};
       txn.messages.resize(1);
-      txn.messages[0].code = config::eos_contract_name;
+      txn.messages[0].code = config::enu_contract_name;
       txn.messages[0].authorization.emplace_back(types::account_permission{"test1","active"});
       transaction_set_message(txn, 0, "setcode", handler2);
       txn.expiration = chain.head_block_time() + 100;
@@ -204,7 +204,7 @@ BOOST_FIXTURE_TEST_CASE(rate_limit_multi_authority_test, testing_fixture)
       enumivo::chain::signed_transaction txn;
       txn.scope = {"test5"};
       txn.messages.resize(1);
-      txn.messages[0].code = config::eos_contract_name;
+      txn.messages[0].code = config::enu_contract_name;
       txn.messages[0].authorization.emplace_back(types::account_permission{"test5","active"});
       transaction_set_message(txn, 0, "setcode", handler2);
       txn.expiration = chain.head_block_time() + 100;

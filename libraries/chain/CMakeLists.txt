@@ -35,7 +35,7 @@ add_library( enumivo_chain
              ${HEADERS}
              transaction_metadata.cpp)
 
-target_link_libraries( enumivo_chain eos_utilities fc chainbase Logging IR WAST WASM Runtime
+target_link_libraries( enumivo_chain enu_utilities fc chainbase Logging IR WAST WASM Runtime
       wasm asmjs passes cfg ast emscripten-optimizer support softfloat 
                      )
 target_include_directories( enumivo_chain

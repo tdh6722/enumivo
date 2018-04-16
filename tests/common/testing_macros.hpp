@@ -300,10 +300,10 @@
 { \
    enumivo::chain::signed_transaction trx; \
    if (std::string(#stakeholder) != std::string(#proxy)) \
-      transaction_emplace_message(trx, config::eos_contract_name, \
+      transaction_emplace_message(trx, config::enu_contract_name, \
                          vector<types::account_permission>{ {#stakeholder,"active"} }, "setproxy", types::setproxy{#stakeholder, #proxy}); \
    else \
-      transaction_emplace_message(trx, config::eos_contract_name, \
+      transaction_emplace_message(trx, config::enu_contract_name, \
                          vector<types::account_permission>{ {#stakeholder,"active"} }, "setproxy", types::setproxy{#stakeholder, #proxy}); \
    trx.expiration = chain.head_block_time() + 100; \
    transaction_set_reference_block(trx, chain.head_block_id()); \

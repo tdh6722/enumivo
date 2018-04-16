@@ -34,15 +34,15 @@ namespace enumivosystem {
             uint64_t             total_storage_bytes_reserved = 0;
             system_token_type    total_storage_stake;
             system_token_type    payment_per_block = system_token_type();
-            system_token_type    payment_to_eos_bucket = system_token_type();
+            system_token_type    payment_to_enu_bucket = system_token_type();
             time                 first_block_time_in_cycle = 0;
             uint32_t             blocks_per_cycle = 0;
             time                 last_bucket_fill_time = 0;
-            system_token_type    eos_bucket = system_token_type();
+            system_token_type    enu_bucket = system_token_type();
 
             ENULIB_SERIALIZE_DERIVED( enumivo_global_state, enumivo_parameters, (total_storage_bytes_reserved)(total_storage_stake)
-                                      (payment_per_block)(payment_to_eos_bucket)(first_block_time_in_cycle)(blocks_per_cycle)
-                                      (last_bucket_fill_time)(eos_bucket) )
+                                      (payment_per_block)(payment_to_enu_bucket)(first_block_time_in_cycle)(blocks_per_cycle)
+                                      (last_bucket_fill_time)(enu_bucket) )
          };
 
          typedef enumivo::singleton<SystemAccount, N(inflation), SystemAccount, enumivo_global_state> global_state_singleton;

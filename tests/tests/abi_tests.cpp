@@ -45,7 +45,7 @@ fc::variant verify_byte_round_trip_conversion( const abi_serializer& abis, const
 auto get_resolver(const contracts::abi_def& abi = contracts::abi_def())
 {
    return [&abi](const account_name &name) -> optional<contracts::abi_serializer> {
-      return abi_serializer(chain_initializer::eos_contract_abi(abi));
+      return abi_serializer(chain_initializer::enu_contract_abi(abi));
    };
 }
 
@@ -364,7 +364,7 @@ BOOST_AUTO_TEST_CASE(uint_types)
 
    auto abi = fc::json::from_string(currency_abi).as<abi_def>();
 
-   abi_serializer abis(chain_initializer::eos_contract_abi(abi));
+   abi_serializer abis(chain_initializer::enu_contract_abi(abi));
    abis.validate();
 
    const char* test_data = R"=====(
@@ -419,7 +419,7 @@ struct abi_gen_helper {
     );
     FC_ASSERT(res == true);
 
-    abi_serializer(chain_initializer::eos_contract_abi(output)).validate();
+    abi_serializer(chain_initializer::enu_contract_abi(output)).validate();
 
     auto abi1 = fc::json::from_string(abi).as<abi_def>();
 
@@ -1785,7 +1785,7 @@ BOOST_FIXTURE_TEST_CASE(abgigen_contract_inheritance, abi_gen_helper)
 BOOST_AUTO_TEST_CASE(general)
 { try {
 
-   auto abi = chain_initializer::eos_contract_abi(fc::json::from_string(my_abi).as<abi_def>());
+   auto abi = chain_initializer::enu_contract_abi(fc::json::from_string(my_abi).as<abi_def>());
 
    abi_serializer abis(abi);
    abis.validate();
@@ -2021,7 +2021,7 @@ BOOST_AUTO_TEST_CASE(abi_cycle)
    }
    )=====";
 
-   auto abi = chain_initializer::eos_contract_abi(fc::json::from_string(typedef_cycle_abi).as<abi_def>());
+   auto abi = chain_initializer::enu_contract_abi(fc::json::from_string(typedef_cycle_abi).as<abi_def>());
    abi_serializer abis(abi);
 
    auto is_assert_exception = [](fc::assert_exception const & e) -> bool {
@@ -2038,7 +2038,7 @@ BOOST_AUTO_TEST_CASE(abi_cycle)
 BOOST_AUTO_TEST_CASE(linkauth)
 { try {
 
-   abi_serializer abis(chain_initializer::eos_contract_abi(abi_def()));
+   abi_serializer abis(chain_initializer::enu_contract_abi(abi_def()));
 
    BOOST_CHECK(true);
    const char* test_data = R"=====(
@@ -2072,7 +2072,7 @@ BOOST_AUTO_TEST_CASE(linkauth)
 BOOST_AUTO_TEST_CASE(unlinkauth)
 { try {
 
-   abi_serializer abis(chain_initializer::eos_contract_abi(abi_def()));
+   abi_serializer abis(chain_initializer::enu_contract_abi(abi_def()));
 
    BOOST_CHECK(true);
    const char* test_data = R"=====(
@@ -2103,7 +2103,7 @@ BOOST_AUTO_TEST_CASE(unlinkauth)
 BOOST_AUTO_TEST_CASE(updateauth)
 { try {
 
-   abi_serializer abis(chain_initializer::eos_contract_abi(abi_def()));
+   abi_serializer abis(chain_initializer::enu_contract_abi(abi_def()));
 
    BOOST_CHECK(true);
    const char* test_data = R"=====(
@@ -2173,7 +2173,7 @@ BOOST_AUTO_TEST_CASE(updateauth)
 BOOST_AUTO_TEST_CASE(deleteauth)
 { try {
 
-   abi_serializer abis(chain_initializer::eos_contract_abi(abi_def()));
+   abi_serializer abis(chain_initializer::enu_contract_abi(abi_def()));
 
    BOOST_CHECK(true);
    const char* test_data = R"=====(
@@ -2201,7 +2201,7 @@ BOOST_AUTO_TEST_CASE(deleteauth)
 BOOST_AUTO_TEST_CASE(newaccount)
 { try {
 
-   abi_serializer abis(chain_initializer::eos_contract_abi(abi_def()));
+   abi_serializer abis(chain_initializer::enu_contract_abi(abi_def()));
 
    BOOST_CHECK(true);
    const char* test_data = R"=====(
@@ -2347,7 +2347,7 @@ BOOST_AUTO_TEST_CASE(newaccount)
 BOOST_AUTO_TEST_CASE(setcode)
 { try {
 
-   abi_serializer abis(chain_initializer::eos_contract_abi(abi_def()));
+   abi_serializer abis(chain_initializer::enu_contract_abi(abi_def()));
 
    const char* test_data = R"=====(
    {
@@ -2380,7 +2380,7 @@ BOOST_AUTO_TEST_CASE(setcode)
 BOOST_AUTO_TEST_CASE(setabi)
 { try {
 
-   abi_serializer abis(chain_initializer::eos_contract_abi(abi_def()));
+   abi_serializer abis(chain_initializer::enu_contract_abi(abi_def()));
 
    const char* test_data = R"=====(
    {
@@ -2547,7 +2547,7 @@ BOOST_AUTO_TEST_CASE(setabi)
 BOOST_AUTO_TEST_CASE(postrecovery)
 { try {
 
-   abi_serializer abis(chain_initializer::eos_contract_abi(abi_def()));
+   abi_serializer abis(chain_initializer::enu_contract_abi(abi_def()));
 
    const char* test_data = R"=====(
    {
@@ -2599,7 +2599,7 @@ BOOST_AUTO_TEST_CASE(postrecovery)
 BOOST_AUTO_TEST_CASE(passrecovery)
 { try {
 
-   abi_serializer abis(chain_initializer::eos_contract_abi(abi_def()));
+   abi_serializer abis(chain_initializer::enu_contract_abi(abi_def()));
 
    const char* test_data = R"=====(
    {
@@ -2623,7 +2623,7 @@ BOOST_AUTO_TEST_CASE(passrecovery)
 BOOST_AUTO_TEST_CASE(vetorecovery)
 { try {
 
-   abi_serializer abis(chain_initializer::eos_contract_abi(abi_def()));
+   abi_serializer abis(chain_initializer::enu_contract_abi(abi_def()));
 
    const char* test_data = R"=====(
    {
@@ -2883,7 +2883,7 @@ BOOST_AUTO_TEST_CASE(abi_type_repeat)
    }
    )=====";
 
-   auto abi = chain_initializer::eos_contract_abi(fc::json::from_string(repeat_abi).as<abi_def>());
+   auto abi = chain_initializer::enu_contract_abi(fc::json::from_string(repeat_abi).as<abi_def>());
    auto is_table_exception = [](fc::assert_exception const & e) -> bool { return e.to_detail_string().find("types.size") != std::string::npos; };
    BOOST_CHECK_EXCEPTION( abi_serializer abis(abi), fc::assert_exception, is_table_exception );
 } FC_LOG_AND_RETHROW() }
@@ -2940,7 +2940,7 @@ BOOST_AUTO_TEST_CASE(abi_struct_repeat)
    }
    )=====";
 
-   auto abi = chain_initializer::eos_contract_abi(fc::json::from_string(repeat_abi).as<abi_def>());
+   auto abi = chain_initializer::enu_contract_abi(fc::json::from_string(repeat_abi).as<abi_def>());
    auto is_table_exception = [](fc::assert_exception const & e) -> bool { return e.to_detail_string().find("structs.size") != std::string::npos; };
    BOOST_CHECK_EXCEPTION( abi_serializer abis(abi), fc::assert_exception, is_table_exception );
 } FC_LOG_AND_RETHROW() }
@@ -3000,7 +3000,7 @@ BOOST_AUTO_TEST_CASE(abi_action_repeat)
    }
    )=====";
 
-   auto abi = chain_initializer::eos_contract_abi(fc::json::from_string(repeat_abi).as<abi_def>());
+   auto abi = chain_initializer::enu_contract_abi(fc::json::from_string(repeat_abi).as<abi_def>());
    auto is_table_exception = [](fc::assert_exception const & e) -> bool { return e.to_detail_string().find("actions.size") != std::string::npos; };
    BOOST_CHECK_EXCEPTION( abi_serializer abis(abi), fc::assert_exception, is_table_exception );
 } FC_LOG_AND_RETHROW() }
@@ -3063,7 +3063,7 @@ BOOST_AUTO_TEST_CASE(abi_table_repeat)
    }
    )=====";
 
-   auto abi = chain_initializer::eos_contract_abi(fc::json::from_string(repeat_abi).as<abi_def>());
+   auto abi = chain_initializer::enu_contract_abi(fc::json::from_string(repeat_abi).as<abi_def>());
    auto is_table_exception = [](fc::assert_exception const & e) -> bool { return e.to_detail_string().find("tables.size") != std::string::npos; };
    BOOST_CHECK_EXCEPTION( abi_serializer abis(abi), fc::assert_exception, is_table_exception );
 } FC_LOG_AND_RETHROW() }

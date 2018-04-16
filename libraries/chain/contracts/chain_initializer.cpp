@@ -49,39 +49,39 @@ void chain_initializer::register_types(chain_controller& chain, chainbase::datab
 }
 
 
-abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
+abi_def chain_initializer::enu_contract_abi(const abi_def& enumivo_system_abi)
 {
-   abi_def eos_abi(enumivo_system_abi);
-   eos_abi.types.push_back( type_def{"account_name","name"} );
-   eos_abi.types.push_back( type_def{"table_name","name"} );
-   eos_abi.types.push_back( type_def{"share_type","int64"} );
-   eos_abi.types.push_back( type_def{"onerror","bytes"} );
-   eos_abi.types.push_back( type_def{"context_free_type","bytes"} );
-   eos_abi.types.push_back( type_def{"weight_type","uint16"} );
-   eos_abi.types.push_back( type_def{"fields","field[]"} );
-   eos_abi.types.push_back( type_def{"time_point_sec","time"} );
+   abi_def enu_abi(enumivo_system_abi);
+   enu_abi.types.push_back( type_def{"account_name","name"} );
+   enu_abi.types.push_back( type_def{"table_name","name"} );
+   enu_abi.types.push_back( type_def{"share_type","int64"} );
+   enu_abi.types.push_back( type_def{"onerror","bytes"} );
+   enu_abi.types.push_back( type_def{"context_free_type","bytes"} );
+   enu_abi.types.push_back( type_def{"weight_type","uint16"} );
+   enu_abi.types.push_back( type_def{"fields","field[]"} );
+   enu_abi.types.push_back( type_def{"time_point_sec","time"} );
 
    // TODO add ricardian contracts
-   eos_abi.actions.push_back( action_def{name("setcode"), "setcode",""} );
-   eos_abi.actions.push_back( action_def{name("setabi"), "setabi",""} );
-   eos_abi.actions.push_back( action_def{name("linkauth"), "linkauth",""} );
-   eos_abi.actions.push_back( action_def{name("unlinkauth"), "unlinkauth",""} );
-   eos_abi.actions.push_back( action_def{name("updateauth"), "updateauth",""} );
-   eos_abi.actions.push_back( action_def{name("deleteauth"), "deleteauth",""} );
-   eos_abi.actions.push_back( action_def{name("newaccount"), "newaccount",""} );
-   eos_abi.actions.push_back( action_def{name("postrecovery"), "postrecovery",""} );
-   eos_abi.actions.push_back( action_def{name("passrecovery"), "passrecovery",""} );
-   eos_abi.actions.push_back( action_def{name("vetorecovery"), "vetorecovery",""} );
-   eos_abi.actions.push_back( action_def{name("onerror"), "onerror",""} );
-   eos_abi.actions.push_back( action_def{name("onblock"), "onblock",""} );
-   eos_abi.actions.push_back( action_def{name("canceldelay"), "canceldelay",""} );
+   enu_abi.actions.push_back( action_def{name("setcode"), "setcode",""} );
+   enu_abi.actions.push_back( action_def{name("setabi"), "setabi",""} );
+   enu_abi.actions.push_back( action_def{name("linkauth"), "linkauth",""} );
+   enu_abi.actions.push_back( action_def{name("unlinkauth"), "unlinkauth",""} );
+   enu_abi.actions.push_back( action_def{name("updateauth"), "updateauth",""} );
+   enu_abi.actions.push_back( action_def{name("deleteauth"), "deleteauth",""} );
+   enu_abi.actions.push_back( action_def{name("newaccount"), "newaccount",""} );
+   enu_abi.actions.push_back( action_def{name("postrecovery"), "postrecovery",""} );
+   enu_abi.actions.push_back( action_def{name("passrecovery"), "passrecovery",""} );
+   enu_abi.actions.push_back( action_def{name("vetorecovery"), "vetorecovery",""} );
+   enu_abi.actions.push_back( action_def{name("onerror"), "onerror",""} );
+   enu_abi.actions.push_back( action_def{name("onblock"), "onblock",""} );
+   enu_abi.actions.push_back( action_def{name("canceldelay"), "canceldelay",""} );
    
    // TODO add any ricardian_clauses 
    //
    // ACTION PAYLOADS
 
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "setcode", "", {
          {"account", "account_name"},
          {"vmtype", "uint8"},
@@ -90,14 +90,14 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "setabi", "", {
          {"account", "account_name"},
          {"abi", "abi_def"}
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "updateauth", "", {
          {"account", "account_name"},
          {"permission", "permission_name"},
@@ -107,7 +107,7 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "linkauth", "", {
          {"account", "account_name"},
          {"code", "account_name"},
@@ -116,7 +116,7 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "unlinkauth", "", {
          {"account", "account_name"},
          {"code", "account_name"},
@@ -124,14 +124,14 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "deleteauth", "", {
          {"account", "account_name"},
          {"permission", "permission_name"},
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "newaccount", "", {
          {"creator", "account_name"},
          {"name", "account_name"},
@@ -141,7 +141,7 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "postrecovery", "", {
          {"account", "account_name"},
          {"data", "authority"},
@@ -149,19 +149,19 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "passrecovery", "", {
          {"account", "account_name"},
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "vetorecovery", "", {
          {"account", "account_name"},
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "canceldelay", "", {
          {"trx_id", "transaction_id_type"},
       }
@@ -169,7 +169,7 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
 
    // DATABASE RECORDS
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "pending_recovery", "", {
          {"account",    "name"},
          {"request_id", "uint128"},
@@ -178,7 +178,7 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
       }
    });
 
-   eos_abi.tables.emplace_back( table_def {
+   enu_abi.tables.emplace_back( table_def {
       "recovery", "i64", {
          "account",
       }, {
@@ -189,14 +189,14 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
 
    // abi_def fields
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "field", "", {
          {"name", "field_name"},
          {"type", "type_name"}
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "struct_def", "", {
          {"name", "type_name"},
          {"base", "type_name"},
@@ -204,14 +204,14 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "permission_level", "", {
          {"actor", "account_name"},
          {"permission", "permission_name"}
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "action", "", {
          {"account", "account_name"},
          {"name", "action_name"},
@@ -220,14 +220,14 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "permission_level_weight", "", {
          {"permission", "permission_level"},
          {"weight", "weight_type"}
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "transaction_header", "", {
          {"expiration", "time_point_sec"},
          {"region", "uint16"},
@@ -239,48 +239,48 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "transaction", "transaction_header", {
          {"context_free_actions", "action[]"},
          {"actions", "action[]"}
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "signed_transaction", "transaction", {
          {"signatures", "signature[]"},
          {"context_free_data", "bytes[]"}
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "key_weight", "", {
          {"key", "public_key"},
          {"weight", "weight_type"}
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "authority", "", {
          {"threshold", "uint32"},
          {"keys", "key_weight[]"},
          {"accounts", "permission_level_weight[]"}
       }
    });
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
          "clause_pair", "", {
             {"id", "string"},
             {"body", "string"} 
          }
    });
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "type_def", "", {
          {"new_type_name", "type_name"},
          {"type", "type_name"}
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "action_def", "", {
          {"name", "action_name"},
          {"type", "type_name"},
@@ -288,7 +288,7 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "table_def", "", {
          {"name", "table_name"},
          {"index_type", "type_name"},
@@ -298,7 +298,7 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "abi_def", "", {
          {"types", "type_def[]"},
          {"structs", "struct_def[]"},
@@ -308,7 +308,7 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
       "block_header", "", {
          {"previous", "checksum256"},
          {"timestamp", "uint32"},
@@ -321,13 +321,13 @@ abi_def chain_initializer::eos_contract_abi(const abi_def& enumivo_system_abi)
       }
    });
 
-   eos_abi.structs.emplace_back( struct_def {
+   enu_abi.structs.emplace_back( struct_def {
          "onblock", "", {
             {"header", "block_header"}
       }
    });
 
-   return eos_abi;
+   return enu_abi;
 }
 
 void chain_initializer::prepare_database( chain_controller& chain,
@@ -344,7 +344,7 @@ void chain_initializer::prepare_database( chain_controller& chain,
          a.privileged = true;
 
          if( name == config::system_account_name ) {
-            a.set_abi(eos_contract_abi(abi_def()));
+            a.set_abi(enu_contract_abi(abi_def()));
          }
       });
       const auto& owner = db.create<permission_object>([&](permission_object& p) {

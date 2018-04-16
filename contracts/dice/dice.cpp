@@ -15,7 +15,7 @@
 
 #include <enumivo.system/enumivo.system.hpp>
 
-using eos_currency = enumivosystem::contract<N(enumivo)>::currency;
+using enu_currency = enumivosystem::contract<N(enumivo)>::currency;
 
 using enumivo::key256;
 using enumivo::indexed_by;
@@ -37,7 +37,7 @@ class dice : public enumivo::contract {
       //@abi action
       void offerbet(const asset& bet, const account_name player, const checksum256& commitment) {
 
-         auto amount = eos_currency::token_type(bet);
+         auto amount = enu_currency::token_type(bet);
 
          eosio_assert( amount.quantity > 0, "invalid bet" );
          eosio_assert( !has_offer( commitment ), "offer with this commitment already exist" );
@@ -65,7 +65,7 @@ class dice : public enumivo::contract {
 
             // No matching bet found, update player's account
             accounts.modify( cur_player_itr, 0, [&](auto& acnt) {
-               acnt.eos_balance = (asset)(eos_currency::token_type(acnt.eos_balance) - amount);
+               acnt.enu_balance = (asset)(enu_currency::token_type(acnt.enu_balance) - amount);
                acnt.open_offers++;
             });
 
@@ -114,7 +114,7 @@ class dice : public enumivo::contract {
             });
 
             accounts.modify( cur_player_itr, 0, [&](auto& acnt) {
-               acnt.eos_balance = (asset)(eos_currency::token_type(acnt.eos_balance) - amount);
+               acnt.enu_balance = (asset)(enu_currency::token_type(acnt.enu_balance) - amount);
                acnt.open_games++;
             });
          }
@@ -133,7 +133,7 @@ class dice : public enumivo::contract {
          auto acnt_itr = accounts.find(offer_itr->owner);
          accounts.modify(acnt_itr, 0, [&](auto& acnt){
             acnt.open_offers--;
-            acnt.eos_balance.amount += offer_itr->bet.amount;
+            acnt.enu_balance.amount += offer_itr->bet.amount;
          });
 
          idx.erase(offer_itr);
@@ -221,11 +221,11 @@ class dice : public enumivo::contract {
             });
          }
 
-         auto amount = eos_currency::token_type(a);
+         auto amount = enu_currency::token_type(a);
 
-         eos_currency::inline_transfer( from, _self, amount );
+         enu_currency::inline_transfer( from, _self, amount );
          accounts.modify( itr, 0, [&]( auto& acnt ) {
-            acnt.eos_balance = (asset)(eos_currency::token_type(acnt.eos_balance) + amount);
+            acnt.enu_balance = (asset)(enu_currency::token_type(acnt.enu_balance) + amount);
          });
       }
 
@@ -236,12 +236,12 @@ class dice : public enumivo::contract {
          auto itr = accounts.find( to );
          eosio_assert(itr != accounts.end(), "unknown account");
 
-         auto amount = eos_currency::token_type(a);
+         auto amount = enu_currency::token_type(a);
          accounts.modify( itr, 0, [&]( auto& acnt ) {
-            acnt.eos_balance = (asset)(eos_currency::token_type(acnt.eos_balance) - amount);
+            acnt.enu_balance = (asset)(enu_currency::token_type(acnt.enu_balance) - amount);
          });
 
-         eos_currency::inline_transfer( _self, to, amount );
+         enu_currency::inline_transfer( _self, to, amount );
 
          if( itr->is_empty() ) {
             accounts.erase(itr);
@@ -315,15 +315,15 @@ class dice : public enumivo::contract {
          account( account_name o = account_name() ):owner(o){}
 
          account_name owner;
-         asset        eos_balance;
+         asset        enu_balance;
          uint32_t     open_offers = 0;
          uint32_t     open_games = 0;
 
-         bool is_empty()const { return !( eos_balance.amount | open_offers | open_games ); }
+         bool is_empty()const { return !( enu_balance.amount | open_offers | open_games ); }
 
          uint64_t primary_key()const { return owner; }
 
-         ENULIB_SERIALIZE( account, (owner)(eos_balance)(open_offers)(open_games) )
+         ENULIB_SERIALIZE( account, (owner)(enu_balance)(open_offers)(open_games) )
       };
 
       typedef enumivo::multi_index< N(account), account> account_index;
@@ -354,7 +354,7 @@ class dice : public enumivo::contract {
          // Update winner account balance and game count
          auto winner_account = accounts.find(winner_offer.owner);
          accounts.modify( winner_account, 0, [&]( auto& acnt ) {
-            acnt.eos_balance.amount += 2*g.bet.amount;
+            acnt.enu_balance.amount += 2*g.bet.amount;
             acnt.open_games--;
          });
 

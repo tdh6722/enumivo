@@ -155,7 +155,7 @@ void apply_enumivo_setabi(apply_context& context) {
 
    // if system account append native abi
    if ( act.account == enumivo::chain::config::system_account_name ) {
-      act.abi = chain_initializer::eos_contract_abi(act.abi);
+      act.abi = chain_initializer::enu_contract_abi(act.abi);
    }
    /// if an ABI is specified make sure it is well formed and doesn't
    /// reference any undefined types
@@ -389,7 +389,7 @@ void apply_enumivo_onerror(apply_context& context) {
 static const abi_serializer& get_abi_serializer() {
    static optional<abi_serializer> _abi_serializer;
    if (!_abi_serializer) {
-      _abi_serializer.emplace(chain_initializer::eos_contract_abi(abi_def()));
+      _abi_serializer.emplace(chain_initializer::enu_contract_abi(abi_def()));
    }
 
    return *_abi_serializer;

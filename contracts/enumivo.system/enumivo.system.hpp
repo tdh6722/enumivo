@@ -97,9 +97,9 @@ namespace enumivosystem {
             }
 
             const uint32_t num_of_payments = ob.header.timestamp - parameters.last_bucket_fill_time;
-            const system_token_type to_eos_bucket = num_of_payments * parameters.payment_to_eos_bucket;
+            const system_token_type to_enu_bucket = num_of_payments * parameters.payment_to_enu_bucket;
             parameters.last_bucket_fill_time = ob.header.timestamp;
-            parameters.eos_bucket += to_eos_bucket;
+            parameters.enu_bucket += to_enu_bucket;
             global_state_singleton::set(parameters);
          }
 
@@ -144,9 +144,9 @@ namespace enumivosystem {
             if (is_among_payed_producers && total_producer_votes > 0) {
                if( global_state_singleton::exists() ) {
                   auto parameters = global_state_singleton::get();
-                  auto share_of_eos_bucket = system_token_type( static_cast<uint64_t>( (prod->total_votes * parameters.eos_bucket.quantity) / total_producer_votes ) ); // This will be improved in the future when total_votes becomes a double type.
-                  rewards += share_of_eos_bucket;
-                  parameters.eos_bucket -= share_of_eos_bucket;
+                  auto share_of_enu_bucket = system_token_type( static_cast<uint64_t>( (prod->total_votes * parameters.enu_bucket.quantity) / total_producer_votes ) ); // This will be improved in the future when total_votes becomes a double type.
+                  rewards += share_of_enu_bucket;
+                  parameters.enu_bucket -= share_of_enu_bucket;
                   global_state_singleton::set(parameters);
                }
             }
