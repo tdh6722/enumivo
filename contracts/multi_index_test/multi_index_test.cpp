@@ -159,7 +159,7 @@ struct limit_order {
                }
                break;
                default:
-                  enu_assert(0, "Given what code is not supported.");
+                  eosio_assert(0, "Given what code is not supported.");
                break;
             }
          }
@@ -172,7 +172,7 @@ namespace multi_index_test {
       /// The apply method implements the dispatch of events to this contract
       void apply( uint64_t receiver, uint64_t code, uint64_t action ) {
          require_auth(code);
-         enu_assert(enumivo::dispatch<multi_index_test, multi_index_test::trigger>(code, action),
+         eosio_assert(enumivo::dispatch<multi_index_test, multi_index_test::trigger>(code, action),
                       "Could not dispatch");
       }
    }

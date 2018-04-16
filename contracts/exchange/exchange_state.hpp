@@ -39,8 +39,8 @@ namespace enumivo {
          total_lendable.amount -= result.amount;
          interest_shares -= ishares;
 
-         enu_assert( interest_shares >= 0, "underflow" );
-         enu_assert( total_lendable.amount >= 0, "underflow" );
+         eosio_assert( interest_shares >= 0, "underflow" );
+         eosio_assert( total_lendable.amount >= 0, "underflow" );
 
          return result;
       }

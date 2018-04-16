@@ -40,7 +40,7 @@ namespace enumivo {
    T current_action_data() {
       T value;
       auto read = read_action_data( &value, sizeof(value) );
-      enu_assert( read >= sizeof(value), "action shorter than expected" );
+      eosio_assert( read >= sizeof(value), "action shorter than expected" );
       return value;
    }
 
@@ -160,7 +160,7 @@ namespace enumivo {
       }
 
       void send_context_free() const {
-         enu_assert( authorization.size() == 0, "context free actions cannot have authorizations");
+         eosio_assert( authorization.size() == 0, "context free actions cannot have authorizations");
          auto serialize = pack(*this);
          ::send_context_free_inline(serialize.data(), serialize.size());
       }
@@ -172,8 +172,8 @@ namespace enumivo {
        */
       template<typename T>
       T data_as() {
-         enu_assert( name == T::get_name(), "Invalid name" );
-         enu_assert( account == T::get_account(), "Invalid account" );
+         eosio_assert( name == T::get_name(), "Invalid name" );
+         eosio_assert( account == T::get_account(), "Invalid account" );
          return unpack<T>( &data[0], data.size() );
       }
 

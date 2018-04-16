@@ -474,7 +474,7 @@ BOOST_FIXTURE_TEST_CASE(cpu_usage_tests, tester ) try {
    std::string code = R"=====(
 (module
   (import "env" "require_auth" (func $require_auth (param i64)))
-  (import "env" "enu_assert" (func $enu_assert (param i32 i32)))
+  (import "env" "eosio_assert" (func $eosio_assert (param i32 i32)))
    (table 0 anyfunc)
    (memory $0 1)
    (export "apply" (func $apply))
@@ -1281,7 +1281,7 @@ BOOST_FIXTURE_TEST_CASE( trigger_serialization_errors, TESTER) try {
    produce_block();
 
    set_code(N(bbb), proper_wasm);
-   #warning BOOST_CHECK_THROW(set_code(N(bbb), malformed_wasm), wasm_serialization_error);
+   BOOST_CHECK_THROW(set_code(N(bbb), malformed_wasm), wasm_serialization_error);
    produce_blocks(1);
 } FC_LOG_AND_RETHROW()
 
@@ -1304,7 +1304,7 @@ BOOST_FIXTURE_TEST_CASE(net_usage_tests, tester ) try {
       std::string code = R"=====(
    (module
    (import "env" "require_auth" (func $require_auth (param i64)))
-   (import "env" "enu_assert" (func $enu_assert (param i32 i32)))
+   (import "env" "eosio_assert" (func $eosio_assert (param i32 i32)))
       (table 0 anyfunc)
       (memory $0 1)
       (export "apply" (func $apply))

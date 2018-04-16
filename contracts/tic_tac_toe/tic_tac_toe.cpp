@@ -90,12 +90,12 @@ struct impl {
     */
    void on(const create& c) {
       require_auth(c.host);
-      enu_assert(c.challenger != c.host, "challenger shouldn't be the same as host");
+      eosio_assert(c.challenger != c.host, "challenger shouldn't be the same as host");
 
       // Check if game already exists
       games existing_host_games(code_account, c.host);
       auto itr = existing_host_games.find( c.challenger );
-      enu_assert(itr == existing_host_games.end(), "game already exists");
+      eosio_assert(itr == existing_host_games.end(), "game already exists");
 
       existing_host_games.emplace(c.host, [&]( auto& g ) {
          g.challenger = c.challenger;
@@ -114,10 +114,10 @@ struct impl {
       // Check if game exists
       games existing_host_games(code_account, r.host);
       auto itr = existing_host_games.find( r.challenger );
-      enu_assert(itr != existing_host_games.end(), "game doesn't exists");
+      eosio_assert(itr != existing_host_games.end(), "game doesn't exists");
 
       // Check if this game belongs to the action sender
-      enu_assert(r.by == itr->host || r.by == itr->challenger, "this is not your game!");
+      eosio_assert(r.by == itr->host || r.by == itr->challenger, "this is not your game!");
 
       // Reset game
       existing_host_games.modify(itr, itr->host, []( auto& g ) {
@@ -135,7 +135,7 @@ struct impl {
       // Check if game exists
       games existing_host_games(code_account, c.host);
       auto itr = existing_host_games.find( c.challenger );
-      enu_assert(itr != existing_host_games.end(), "game doesn't exists");
+      eosio_assert(itr != existing_host_games.end(), "game doesn't exists");
 
       // Remove game
       existing_host_games.erase(itr);
@@ -151,18 +151,18 @@ struct impl {
       // Check if game exists
       games existing_host_games(code_account, m.host);
       auto itr = existing_host_games.find( m.challenger );
-      enu_assert(itr != existing_host_games.end(), "game doesn't exists");
+      eosio_assert(itr != existing_host_games.end(), "game doesn't exists");
 
       // Check if this game hasn't ended yet
-      enu_assert(itr->winner == N(none), "the game has ended!");
+      eosio_assert(itr->winner == N(none), "the game has ended!");
       // Check if this game belongs to the action sender
-      enu_assert(m.by == itr->host || m.by == itr->challenger, "this is not your game!");
+      eosio_assert(m.by == itr->host || m.by == itr->challenger, "this is not your game!");
       // Check if this is the  action sender's turn
-      enu_assert(m.by == itr->turn, "it's not your turn yet!");
+      eosio_assert(m.by == itr->turn, "it's not your turn yet!");
 
 
       // Check if user makes a valid movement
-      enu_assert(is_valid_movement(m.mvt, *itr), "not a valid movement!");
+      eosio_assert(is_valid_movement(m.mvt, *itr), "not a valid movement!");
 
       // Fill the cell, 1 for host, 2 for challenger
       const auto cell_value = itr->turn == itr->host ? 1 : 2;
