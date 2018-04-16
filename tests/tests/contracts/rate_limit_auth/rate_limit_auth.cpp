@@ -1,6 +1,6 @@
 /**
  *  @file
- *  @copyright defined in eos/LICENSE.txt
+ *  @copyright defined in enumivo/LICENSE.txt
  */
 #include <enumivolib/message.h>
 #include <enumivolib/types.hpp>

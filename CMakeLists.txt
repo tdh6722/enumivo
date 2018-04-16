@@ -1,7 +1,7 @@
 cmake_minimum_required( VERSION 3.5 )
 
-# Defines EOS library target.
-project( EOS )
+# Defines Enumivo library target.
+project( Enumivo )
 
 enable_testing()
 

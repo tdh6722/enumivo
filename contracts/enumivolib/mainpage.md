@@ -9,7 +9,7 @@ Welcome to the Enumivo Documentation
 - @ref contractdev
 	- @ref accountapi - Define API for querying account data
 	- @ref chainapi - Define API for querying internal chain state
-	- @ref database - APIs that store and retreive data on the blockchainEOS.IO organizes data according to the following broad structure
+	- @ref database - APIs that store and retreive data on the blockchain. Enumivo organizes data according to the following broad structure
 	- @ref mathapi - Defines common math function
 	- @ref actionapi - Defines API for querying action properties
 	- @ref memoryapi - Defines common memory functions

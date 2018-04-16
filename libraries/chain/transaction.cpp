@@ -1,6 +1,6 @@
 /**
  *  @file
- *  @copyright defined in eos/LICENSE.txt
+ *  @copyright defined in enumivo/LICENSE.txt
  */
 #include <enumivo/chain/exceptions.hpp>
 #include <fc/io/raw.hpp>

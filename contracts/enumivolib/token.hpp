@@ -1,6 +1,6 @@
 /**
 * @file token.hpp
-* @copyright defined in eos/LICENSE.txt
+* @copyright defined in enumivo/LICENSE.txt
 * @brief Defines types and ABI for standard token messages and database tables
 *
 */

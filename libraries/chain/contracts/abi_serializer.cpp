@@ -1,6 +1,6 @@
 /**
  *  @file
- *  @copyright defined in eos/LICENSE.txt
+ *  @copyright defined in enumivo/LICENSE.txt
  */
 #include <enumivo/chain/contracts/abi_serializer.hpp>
 #include <enumivo/chain/contracts/chain_initializer.hpp>

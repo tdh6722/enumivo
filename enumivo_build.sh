@@ -204,16 +204,7 @@
 	TIME_END=$(( `date -u +%s` - $TIME_BEGIN ))
 
 
-	printf "\n\n${bldred}\t _______  _______  _______ _________ _______\n"
-	printf '\t(  ____ \(  ___  )(  ____ \\\\__   __/(  ___  )\n'
-	printf "\t| (    \/| (   ) || (    \/   ) (   | (   ) |\n"
-	printf "\t| (__    | |   | || (_____    | |   | |   | |\n"
-	printf "\t|  __)   | |   | |(_____  )   | |   | |   | |\n"
-	printf "\t| (      | |   | |      ) |   | |   | |   | |\n"
-	printf "\t| (____/\| (___) |/\____) |___) (___| (___) |\n"
-	printf "\t(_______/(_______)\_______)\_______/(_______)\n${txtrst}"
-
-	printf "\n\tEOS.IO has been successfully built. %d:%d:%d\n\n" $(($TIME_END/3600)) $(($TIME_END%3600/60)) $(($TIME_END%60))
+	printf "\n\tEnumivo has been successfully built. %d:%d:%d\n\n" $(($TIME_END/3600)) $(($TIME_END%3600/60)) $(($TIME_END%60))
 	printf "\tTo verify your installation run the following commands:\n"
 	printf "\n\t$( which mongod ) -f ${MONGOD_CONF} &\n"
 	if [ "$OS_NAME" == "CentOS Linux" ]; then
@@ -224,29 +215,26 @@
 	fi
 	printf "\tcd ${HOME}/eos/build; make test\n\n"
 	printf "\tFor more information:\n"
-	printf "\tEOS.IO website: https://eos.io\n"
-	printf "\tEOS.IO Telegram channel @ https://t.me/EOSProject\n"
-	printf "\tEOS.IO resources: https://eos.io/resources/\n"
-	printf "\tEOS.IO wiki: https://github.com/enumivo/eos/wiki\n\n\n"
+	printf "\tEnumivo website: https://enumivo.org\n"
 				
    if [ "x${ENUMIVO_BUILD_PACKAGE}" != "x" ]; then
-      # Build eos.io package
+      # Build Enumivo package
       $CMAKE -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_CXX_COMPILER=${CXX_COMPILER} \
       -DCMAKE_C_COMPILER=${C_COMPILER} -DWASM_ROOT=${WASM_ROOT} \
       -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} \
       -DCMAKE_INSTALL_PREFIX=/usr ..
 
       if [ $? -ne 0 ]; then
-         printf "\n\t>>>>>>>>>>>>>>>>>>>> CMAKE building eos.io package has exited with the above error.\n\n"
+         printf "\n\t>>>>>>>>>>>>>>>>>>>> CMAKE building Enumivo package has exited with the above error.\n\n"
          exit -1
       fi
 
       make -j${CPU_CORE} VERBOSE=0 package
 
       if [ $? -ne 0 ]; then
-         printf "\n\t>>>>>>>>>>>>>>>>>>>> MAKE building eos.io package has exited with the above error.\n\n"
+         printf "\n\t>>>>>>>>>>>>>>>>>>>> MAKE building Enumivo package has exited with the above error.\n\n"
          exit -1
       fi
 
-      printf "\n\t>>>>>>>>>>>>>>>>>>>> eos.io package has been successfully built.\n\n"
+      printf "\n\t>>>>>>>>>>>>>>>>>>>> Enumivo package has been successfully built.\n\n"
    fi
