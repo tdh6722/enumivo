@@ -112,16 +112,16 @@ namespace enumivosystem {
          };
 
          static void on( const delegatebw& del ) {
-            enumivo_assert( del.stake_cpu_quantity.amount >= 0, "must stake a positive amount" );
-            enumivo_assert( del.stake_net_quantity.amount >= 0, "must stake a positive amount" );
-            enumivo_assert( del.stake_storage_quantity.amount >= 0, "must stake a positive amount" );
+            eosio_assert( del.stake_cpu_quantity.amount >= 0, "must stake a positive amount" );
+            eosio_assert( del.stake_net_quantity.amount >= 0, "must stake a positive amount" );
+            eosio_assert( del.stake_storage_quantity.amount >= 0, "must stake a positive amount" );
 
             system_token_type total_stake = del.stake_cpu_quantity + del.stake_net_quantity + del.stake_storage_quantity;
-            enumivo_assert( total_stake.quantity > 0, "must stake a positive amount" );
+            eosio_assert( total_stake.quantity > 0, "must stake a positive amount" );
 
             require_auth( del.from );
 
-            //enumivo_assert( is_account( del.receiver ), "can only delegate resources to an existing account" );
+            //eosio_assert( is_account( del.receiver ), "can only delegate resources to an existing account" );
             uint64_t storage_bytes = 0;
             if ( 0 < del.stake_storage_quantity.amount ) {
                auto parameters = global_state_singleton::exists() ? global_state_singleton::get()
@@ -137,7 +137,7 @@ namespace enumivosystem {
                   * parameters.storage_reserve_ratio * system_token_type(del.stake_storage_quantity)
                   / ( token_supply - del.stake_storage_quantity - parameters.total_storage_stake ) / 1000 /* reserve ratio coefficient */;
 
-               enumivo_assert( 0 < storage_bytes, "stake is too small to increase storage even by 1 byte" );
+               eosio_assert( 0 < storage_bytes, "stake is too small to increase storage even by 1 byte" );
 
                parameters.total_storage_bytes_reserved += storage_bytes;
                parameters.total_storage_stake += del.stake_storage_quantity;
@@ -193,18 +193,18 @@ namespace enumivosystem {
          } // delegatebw
 
          static void on( account_name receiver, const undelegatebw& del ) {
-            enumivo_assert( del.unstake_cpu_quantity.amount >= 0, "must unstake a positive amount" );
-            enumivo_assert( del.unstake_net_quantity.amount >= 0, "must unstake a positive amount" );
+            eosio_assert( del.unstake_cpu_quantity.amount >= 0, "must unstake a positive amount" );
+            eosio_assert( del.unstake_net_quantity.amount >= 0, "must unstake a positive amount" );
 
             require_auth( del.from );
 
-            //enumivo_assert( is_account( del.receiver ), "can only delegate resources to an existing account" );
+            //eosio_assert( is_account( del.receiver ), "can only delegate resources to an existing account" );
 
             del_bandwidth_table     del_tbl( SystemAccount, del.from );
             const auto& dbw = del_tbl.get( del.receiver );
-            enumivo_assert( dbw.net_weight >= del.unstake_net_quantity, "insufficient staked net bandwidth" );
-            enumivo_assert( dbw.cpu_weight >= del.unstake_cpu_quantity, "insufficient staked cpu bandwidth" );
-            enumivo_assert( dbw.storage_bytes >= del.unstake_storage_bytes, "insufficient staked storage" );
+            eosio_assert( dbw.net_weight >= del.unstake_net_quantity, "insufficient staked net bandwidth" );
+            eosio_assert( dbw.cpu_weight >= del.unstake_cpu_quantity, "insufficient staked cpu bandwidth" );
+            eosio_assert( dbw.storage_bytes >= del.unstake_storage_bytes, "insufficient staked storage" );
 
             system_token_type storage_stake_decrease = system_token_type(0);
             if ( 0 < del.unstake_storage_bytes ) {
@@ -221,7 +221,7 @@ namespace enumivosystem {
             auto total_refund = system_token_type(del.unstake_cpu_quantity)
                + system_token_type(del.unstake_net_quantity) + storage_stake_decrease;
 
-            enumivo_assert( total_refund.quantity > 0, "must unstake a positive amount" );
+            eosio_assert( total_refund.quantity > 0, "must unstake a positive amount" );
 
             del_tbl.modify( dbw, del.from, [&]( auto& dbo ){
                dbo.net_weight -= del.unstake_net_quantity;
@@ -276,8 +276,8 @@ namespace enumivosystem {
 
             refunds_table refunds_tbl( SystemAccount, r.owner );
             auto req = refunds_tbl.find( r.owner );
-            enumivo_assert( req != refunds_tbl.end(), "refund request not found" );
-            enumivo_assert( req->request_time + refund_delay <= now(), "refund is not available yet" );
+            eosio_assert( req != refunds_tbl.end(), "refund request not found" );
+            eosio_assert( req->request_time + refund_delay <= now(), "refund is not available yet" );
             // Until now() becomes NOW, the fact that now() is the timestamp of the previous block could in theory
             // allow people to get their tokens earlier than the 3 day delay if the unstake happened immediately after many
             // consecutive missed blocks.

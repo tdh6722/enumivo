@@ -129,11 +129,11 @@ namespace enumivo {
            */
           void create_currency( const create& c ) {
             auto sym = c.maximum_supply.symbol;
-            enumivo_assert( sym.is_valid(), "invalid symbol name" );
+            eosio_assert( sym.is_valid(), "invalid symbol name" );
 
              stats statstable( _contract, sym.name() );
              auto existing = statstable.find( sym.name() );
-             enumivo_assert( existing == statstable.end(), "token with symbol already exists" );
+             eosio_assert( existing == statstable.end(), "token with symbol already exists" );
 
              statstable.emplace( c.issuer, [&]( auto& s ) {
                 s.supply.symbol = c.maximum_supply.symbol;
@@ -152,7 +152,7 @@ namespace enumivo {
 
              statstable.modify( st, 0, [&]( auto& s ) {
                 s.supply.amount += i.quantity.amount;
-                enumivo_assert( s.supply.amount >= 0, "underflow" );
+                eosio_assert( s.supply.amount >= 0, "underflow" );
              });
 
              add_balance( st.issuer, i.quantity, st, st.issuer );
@@ -177,8 +177,8 @@ namespace enumivo {
              const auto& st = statstable.get( sym );
 
              require_auth( st.issuer );
-             enumivo_assert( i.quantity.is_valid(), "invalid quantity" );
-             enumivo_assert( i.quantity.amount > 0, "must issue positive quantity" );
+             eosio_assert( i.quantity.is_valid(), "invalid quantity" );
+             eosio_assert( i.quantity.amount > 0, "must issue positive quantity" );
 
              statstable.modify( st, 0, [&]( auto& s ) {
                 s.supply.amount += i.quantity.amount;
@@ -200,8 +200,8 @@ namespace enumivo {
 
              require_recipient( t.to );
 
-             enumivo_assert( t.quantity.is_valid(), "invalid quantity" );
-             enumivo_assert( t.quantity.amount > 0, "must transfer positive quantity" );
+             eosio_assert( t.quantity.is_valid(), "invalid quantity" );
+             eosio_assert( t.quantity.amount > 0, "must transfer positive quantity" );
              sub_balance( t.from, t.quantity, st );
              add_balance( t.to, t.quantity, st, t.from );
           }
@@ -212,16 +212,16 @@ namespace enumivo {
              accounts from_acnts( _contract, owner );
 
              const auto& from = from_acnts.get( value.symbol );
-             enumivo_assert( from.balance.amount >= value.amount, "overdrawn balance" );
+             eosio_assert( from.balance.amount >= value.amount, "overdrawn balance" );
 
              if( has_auth( owner ) ) {
-                enumivo_assert( !st.can_freeze || !from.frozen, "account is frozen by issuer" );
-                enumivo_assert( !st.can_freeze || !st.is_frozen, "all transfers are frozen by issuer" );
-                enumivo_assert( !st.enforce_whitelist || from.whitelist, "account is not white listed" );
+                eosio_assert( !st.can_freeze || !from.frozen, "account is frozen by issuer" );
+                eosio_assert( !st.can_freeze || !st.is_frozen, "all transfers are frozen by issuer" );
+                eosio_assert( !st.enforce_whitelist || from.whitelist, "account is not white listed" );
              } else if( has_auth( st.issuer ) ) {
-                enumivo_assert( st.can_recall, "issuer may not recall token" );
+                eosio_assert( st.can_recall, "issuer may not recall token" );
              } else {
-                enumivo_assert( false, "insufficient authority" );
+                eosio_assert( false, "insufficient authority" );
              }
 
              from_acnts.modify( from, owner, [&]( auto& a ) {
@@ -234,12 +234,12 @@ namespace enumivo {
              accounts to_acnts( _contract, owner );
              auto to = to_acnts.find( value.symbol );
              if( to == to_acnts.end() ) {
-                enumivo_assert( !st.enforce_whitelist, "can only transfer to white listed accounts" );
+                eosio_assert( !st.enforce_whitelist, "can only transfer to white listed accounts" );
                 to_acnts.emplace( ram_payer, [&]( auto& a ){
                   a.balance = value;
                 });
              } else {
-                enumivo_assert( !st.enforce_whitelist || to->whitelist, "receiver requires whitelist by issuer" );
+                eosio_assert( !st.enforce_whitelist || to->whitelist, "receiver requires whitelist by issuer" );
                 to_acnts.modify( to, 0, [&]( auto& a ) {
                   a.balance.amount += value.amount;
                 });

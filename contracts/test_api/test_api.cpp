@@ -178,7 +178,7 @@ extern "C" {
       WASM_TEST_HANDLER_EX(test_permission, check_authorization);
 
       //unhandled test call
-      enumivo_assert(false, "Unknown Test");
+      eosio_assert(false, "Unknown Test");
 
    }
 }

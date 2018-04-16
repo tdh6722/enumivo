@@ -235,7 +235,7 @@ class multi_index
                   }
 
                   const_iterator& operator++() {
-                     enumivo_assert( _item != nullptr, "cannot increment end iterator" );
+                     eosio_assert( _item != nullptr, "cannot increment end iterator" );
 
                      if( _item->__iters[Number] == -1 ) {
                         secondary_key_type temp_secondary_key;
@@ -265,9 +265,9 @@ class multi_index
 
                      if( !_item ) {
                         auto ei = secondary_index_db_functions<secondary_key_type>::db_idx_end(_idx->get_code(), _idx->get_scope(), _idx->name());
-                        enumivo_assert( ei != -1, "cannot decrement end iterator when the index is empty" );
+                        eosio_assert( ei != -1, "cannot decrement end iterator when the index is empty" );
                         prev_itr = secondary_index_db_functions<secondary_key_type>::db_idx_previous( ei , &prev_pk );
-                        enumivo_assert( prev_itr >= 0, "cannot decrement end iterator when the index is empty" );
+                        eosio_assert( prev_itr >= 0, "cannot decrement end iterator when the index is empty" );
                      } else {
                         if( _item->__iters[Number] == -1 ) {
                            secondary_key_type temp_secondary_key;
@@ -276,7 +276,7 @@ class multi_index
                            mi.__iters[Number] = idxitr;
                         }
                         prev_itr = secondary_index_db_functions<secondary_key_type>::db_idx_previous( _item->__iters[Number], &prev_pk );
-                        enumivo_assert( prev_itr >= 0, "cannot decrement iterator at beginning of index" );
+                        eosio_assert( prev_itr >= 0, "cannot decrement iterator at beginning of index" );
                      }
 
                      const T& obj = *_idx->_multidx->find( prev_pk );
@@ -357,7 +357,7 @@ class multi_index
 
             const_iterator iterator_to( const T& obj ) {
                const auto& objitem = static_cast<const item&>(obj);
-               enumivo_assert( objitem.__idx == _multidx, "object passed to iterator_to is not in multi_index" );
+               eosio_assert( objitem.__idx == _multidx, "object passed to iterator_to is not in multi_index" );
 
                if( objitem.__iters[Number] == -1 ) {
                   secondary_key_type temp_secondary_key;
@@ -371,13 +371,13 @@ class multi_index
 
             template<typename Lambda>
             void modify( const_iterator itr, uint64_t payer, Lambda&& updater ) {
-               enumivo_assert( itr != cend(), "cannot pass end iterator to modify" );
+               eosio_assert( itr != cend(), "cannot pass end iterator to modify" );
 
                _multidx->modify( *itr, payer, std::forward<Lambda&&>(updater) );
             }
 
             const_iterator erase( const_iterator itr ) {
-               enumivo_assert( itr != cend(), "cannot pass end iterator to erase" );
+               eosio_assert( itr != cend(), "cannot pass end iterator to erase" );
 
                const auto& obj = *itr;
                ++itr;
@@ -436,7 +436,7 @@ class multi_index
             return *itr2->_item;
 
          auto size = db_get_i64( itr, nullptr, 0 );
-         enumivo_assert( size >= 0, "error reading iterator" );
+         eosio_assert( size >= 0, "error reading iterator" );
 
          //using malloc/free here potentially is not exception-safe, although WASM doesn't support exceptions
          void* buffer = max_stack_buffer_size < size_t(size) ? malloc(size_t(size)) : alloca(size_t(size));
@@ -498,7 +498,7 @@ class multi_index
          }
 
          const_iterator& operator++() {
-            enumivo_assert( _item != nullptr, "cannot increment end iterator" );
+            eosio_assert( _item != nullptr, "cannot increment end iterator" );
 
             uint64_t next_pk;
             auto next_itr = db_next_i64( _item->__primary_itr, &next_pk );
@@ -514,12 +514,12 @@ class multi_index
 
             if( !_item ) {
                auto ei = db_end_i64(_multidx->get_code(), _multidx->get_scope(), TableName);
-               enumivo_assert( ei != -1, "cannot decrement end iterator when the table is empty" );
+               eosio_assert( ei != -1, "cannot decrement end iterator when the table is empty" );
                prev_itr = db_previous_i64( ei , &prev_pk );
-               enumivo_assert( prev_itr >= 0, "cannot decrement end iterator when the table is empty" );
+               eosio_assert( prev_itr >= 0, "cannot decrement end iterator when the table is empty" );
             } else {
                prev_itr = db_previous_i64( _item->__primary_itr, &prev_pk );
-               enumivo_assert( prev_itr >= 0, "cannot decrement iterator at beginning of table" );
+               eosio_assert( prev_itr >= 0, "cannot decrement iterator at beginning of table" );
             }
 
             _item = &_multidx->load_object_by_primary_iterator( prev_itr );
@@ -585,7 +585,7 @@ class multi_index
             }
          }
 
-         enumivo_assert( _next_primary_key < no_available_primary_key, "next primary key in table is at autoincrement limit");
+         eosio_assert( _next_primary_key < no_available_primary_key, "next primary key in table is at autoincrement limit");
          return _next_primary_key;
       }
 
@@ -613,13 +613,13 @@ class multi_index
 
       const_iterator iterator_to( const T& obj )const {
          const auto& objitem = static_cast<const item&>(obj);
-         enumivo_assert( objitem.__idx == this, "object passed to iterator_to is not in multi_index" );
+         eosio_assert( objitem.__idx == this, "object passed to iterator_to is not in multi_index" );
          return {this, &objitem};
       }
 
       template<typename Lambda>
       const_iterator emplace( uint64_t payer, Lambda&& constructor ) {
-         enumivo_assert( _code == current_receiver(), "cannot create objects in table of another contract" ); // Quick fix for mutating db using multi_index that shouldn't allow mutation. Real fix can come in RC2.
+         eosio_assert( _code == current_receiver(), "cannot create objects in table of another contract" ); // Quick fix for mutating db using multi_index that shouldn't allow mutation. Real fix can come in RC2.
 
          auto itm = std::make_unique<item>( this, [&]( auto& i ){
             T& obj = static_cast<T&>(i);
@@ -662,7 +662,7 @@ class multi_index
 
       template<typename Lambda>
       void modify( const_iterator itr, uint64_t payer, Lambda&& updater ) {
-         enumivo_assert( itr != end(), "cannot pass end iterator to modify" );
+         eosio_assert( itr != end(), "cannot pass end iterator to modify" );
 
          modify( *itr, payer, std::forward<Lambda&&>(updater) );
       }
@@ -670,9 +670,9 @@ class multi_index
       template<typename Lambda>
       void modify( const T& obj, uint64_t payer, Lambda&& updater ) {
          const auto& objitem = static_cast<const item&>(obj);
-         enumivo_assert( objitem.__idx == this, "object passed to modify is not in multi_index" );
+         eosio_assert( objitem.__idx == this, "object passed to modify is not in multi_index" );
          auto& mutableitem = const_cast<item&>(objitem);
-         enumivo_assert( _code == current_receiver(), "cannot modify objects in table of another contract" ); // Quick fix for mutating db using multi_index that shouldn't allow mutation. Real fix can come in RC2.
+         eosio_assert( _code == current_receiver(), "cannot modify objects in table of another contract" ); // Quick fix for mutating db using multi_index that shouldn't allow mutation. Real fix can come in RC2.
 
          auto secondary_keys = boost::hana::transform( _indices, [&]( auto&& idx ) {
             typedef typename decltype(+hana::at_c<0>(idx))::type index_type;
@@ -685,7 +685,7 @@ class multi_index
          auto& mutableobj = const_cast<T&>(obj); // Do not forget the auto& otherwise it would make a copy and thus not update at all.
          updater( mutableobj );
 
-         enumivo_assert( pk == obj.primary_key(), "updater cannot change primary key when modifying an object" );
+         eosio_assert( pk == obj.primary_key(), "updater cannot change primary key when modifying an object" );
 
          size_t size = pack_size( obj );
          //using malloc/free here potentially is not exception-safe, although WASM doesn't support exceptions
@@ -723,7 +723,7 @@ class multi_index
 
       const T& get( uint64_t primary )const {
          auto result = find( primary );
-         enumivo_assert( result != end(), "unable to find key" );
+         eosio_assert( result != end(), "unable to find key" );
          return *result;
       }
 
@@ -742,7 +742,7 @@ class multi_index
       }
 
       const_iterator erase( const_iterator itr ) {
-         enumivo_assert( itr != end(), "cannot pass end iterator to erase" );
+         eosio_assert( itr != end(), "cannot pass end iterator to erase" );
 
          const auto& obj = *itr;
          ++itr;
@@ -754,15 +754,15 @@ class multi_index
 
       void erase( const T& obj ) {
          const auto& objitem = static_cast<const item&>(obj);
-         enumivo_assert( objitem.__idx == this, "object passed to erase is not in multi_index" );
-         enumivo_assert( _code == current_receiver(), "cannot erase objects in table of another contract" ); // Quick fix for mutating db using multi_index that shouldn't allow mutation. Real fix can come in RC2.
+         eosio_assert( objitem.__idx == this, "object passed to erase is not in multi_index" );
+         eosio_assert( _code == current_receiver(), "cannot erase objects in table of another contract" ); // Quick fix for mutating db using multi_index that shouldn't allow mutation. Real fix can come in RC2.
 
          auto pk = objitem.primary_key();
          auto itr2 = std::find_if(_items_vector.rbegin(), _items_vector.rend(), [&](const item_ptr& ptr) {
             return ptr._item->primary_key() == pk;
          });
 
-         enumivo_assert( itr2 != _items_vector.rend(), "attempt to remove object that was not in multi_index" );
+         eosio_assert( itr2 != _items_vector.rend(), "attempt to remove object that was not in multi_index" );
 
          _items_vector.erase(--(itr2.base()));
 
