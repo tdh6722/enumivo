@@ -5,7 +5,7 @@
 
 #include <enumivo.coin/enumivo.coin.hpp>
 
-namespace eosio {
+namespace enumivo {
 
 void token::create( account_name issuer,
                     asset        maximum_supply,
@@ -116,6 +116,6 @@ void token::add_balance( account_name owner, asset value, const currency_stats& 
    }
 }
 
-} /// namespace eosio
+} /// namespace enumivo
 
-ENUMIVO_ABI( eosio::token, (create)(issue)(transfer) )
+ENUMIVO_ABI( enumivo::token, (create)(issue)(transfer) )

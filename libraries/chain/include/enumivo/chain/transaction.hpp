@@ -6,7 +6,7 @@
 #include <enumivo/chain/types.hpp>
 #include <numeric>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
    struct permission_level {
       account_name    actor;
@@ -25,7 +25,7 @@ namespace eosio { namespace chain {
     *
     *  This follows the design pattern of React Flux where actions are
     *  named and then dispatched to one or more action handlers (aka stores).
-    *  In the context of eosio, every action is dispatched to the handler defined
+    *  In the context of enumivo, every action is dispatched to the handler defined
     *  by account 'scope' and function 'name', but the default handler may also
     *  forward the action to any number of additional handlers. Any application
     *  can write a handler for "scope::name" that will get executed if and only if
@@ -252,16 +252,16 @@ namespace eosio { namespace chain {
       account_name   sender;
       uint128_t      sender_id;
    };
-} } // eosio::chain
+} } // enumivo::chain
 
-FC_REFLECT( eosio::chain::permission_level, (actor)(permission) )
-FC_REFLECT( eosio::chain::action, (account)(name)(authorization)(data) )
-FC_REFLECT( eosio::chain::transaction_receipt, (status)(kcpu_usage)(net_usage_words)(id))
-FC_REFLECT( eosio::chain::transaction_header, (expiration)(region)(ref_block_num)(ref_block_prefix)
+FC_REFLECT( enumivo::chain::permission_level, (actor)(permission) )
+FC_REFLECT( enumivo::chain::action, (account)(name)(authorization)(data) )
+FC_REFLECT( enumivo::chain::transaction_receipt, (status)(kcpu_usage)(net_usage_words)(id))
+FC_REFLECT( enumivo::chain::transaction_header, (expiration)(region)(ref_block_num)(ref_block_prefix)
                                               (max_net_usage_words)(max_kcpu_usage)(delay_sec) )
-FC_REFLECT_DERIVED( eosio::chain::transaction, (eosio::chain::transaction_header), (context_free_actions)(actions) )
-FC_REFLECT_DERIVED( eosio::chain::signed_transaction, (eosio::chain::transaction), (signatures)(context_free_data) )
-FC_REFLECT_ENUM( eosio::chain::packed_transaction::compression_type, (none)(zlib))
-FC_REFLECT( eosio::chain::packed_transaction, (signatures)(compression)(packed_context_free_data)(packed_trx) )
-FC_REFLECT_DERIVED( eosio::chain::deferred_transaction, (eosio::chain::transaction), (sender_id)(sender)(payer)(execute_after) )
-FC_REFLECT( eosio::chain::deferred_reference, (sender)(sender_id) )
+FC_REFLECT_DERIVED( enumivo::chain::transaction, (enumivo::chain::transaction_header), (context_free_actions)(actions) )
+FC_REFLECT_DERIVED( enumivo::chain::signed_transaction, (enumivo::chain::transaction), (signatures)(context_free_data) )
+FC_REFLECT_ENUM( enumivo::chain::packed_transaction::compression_type, (none)(zlib))
+FC_REFLECT( enumivo::chain::packed_transaction, (signatures)(compression)(packed_context_free_data)(packed_trx) )
+FC_REFLECT_DERIVED( enumivo::chain::deferred_transaction, (enumivo::chain::transaction), (sender_id)(sender)(payer)(execute_after) )
+FC_REFLECT( enumivo::chain::deferred_reference, (sender)(sender_id) )

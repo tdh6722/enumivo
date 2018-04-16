@@ -13,11 +13,11 @@
 
 /**
  * Macro inspired from FC_RETHROW_EXCEPTIONS
- * The main difference here is that if the exception caught isn't of type "eosio::chain::chain_exception"
+ * The main difference here is that if the exception caught isn't of type "enumivo::chain::chain_exception"
  * This macro will rethrow the exception as the specified "exception_type"
  */
 #define ENU_RETHROW_EXCEPTIONS(exception_type, FORMAT, ... ) \
-   catch (eosio::chain::chain_exception& e) { \
+   catch (enumivo::chain::chain_exception& e) { \
       FC_RETHROW_EXCEPTION( e, warn, FORMAT, __VA_ARGS__ ); \
    } catch (fc::exception& e) { \
       exception_type new_exception(FC_LOG_MESSAGE( warn, FORMAT, __VA_ARGS__ )); \
@@ -36,11 +36,11 @@
 
 /**
  * Macro inspired from FC_CAPTURE_AND_RETHROW
- * The main difference here is that if the exception caught isn't of type "eosio::chain::chain_exception"
+ * The main difference here is that if the exception caught isn't of type "enumivo::chain::chain_exception"
  * This macro will rethrow the exception as the specified "exception_type"
  */
 #define ENU_CAPTURE_AND_RETHROW( exception_type, ... ) \
-   catch (eosio::chain::chain_exception& e) { \
+   catch (enumivo::chain::chain_exception& e) { \
       FC_RETHROW_EXCEPTION( e, warn, "", FC_FORMAT_ARG_PARAMS(__VA_ARGS__) ); \
    } catch (fc::exception& e) { \
       exception_type new_exception(e.get_log()); \
@@ -60,13 +60,13 @@
 #define ENU_DECLARE_OP_BASE_EXCEPTIONS( op_name )                \
    FC_DECLARE_DERIVED_EXCEPTION(                                      \
       op_name ## _validate_exception,                                 \
-      eosio::chain::message_validate_exception,                  \
+      enumivo::chain::message_validate_exception,                  \
       3040000 + 100 * operation::tag< op_name ## _operation >::value, \
       #op_name "_operation validation exception"                      \
       )                                                               \
    FC_DECLARE_DERIVED_EXCEPTION(                                      \
       op_name ## _evaluate_exception,                                 \
-      eosio::chain::message_evaluate_exception,                  \
+      enumivo::chain::message_evaluate_exception,                  \
       3050000 + 100 * operation::tag< op_name ## _operation >::value, \
       #op_name "_operation evaluation exception"                      \
       )
@@ -74,7 +74,7 @@
 #define ENU_DECLARE_OP_VALIDATE_EXCEPTION( exc_name, op_name, seqnum, msg ) \
    FC_DECLARE_DERIVED_EXCEPTION(                                      \
       op_name ## _ ## exc_name,                                       \
-      eosio::chain::op_name ## _validate_exception,                \
+      enumivo::chain::op_name ## _validate_exception,                \
       3040000 + 100 * operation::tag< op_name ## _operation >::value  \
          + seqnum,                                                    \
       msg                                                             \
@@ -83,7 +83,7 @@
 #define ENU_DECLARE_OP_EVALUATE_EXCEPTION( exc_name, op_name, seqnum, msg ) \
    FC_DECLARE_DERIVED_EXCEPTION(                                      \
       op_name ## _ ## exc_name,                                       \
-      eosio::chain::op_name ## _evaluate_exception,                \
+      enumivo::chain::op_name ## _evaluate_exception,                \
       3050000 + 100 * operation::tag< op_name ## _operation >::value  \
          + seqnum,                                                    \
       msg                                                             \

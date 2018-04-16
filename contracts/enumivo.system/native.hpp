@@ -124,7 +124,7 @@ namespace enumivosystem {
          static void on( const vetorecovery& ) {
          }
 
-         struct onerror: eosio::action_meta<SystemAccount, N(onerror)>, bytes {
+         struct onerror: enumivo::action_meta<SystemAccount, N(onerror)>, bytes {
             ENULIB_SERIALIZE_DERIVED( onerror, bytes, BOOST_PP_SEQ_NIL )
          };
 

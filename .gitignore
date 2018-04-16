@@ -44,8 +44,8 @@ programs/js_operation_serializer/js_operation_serializer
 programs/witness_node/witness_node
 programs/data-dir
 programs/eos-walletd/eos-walletd
-programs/eosiod/eosiod
-programs/eosioc/eosioc
+programs/enumivod/enumivod
+programs/enumivoc/enumivoc
 programs/launcher/launcher
 programs/enumivo-abigen/enumivo-abigen
 
@@ -75,7 +75,7 @@ object_database/*
 build/*
 build-debug/*
 
-etc/eosio/node_*
+etc/enumivo/node_*
 var/lib/node_*
 .vscode
 .DS_Store

@@ -8,7 +8,7 @@
 #include <eos/chain/block_schedule.hpp>
 #include "../common/expect.hpp"
 
-using namespace eosio;
+using namespace enumivo;
 using namespace chain;
 
 /*

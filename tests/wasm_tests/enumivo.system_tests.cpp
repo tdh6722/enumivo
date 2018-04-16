@@ -16,12 +16,12 @@
 #define TESTER validating_tester
 #endif
 
-using namespace eosio::testing;
-using namespace eosio;
-using namespace eosio::chain;
-using namespace eosio::chain::contracts;
-using namespace eosio::chain_apis;
-using namespace eosio::testing;
+using namespace enumivo::testing;
+using namespace enumivo;
+using namespace enumivo::chain;
+using namespace enumivo::chain::contracts;
+using namespace enumivo::chain_apis;
+using namespace enumivo::testing;
 using namespace fc;
 
 using mvo = fc::mutable_variant_object;
@@ -1372,7 +1372,7 @@ BOOST_FIXTURE_TEST_CASE( proxy_cannot_use_another_proxy, enumivo_system_tester )
 
 } FC_LOG_AND_RETHROW()
 
-fc::mutable_variant_object config_to_variant( const eosio::chain::chain_config& config ) {
+fc::mutable_variant_object config_to_variant( const enumivo::chain::chain_config& config ) {
    return mutable_variant_object()
       ( "base_per_transaction_net_usage", config.base_per_transaction_net_usage )
       ( "base_per_transaction_cpu_usage", config.base_per_transaction_cpu_usage )

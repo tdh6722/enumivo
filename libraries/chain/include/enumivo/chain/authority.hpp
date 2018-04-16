@@ -9,7 +9,7 @@
 
 #include <type_traits>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
 
 struct permission_level_weight {
@@ -121,10 +121,10 @@ inline bool validate( const Authority& auth ) {
    return auth.threshold > 0 && total_weight >= auth.threshold;
 }
 
-} } // namespace eosio::chain
+} } // namespace enumivo::chain
 
 
-FC_REFLECT(eosio::chain::permission_level_weight, (permission)(weight) )
-FC_REFLECT(eosio::chain::key_weight, (key)(weight) )
-FC_REFLECT(eosio::chain::authority, (threshold)(keys)(accounts))
-FC_REFLECT(eosio::chain::shared_authority, (threshold)(keys)(accounts))
+FC_REFLECT(enumivo::chain::permission_level_weight, (permission)(weight) )
+FC_REFLECT(enumivo::chain::key_weight, (key)(weight) )
+FC_REFLECT(enumivo::chain::authority, (threshold)(keys)(accounts))
+FC_REFLECT(enumivo::chain::shared_authority, (threshold)(keys)(accounts))

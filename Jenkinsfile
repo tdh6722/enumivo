@@ -56,7 +56,7 @@ pipeline {
                     post {
                         failure {
                             archiveArtifacts 'build/genesis.json'
-                            archiveArtifacts 'build/etc/eosio/node_00/config.ini'
+                            archiveArtifacts 'build/etc/enumivo/node_00/config.ini'
                             archiveArtifacts 'build/var/lib/node_00/stderr.txt'
                             archiveArtifacts 'build/test_walletd_output.log'
                         }
@@ -78,7 +78,7 @@ pipeline {
                     post {
                         failure {
                             archiveArtifacts 'build/genesis.json'
-                            archiveArtifacts 'build/etc/eosio/node_00/config.ini'
+                            archiveArtifacts 'build/etc/enumivo/node_00/config.ini'
                             archiveArtifacts 'build/var/lib/node_00/stderr.txt'
                             archiveArtifacts 'build/test_walletd_output.log'
                         }
@@ -103,7 +103,7 @@ pipeline {
                     post {
                         failure {
                             archiveArtifacts 'build/genesis.json'
-                            archiveArtifacts 'build/etc/eosio/node_00/config.ini'
+                            archiveArtifacts 'build/etc/enumivo/node_00/config.ini'
                             archiveArtifacts 'build/var/lib/node_00/stderr.txt'
                             archiveArtifacts 'build/test_walletd_output.log'
                         }

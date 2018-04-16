@@ -2,7 +2,7 @@
 #include <enumivolib/enumivo.hpp>
 #include <enumivolib/transaction.hpp>
 
-namespace eosio {
+namespace enumivo {
 
    class multisig : public contract {
       public:
@@ -23,7 +23,7 @@ namespace eosio {
 
             auto primary_key()const { return proposal_name.value; }
          };
-         typedef eosio::multi_index<N(proposal),proposal> proposals;
+         typedef enumivo::multi_index<N(proposal),proposal> proposals;
    };
 
-} /// namespace eosio
+} /// namespace enumivo

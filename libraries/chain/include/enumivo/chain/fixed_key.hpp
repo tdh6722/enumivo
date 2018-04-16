@@ -10,7 +10,7 @@
 
 #include <fc/exception/exception.hpp>
 
-namespace eosio {
+namespace enumivo {
 
    template<size_t Size>
    class fixed_key;

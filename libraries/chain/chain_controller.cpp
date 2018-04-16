@@ -41,7 +41,7 @@
 #include <functional>
 #include <chrono>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
 bool chain_controller::is_start_of_round( block_num_type block_num )const  {
   return 0 == (block_num % blocks_per_round());
@@ -1068,7 +1068,7 @@ fc::microseconds chain_controller::check_authorization( const vector<action>& ac
                auto link = act.data_as<contracts::linkauth>();
                if( declared_auth.actor == link.account ) {
                   const auto linked_permission_name = lookup_linked_permission(link.account, link.code, link.type);
-                  if( linked_permission_name.valid() && *linked_permission_name != config::eosio_any_name ) {
+                  if( linked_permission_name.valid() && *linked_permission_name != config::enumivo_any_name ) {
                      const auto& linked_permission = _db.get<permission_object, by_owner>(boost::make_tuple(link.account, *linked_permission_name));
                      const auto& index = _db.get_index<permission_index>().indices();
                      const optional<fc::microseconds> delay = get_permission(declared_auth).satisfies(linked_permission, index);
@@ -1080,7 +1080,7 @@ fc::microseconds chain_controller::check_authorization( const vector<action>& ac
                auto unlink = act.data_as<contracts::unlinkauth>();
                if( declared_auth.actor == unlink.account ) {
                   const auto unlinked_permission_name = lookup_linked_permission(unlink.account, unlink.code, unlink.type);
-                  if( unlinked_permission_name.valid() && *unlinked_permission_name != config::eosio_any_name ) {
+                  if( unlinked_permission_name.valid() && *unlinked_permission_name != config::enumivo_any_name ) {
                      const auto& unlinked_permission = _db.get<permission_object, by_owner>(boost::make_tuple(unlink.account, *unlinked_permission_name));
                      const auto& index = _db.get_index<permission_index>().indices();
                      const optional<fc::microseconds> delay = get_permission(declared_auth).satisfies(unlinked_permission, index);
@@ -1161,7 +1161,7 @@ optional<permission_name> chain_controller::lookup_minimum_permission(account_na
       if( !linked_permission )
          return config::active_name;
 
-      if( *linked_permission == config::eosio_any_name )
+      if( *linked_permission == config::enumivo_any_name )
          return optional<permission_name>();
 
       return linked_permission;
@@ -1379,8 +1379,8 @@ void chain_controller::validate_transaction_with_minimal_state( const transactio
 
 void chain_controller::require_scope( const scope_name& scope )const {
    switch( uint64_t(scope) ) {
-      case config::eosio_all_scope:
-      case config::eosio_auth_scope:
+      case config::enumivo_all_scope:
+      case config::enumivo_auth_scope:
          return; /// built in scopes
       default:
          require_account(scope);
@@ -2220,4 +2220,4 @@ transaction_trace chain_controller::wrap_transaction_processing( transaction_met
    return result;
 } FC_CAPTURE_AND_RETHROW( (transaction_header(data.trx())) ) }
 
-} } /// eosio::chain
+} } /// enumivo::chain

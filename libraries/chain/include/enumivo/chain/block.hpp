@@ -7,7 +7,7 @@
 #include <enumivo/chain/transaction.hpp>
 #include <enumivo/chain/producer_schedule.hpp>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
    struct block_header
    {
@@ -120,15 +120,15 @@ namespace eosio { namespace chain {
       vector<packed_transaction>   input_transactions;
    };
 
-} } // eosio::chain
+} } // enumivo::chain
 
-FC_REFLECT(eosio::chain::block_header, (previous)(timestamp)
+FC_REFLECT(enumivo::chain::block_header, (previous)(timestamp)
            (transaction_mroot)(action_mroot)(block_mroot)
            (producer)(schedule_version)(new_producers))
 
-FC_REFLECT_DERIVED(eosio::chain::signed_block_header, (eosio::chain::block_header), (producer_signature))
-FC_REFLECT( eosio::chain::shard_lock, (account)(scope))
-FC_REFLECT( eosio::chain::shard_summary, (read_locks)(write_locks)(transactions))
-FC_REFLECT( eosio::chain::region_summary, (region)(cycles_summary) )
-FC_REFLECT_DERIVED(eosio::chain::signed_block_summary, (eosio::chain::signed_block_header), (regions))
-FC_REFLECT_DERIVED(eosio::chain::signed_block, (eosio::chain::signed_block_summary), (input_transactions))
+FC_REFLECT_DERIVED(enumivo::chain::signed_block_header, (enumivo::chain::block_header), (producer_signature))
+FC_REFLECT( enumivo::chain::shard_lock, (account)(scope))
+FC_REFLECT( enumivo::chain::shard_summary, (read_locks)(write_locks)(transactions))
+FC_REFLECT( enumivo::chain::region_summary, (region)(cycles_summary) )
+FC_REFLECT_DERIVED(enumivo::chain::signed_block_summary, (enumivo::chain::signed_block_header), (regions))
+FC_REFLECT_DERIVED(enumivo::chain::signed_block, (enumivo::chain::signed_block_summary), (input_transactions))

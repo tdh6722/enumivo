@@ -8,7 +8,7 @@
 
 #include "multi_index_includes.hpp"
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
    /**
     *  Maps the permission level on the code to the permission level specififed by owner, when specifying a contract the
@@ -57,8 +57,8 @@ namespace eosio { namespace chain {
       >
    >;
 
-} } // eosio::chain
+} } // enumivo::chain
 
-CHAINBASE_SET_INDEX_TYPE(eosio::chain::action_permission_object, eosio::chain::action_permission_index)
+CHAINBASE_SET_INDEX_TYPE(enumivo::chain::action_permission_object, enumivo::chain::action_permission_index)
 
-FC_REFLECT(eosio::chain::action_permission_object, (id)(owner)(owner_permission)(scope_permission) )
+FC_REFLECT(enumivo::chain::action_permission_object, (id)(owner)(owner_permission)(scope_permission) )

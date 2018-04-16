@@ -14,7 +14,7 @@
 
 namespace chainbase { class database; }
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
 using contracts::key_value_object;
 
@@ -613,6 +613,6 @@ class apply_context {
 
 using apply_handler = std::function<void(apply_context&)>;
 
-} } // namespace eosio::chain
+} } // namespace enumivo::chain
 
-FC_REFLECT(eosio::chain::apply_context::apply_results, (applied_actions)(deferred_transaction_requests)(deferred_transactions_count))
+FC_REFLECT(enumivo::chain::apply_context::apply_results, (applied_actions)(deferred_transaction_requests)(deferred_transactions_count))

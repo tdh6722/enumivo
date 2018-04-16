@@ -7,7 +7,7 @@
 #include <enumivolib/datastream.hpp>
 #include <enumivolib/serialize.hpp>
 
-namespace eosio {
+namespace enumivo {
 
    /**
     * @defgroup actioncppapi Action C++ API
@@ -196,7 +196,7 @@ namespace eosio {
 
  ///@} actioncpp api
 
-} // namespace eosio
+} // namespace enumivo
 
 
-#define ACTION( CODE, NAME ) struct NAME : ::eosio::action_meta<CODE, ::eosio::string_to_name(#NAME) >
+#define ACTION( CODE, NAME ) struct NAME : ::enumivo::action_meta<CODE, ::enumivo::string_to_name(#NAME) >

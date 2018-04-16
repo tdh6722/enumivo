@@ -7,7 +7,7 @@
 #include <fc/io/varint.hpp>
 #include <fc/reflect/reflect.hpp>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
 template< typename T >
 struct extension
@@ -54,7 +54,7 @@ struct eos_extension_pack_read_visitor
 };
 
 template< typename Stream, class T >
-void operator<<( Stream& stream, const eosio::chain::extension<T>& value )
+void operator<<( Stream& stream, const enumivo::chain::extension<T>& value )
 {
    eos_extension_pack_count_visitor<T> count_vtor( value.value );
    fc::reflector<T>::visit( count_vtor );
@@ -111,15 +111,15 @@ struct eos_extension_unpack_visitor
 };
 
 template< typename Stream, typename T >
-void operator>>( Stream& s, eosio::chain::extension<T>& value )
+void operator>>( Stream& s, enumivo::chain::extension<T>& value )
 {
-   value = eosio::chain::extension<T>();
+   value = enumivo::chain::extension<T>();
    eos_extension_unpack_visitor<Stream, T> vtor( s, value.value );
    fc::reflector<T>::visit( vtor );
    FC_ASSERT( vtor.count_left == 0 ); // unrecognized extension throws here
 }
 
-} } // eosio::chain
+} } // enumivo::chain
 
 namespace fc {
 
@@ -150,9 +150,9 @@ struct eos_extension_from_variant_visitor
 };
 
 template< typename T >
-void from_variant( const fc::variant& var, eosio::chain::extension<T>& value )
+void from_variant( const fc::variant& var, enumivo::chain::extension<T>& value )
 {
-   value = eosio::chain::extension<T>();
+   value = enumivo::chain::extension<T>();
    if( var.is_null() )
       return;
    if( var.is_array() )
@@ -183,7 +183,7 @@ struct eos_extension_to_variant_visitor
 };
 
 template< typename T >
-void to_variant( const eosio::chain::extension<T>& value, fc::variant& var )
+void to_variant( const enumivo::chain::extension<T>& value, fc::variant& var )
 {
    eos_extension_to_variant_visitor<T> vtor( value.value );
    fc::reflector<T>::visit( vtor );

@@ -7,10 +7,10 @@
 #define TESTER validating_tester
 #endif
 
-using namespace eosio;
-using namespace eosio::chain;
-using namespace eosio::chain::contracts;
-using namespace eosio::testing;
+using namespace enumivo;
+using namespace enumivo::chain;
+using namespace enumivo::chain::contracts;
+using namespace enumivo::testing;
 
 auto make_postrecovery(const TESTER &t, account_name account, string role) {
    signed_transaction trx;

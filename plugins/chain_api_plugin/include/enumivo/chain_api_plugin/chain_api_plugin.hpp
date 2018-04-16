@@ -9,8 +9,8 @@
 #include <appbase/application.hpp>
 #include <enumivo/chain/chain_controller.hpp>
 
-namespace eosio {
-   using eosio::chain::chain_controller;
+namespace enumivo {
+   using enumivo::chain::chain_controller;
    using std::unique_ptr;
    using namespace appbase;
 

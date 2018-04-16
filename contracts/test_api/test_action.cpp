@@ -48,8 +48,8 @@ void test_action::test_dummy_action() {
    total = get_action( 1, 0, buffer, 0 );
    total = get_action( 1, 0, buffer, static_cast<size_t>(total) );
    eosio_assert( total > 0, "get_action failed" );
-   eosio::action act = eosio::get_action( 1, 0 );
-   eosio_assert( eosio::pack_size(act) == static_cast<size_t>(total), "pack_size does not match get_action size" );
+   enumivo::action act = enumivo::get_action( 1, 0 );
+   eosio_assert( enumivo::pack_size(act) == static_cast<size_t>(total), "pack_size does not match get_action size" );
    eosio_assert( act.account == N(testapi), "expected testapi account" );
 
    dummy_action dum13 = act.data_as<dummy_action>();
@@ -75,17 +75,17 @@ void test_action::read_action_to_64k() {
 
 void test_action::test_cf_action() {
 
-   eosio::action act = eosio::get_action( 0, 0 );
+   enumivo::action act = enumivo::get_action( 0, 0 );
    cf_action cfa = act.data_as<cf_action>();
 
    if ( cfa.payload == 100 ) {
       // verify read of get_context_free_data, also verifies system api access
       int size = get_context_free_data( cfa.cfd_idx, nullptr, 0 );
       eosio_assert( size > 0, "size determination failed" );
-      eosio::bytes cfd( static_cast<size_t>(size) );
+      enumivo::bytes cfd( static_cast<size_t>(size) );
       size = get_context_free_data( cfa.cfd_idx, &cfd[0], static_cast<size_t>(size) );
       eosio_assert(static_cast<size_t>(size) == cfd.size(), "get_context_free_data failed" );
-      uint32_t v = eosio::unpack<uint32_t>( &cfd[0], cfd.size() );
+      uint32_t v = enumivo::unpack<uint32_t>( &cfd[0], cfd.size() );
       eosio_assert( v == cfa.payload, "invalid value" );
 
       // verify crypto api access
@@ -96,7 +96,7 @@ void test_action::test_cf_action() {
       // verify action api access
       action_data_size();
       // verify console api access
-      eosio::print("test\n");
+      enumivo::print("test\n");
       // verify memory api access
       uint32_t i = 42;
       memccpy(&v, &i, sizeof(i), sizeof(i));
@@ -122,7 +122,7 @@ void test_action::test_cf_action() {
       eosio_assert( false, "db_api should not be allowed" );
    } else if ( cfa.payload == 204 ) {
       // attempt to access non context free api, send action
-      eosio::action dum_act;
+      enumivo::action dum_act;
       dum_act.send();
       eosio_assert( false, "action send should not be allowed" );
    }
@@ -132,9 +132,9 @@ void test_action::test_cf_action() {
 void test_action::require_notice(uint64_t receiver, uint64_t code, uint64_t action) {
    (void)code;(void)action;
    if( receiver == N(testapi) ) {
-      eosio::require_recipient( N(acc1) );
-      eosio::require_recipient( N(acc2) );
-      eosio::require_recipient( N(acc1), N(acc2) );
+      enumivo::require_recipient( N(acc1) );
+      enumivo::require_recipient( N(acc2) );
+      enumivo::require_recipient( N(acc1), N(acc2) );
       eosio_assert(false, "Should've failed");
    } else if ( receiver == N(acc1) || receiver == N(acc2) ) {
       return;
@@ -144,8 +144,8 @@ void test_action::require_notice(uint64_t receiver, uint64_t code, uint64_t acti
 
 void test_action::require_auth() {
    prints("require_auth");
-   eosio::require_auth( N(acc3) );
-   eosio::require_auth( N(acc4) );
+   enumivo::require_auth( N(acc3) );
+   enumivo::require_auth( N(acc4) );
 }
 
 void test_action::assert_false() {

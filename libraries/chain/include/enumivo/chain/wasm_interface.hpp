@@ -3,7 +3,7 @@
 #include "Runtime/Linker.h"
 #include "Runtime/Runtime.h"
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
    class apply_context;
    class wasm_runtime_interface;
@@ -65,11 +65,11 @@ namespace eosio { namespace chain {
 
       private:
          unique_ptr<struct wasm_interface_impl> my;
-         friend class eosio::chain::webassembly::common::intrinsics_accessor;
+         friend class enumivo::chain::webassembly::common::intrinsics_accessor;
    };
 
-} } // eosio::chain
+} } // enumivo::chain
 
-namespace eosio{ namespace chain {
+namespace enumivo{ namespace chain {
    std::istream& operator>>(std::istream& in, wasm_interface::vm_type& runtime);
 }}

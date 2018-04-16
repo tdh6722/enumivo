@@ -19,7 +19,7 @@ struct test_action_action {
       return action_name(NAME);
    }
 
-   eosio::vector<char> data;
+   enumivo::vector<char> data;
 
    template <typename DataStream>
    friend DataStream& operator << ( DataStream& ds, const test_action_action& a ) {
@@ -67,23 +67,23 @@ struct test_dummy_action {
 };
 #pragma pack(pop)
 
-void copy_data(char* data, size_t data_len, eosio::vector<char>& data_out) {
+void copy_data(char* data, size_t data_len, enumivo::vector<char>& data_out) {
    for (unsigned int i=0; i < data_len; i++)
       data_out.push_back(data[i]);
 }
 
 void test_transaction::send_action() {
-   using namespace eosio;
+   using namespace enumivo;
    test_dummy_action<N(testapi), WASM_TEST_ACTION("test_action", "read_action_normal")> test_action = {DUMMY_ACTION_DEFAULT_A, DUMMY_ACTION_DEFAULT_B, DUMMY_ACTION_DEFAULT_C};
-   action act(eosio::vector<permission_level>{{N(testapi), N(active)}}, test_action);
+   action act(enumivo::vector<permission_level>{{N(testapi), N(active)}}, test_action);
    act.send();
 }
 
 void test_transaction::send_action_empty() {
-   using namespace eosio;
+   using namespace enumivo;
    test_action_action<N(testapi), WASM_TEST_ACTION("test_action", "assert_true")> test_action;
 
-   action act(eosio::vector<permission_level>{{N(testapi), N(active)}}, test_action);
+   action act(enumivo::vector<permission_level>{{N(testapi), N(active)}}, test_action);
 
    act.send();
 }
@@ -92,7 +92,7 @@ void test_transaction::send_action_empty() {
  * cause failure due to a large action payload
  */
 void test_transaction::send_action_large() {
-   using namespace eosio;
+   using namespace enumivo;
    static char large_message[8 * 1024];
    test_action_action<N(testapi), WASM_TEST_ACTION("test_action", "read_action_normal")> test_action;
    copy_data(large_message, 8*1024, test_action.data);
@@ -105,7 +105,7 @@ void test_transaction::send_action_large() {
  * cause failure due recursive loop
  */
 void test_transaction::send_action_recurse() {
-   using namespace eosio;
+   using namespace enumivo;
    char buffer[1024];
    read_action_data(buffer, 1024);
 
@@ -120,7 +120,7 @@ void test_transaction::send_action_recurse() {
  * cause failure due to inline TX failure
  */
 void test_transaction::send_action_inline_fail() {
-   using namespace eosio;
+   using namespace enumivo;
    test_action_action<N(testapi), WASM_TEST_ACTION("test_action", "assert_false")> test_action;
 
    action act(vector<permission_level>{{N(testapi), N(active)}}, test_action);
@@ -129,14 +129,14 @@ void test_transaction::send_action_inline_fail() {
 }
 
 void test_transaction::test_tapos_block_prefix() {
-   using namespace eosio;
+   using namespace enumivo;
    int tbp;
    read_action_data( (char*)&tbp, sizeof(int) );
    eosio_assert( tbp == tapos_block_prefix(), "tapos_block_prefix does not match" );
 }
 
 void test_transaction::test_tapos_block_num() {
-   using namespace eosio;
+   using namespace enumivo;
    int tbn;
    read_action_data( (char*)&tbn, sizeof(int) );
    eosio_assert( tbn == tapos_block_num(), "tapos_block_num does not match" );
@@ -144,7 +144,7 @@ void test_transaction::test_tapos_block_num() {
 
 
 void test_transaction::test_read_transaction() {
-   using namespace eosio;
+   using namespace enumivo;
    checksum256 h;
    auto size = transaction_size();
    char buf[size];
@@ -154,7 +154,7 @@ void test_transaction::test_read_transaction() {
 }
 
 void test_transaction::test_transaction_size() {
-   using namespace eosio;
+   using namespace enumivo;
    uint32_t trans_size = 0;
    read_action_data( (char*)&trans_size, sizeof(uint32_t) );
    print( "size: ", transaction_size() );
@@ -162,7 +162,7 @@ void test_transaction::test_transaction_size() {
 }
 
 void test_transaction::send_transaction(uint64_t receiver, uint64_t, uint64_t) {
-   using namespace eosio;
+   using namespace enumivo;
    dummy_action payload = {DUMMY_ACTION_DEFAULT_A, DUMMY_ACTION_DEFAULT_B, DUMMY_ACTION_DEFAULT_C};
 
    test_action_action<N(testapi), WASM_TEST_ACTION("test_action", "read_action_normal")> test_action;
@@ -174,7 +174,7 @@ void test_transaction::send_transaction(uint64_t receiver, uint64_t, uint64_t) {
 }
 
 void test_transaction::send_action_sender(uint64_t receiver, uint64_t, uint64_t) {
-   using namespace eosio;
+   using namespace enumivo;
    account_name cur_send;
    read_action_data( &cur_send, sizeof(account_name) );
    test_action_action<N(testapi), WASM_TEST_ACTION("test_action", "test_current_sender")> test_action;
@@ -186,7 +186,7 @@ void test_transaction::send_action_sender(uint64_t receiver, uint64_t, uint64_t)
 }
 
 void test_transaction::send_transaction_empty(uint64_t receiver, uint64_t, uint64_t) {
-   using namespace eosio;
+   using namespace enumivo;
    auto trx = transaction();
    trx.send(0, receiver);
 
@@ -194,15 +194,15 @@ void test_transaction::send_transaction_empty(uint64_t receiver, uint64_t, uint6
 }
 
 void test_transaction::send_transaction_trigger_error_handler(uint64_t receiver, uint64_t, uint64_t) {
-   using namespace eosio;
+   using namespace enumivo;
    auto trx = transaction();
    test_action_action<N(testapi), WASM_TEST_ACTION("test_action", "assert_false")> test_action;
    trx.actions.emplace_back(vector<permission_level>{{N(testapi), N(active)}}, test_action);
    trx.send(0, receiver);
 }
 
-void test_transaction::assert_false_error_handler(const eosio::deferred_transaction& dtrx) {
-   auto onerror_action = eosio::get_action(1, 0);
+void test_transaction::assert_false_error_handler(const enumivo::deferred_transaction& dtrx) {
+   auto onerror_action = enumivo::get_action(1, 0);
    eosio_assert( onerror_action.authorization.at(0).actor == dtrx.actions.at(0).account,
                 "authorizer of onerror action does not match receiver of original action in the deferred transaction" );
 }
@@ -211,7 +211,7 @@ void test_transaction::assert_false_error_handler(const eosio::deferred_transact
  * cause failure due to a large transaction size
  */
 void test_transaction::send_transaction_large(uint64_t receiver, uint64_t, uint64_t) {
-   using namespace eosio;
+   using namespace enumivo;
    auto trx = transaction();
    for (int i = 0; i < 32; i ++) {
       char large_message[1024];
@@ -226,7 +226,7 @@ void test_transaction::send_transaction_large(uint64_t receiver, uint64_t, uint6
 }
 
 void test_transaction::send_transaction_expiring_late(uint64_t receiver, uint64_t, uint64_t) {
-   using namespace eosio;
+   using namespace enumivo;
    account_name cur_send;
    read_action_data( &cur_send, sizeof(account_name) );
    test_action_action<N(testapi), WASM_TEST_ACTION("test_action", "test_current_sender")> test_action;
@@ -243,11 +243,11 @@ void test_transaction::send_transaction_expiring_late(uint64_t receiver, uint64_
  * deferred transaction
  */
 void test_transaction::deferred_print() {
-   eosio::print("deferred executed\n");
+   enumivo::print("deferred executed\n");
 }
 
 void test_transaction::send_deferred_transaction(uint64_t receiver, uint64_t, uint64_t) {
-   using namespace eosio;
+   using namespace enumivo;
    auto trx = transaction();
    test_action_action<N(testapi), WASM_TEST_ACTION("test_transaction", "deferred_print")> test_action;
    trx.actions.emplace_back(vector<permission_level>{{N(testapi), N(active)}}, test_action);
@@ -256,19 +256,19 @@ void test_transaction::send_deferred_transaction(uint64_t receiver, uint64_t, ui
 }
 
 void test_transaction::cancel_deferred_transaction() {
-   using namespace eosio;
+   using namespace enumivo;
    cancel_deferred( 0xffffffffffffffff ); //use the same id (0) as in send_deferred_transaction
 }
 
 void test_transaction::send_cf_action() {
-   using namespace eosio;
+   using namespace enumivo;
    test_action_action<N(dummy), N(event1)> cfa;
    action act(cfa);
    act.send_context_free();
 }
 
 void test_transaction::send_cf_action_fail() {
-   using namespace eosio;
+   using namespace enumivo;
    test_action_action<N(dummy), N(event1)> cfa;
    action act(vector<permission_level>{{N(dummy), N(active)}}, cfa);
    act.send_context_free();
@@ -276,7 +276,7 @@ void test_transaction::send_cf_action_fail() {
 }
 
 void test_transaction::read_inline_action() {
-   using namespace eosio;
+   using namespace enumivo;
    using dummy_act_t = test_dummy_action<N(testapi), WASM_TEST_ACTION("test_action","assert_true")>;
 
    char buffer[64];
@@ -306,7 +306,7 @@ void test_transaction::read_inline_action() {
 }
 
 void test_transaction::read_inline_cf_action() {
-   using namespace eosio;
+   using namespace enumivo;
    using dummy_act_t = test_dummy_action<N(testapi), WASM_TEST_ACTION("test_action","assert_true_cf")>;
 
    char buffer[64];

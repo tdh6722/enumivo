@@ -27,7 +27,7 @@
 
 #include <map>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
    using database = chainbase::database;
    using boost::signals2::signal;
    using resource_limits_manager = resource_limits::resource_limits_manager;

@@ -439,8 +439,8 @@ void test_db::idx64_upperbound(uint64_t receiver, uint64_t code, uint64_t action
 void test_db::test_invalid_access(uint64_t receiver, uint64_t code, uint64_t action)
 {
    (void)code;(void)action;
-   auto act = eosio::get_action(1, 0);
-   auto ia = eosio::unpack<invalid_access_action>(act.data);
+   auto act = enumivo::get_action(1, 0);
+   auto ia = enumivo::unpack<invalid_access_action>(act.data);
    uint64_t scope = N(access);
    uint64_t table = scope;
    uint64_t pk    = scope;
@@ -479,7 +479,7 @@ void test_db::test_invalid_access(uint64_t receiver, uint64_t code, uint64_t act
             break;
          }
       }
-      //eosio::print("test_invalid_access: stored ", value_to_store, "\n");
+      //enumivo::print("test_invalid_access: stored ", value_to_store, "\n");
    } else {
       eosio_assert( itr >= 0, "test_invalid_access: could not find row" );
       switch( ia.index ) {
@@ -491,7 +491,7 @@ void test_db::test_invalid_access(uint64_t receiver, uint64_t code, uint64_t act
                           "test_invalid_access: value in primary table was incorrect size" );
          break;
       }
-      //eosio::print("test_invalid_access: expected ", ia.val, " and retrieved ", value, "\n");
+      //enumivo::print("test_invalid_access: expected ", ia.val, " and retrieved ", value, "\n");
       eosio_assert( value == ia.val, "test_invalid_access: value did not match" );
    }
 }

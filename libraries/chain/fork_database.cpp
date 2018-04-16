@@ -6,7 +6,7 @@
 #include <enumivo/chain/exceptions.hpp>
 #include <fc/smart_ref_impl.hpp>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 fork_database::fork_database()
 {
 }
@@ -232,4 +232,4 @@ void fork_database::remove(block_id_type id)
    _index.get<block_id>().erase(id);
 }
 
-} } // eosio::chain
+} } // enumivo::chain

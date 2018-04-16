@@ -7,7 +7,7 @@
 #include <enumivo/chain/config.hpp>
 #include <enumivo/chain/types.hpp>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
 fc::variant_object get_config()
 {
@@ -19,4 +19,4 @@ fc::variant_object get_config()
    return result;
 }
 
-} } // eosio::chain
+} } // enumivo::chain

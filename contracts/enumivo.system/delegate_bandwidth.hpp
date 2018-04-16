@@ -20,12 +20,12 @@
 #include <map>
 
 namespace enumivosystem {
-   using eosio::asset;
-   using eosio::indexed_by;
-   using eosio::const_mem_fun;
-   using eosio::bytes;
-   using eosio::print;
-   using eosio::permission_level;
+   using enumivo::asset;
+   using enumivo::indexed_by;
+   using enumivo::const_mem_fun;
+   using enumivo::bytes;
+   using enumivo::print;
+   using enumivo::permission_level;
    using std::map;
    using std::pair;
 
@@ -37,7 +37,7 @@ namespace enumivosystem {
          static constexpr time refund_expiration_time = 3600;
          using currency = typename common<SystemAccount>::currency;
          using system_token_type = typename common<SystemAccount>::system_token_type;
-         using eosio_parameters = typename common<SystemAccount>::eosio_parameters;
+         using enumivo_parameters = typename common<SystemAccount>::enumivo_parameters;
          using global_state_singleton = typename common<SystemAccount>::global_state_singleton;
 
          struct total_resources {
@@ -80,9 +80,9 @@ namespace enumivosystem {
             ENULIB_SERIALIZE( refund_request, (owner)(request_time)(amount) )
          };
 
-         typedef eosio::multi_index< N(totalband), total_resources>   total_resources_table;
-         typedef eosio::multi_index< N(delband), delegated_bandwidth> del_bandwidth_table;
-         typedef eosio::multi_index< N(refunds), refund_request>      refunds_table;
+         typedef enumivo::multi_index< N(totalband), total_resources>   total_resources_table;
+         typedef enumivo::multi_index< N(delband), delegated_bandwidth> del_bandwidth_table;
+         typedef enumivo::multi_index< N(refunds), refund_request>      refunds_table;
 
          ACTION( SystemAccount, delegatebw ) {
             account_name from;

@@ -11,7 +11,7 @@ void test_math::test_multeq() {
 
   uint128_t self  = *(act.values);
   uint128_t other = *(act.values+1);
-  eosio::multeq(self, other);
+  enumivo::multeq(self, other);
   eosio_assert( self == act.values[2], "test_multeq act.values[0] == act.values[2]" );
 }
 
@@ -23,14 +23,14 @@ void test_math::test_diveq() {
   uint128_t self  = *(act.values);
   uint128_t other = *(act.values+1);
 
-  eosio::diveq(self, other);
+  enumivo::diveq(self, other);
   eosio_assert( self == act.values[2], "test_diveq act.values[0] == act.values[2]" );
 }
 
 void test_math::test_diveq_by_0() {
   unsigned __int128 a = 100;
   unsigned __int128 b = 0;
-  eosio::diveq(a, b);
+  enumivo::diveq(a, b);
 }
   
 

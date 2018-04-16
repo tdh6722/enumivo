@@ -6,7 +6,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-namespace eosio { namespace types {
+namespace enumivo { namespace types {
 
 BOOST_AUTO_TEST_SUITE(types_tests)
 
@@ -106,4 +106,4 @@ typedef Baz Qux
 
 BOOST_AUTO_TEST_SUITE_END()
 
-}} // namespace eosio::types
+}} // namespace enumivo::types

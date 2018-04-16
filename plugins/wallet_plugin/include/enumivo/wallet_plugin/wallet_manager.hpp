@@ -10,7 +10,7 @@
 
 namespace fc { class variant; }
 
-namespace eosio {
+namespace enumivo {
 namespace wallet {
 
 /// Provides associate of wallet name to wallet and manages the interaction with each wallet.
@@ -39,7 +39,7 @@ public:
    /// @param secs The timeout in seconds.
    void set_timeout(int64_t secs) { set_timeout(std::chrono::seconds(secs)); }
       
-   void set_eosio_key(const std::string& key) { eosio_key = key; }
+   void set_enumivo_key(const std::string& key) { enumivo_key = key; }
 
    /// Sign transaction with the private keys specified via their public keys.
    /// Use chain_controller::get_required_keys to determine which keys are needed for txn.
@@ -110,10 +110,10 @@ private:
    std::chrono::seconds timeout = std::chrono::seconds::max(); ///< how long to wait before calling lock_all()
    mutable timepoint_t timeout_time = timepoint_t::max(); ///< when to call lock_all()
    boost::filesystem::path dir = ".";
-   std::string eosio_key = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3";
+   std::string enumivo_key = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3";
 };
 
 } // namespace wallet
-} // namespace eosio
+} // namespace enumivo
 
 

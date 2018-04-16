@@ -1,5 +1,5 @@
 #include <enumivo/chain/global_property_object.hpp>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
-} } /// eosio::chain
+} } /// enumivo::chain

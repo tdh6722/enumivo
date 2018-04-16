@@ -10,7 +10,7 @@
 
 #include <enumivo/chain/config.hpp>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
-} } // eosio::chain
+} } // enumivo::chain
 

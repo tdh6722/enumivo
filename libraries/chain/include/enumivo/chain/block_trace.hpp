@@ -6,7 +6,7 @@
 #include <enumivo/chain/block.hpp>
 #include <enumivo/chain/transaction_trace.hpp>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
    struct shard_trace {
       digest_type                   shard_action_root;
@@ -50,9 +50,9 @@ namespace eosio { namespace chain {
    };
 
 
-} } // eosio::chain
+} } // enumivo::chain
 
-FC_REFLECT( eosio::chain::shard_trace, (shard_action_root)(shard_transaction_root)(transaction_traces)(cpu_usage)(read_locks)(write_locks))
-FC_REFLECT( eosio::chain::cycle_trace, (shard_traces))
-FC_REFLECT( eosio::chain::region_trace, (cycle_traces))
-FC_REFLECT( eosio::chain::block_trace, (region_traces))
+FC_REFLECT( enumivo::chain::shard_trace, (shard_action_root)(shard_transaction_root)(transaction_traces)(cpu_usage)(read_locks)(write_locks))
+FC_REFLECT( enumivo::chain::cycle_trace, (shard_traces))
+FC_REFLECT( enumivo::chain::region_trace, (cycle_traces))
+FC_REFLECT( enumivo::chain::block_trace, (region_traces))

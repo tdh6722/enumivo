@@ -22,7 +22,7 @@
 #include <thread>
 #include <memory>
 
-namespace eosio {
+namespace enumivo {
 
    static appbase::abstract_plugin& _http_plugin = app().register_plugin<http_plugin>();
 

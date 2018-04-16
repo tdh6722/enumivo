@@ -3,8 +3,8 @@
 #include <enumivo/abi_generator/abi_generator.hpp>
 #include <fc/variant_object.hpp>
 
-using namespace eosio;
-using namespace eosio::chain::contracts;
+using namespace enumivo;
+using namespace enumivo::chain::contracts;
 
 using mvo = fc::mutable_variant_object;
 
@@ -46,7 +46,7 @@ std::unique_ptr<FrontendActionFactory> create_find_macro_factory(string& contrac
       string abi_context ) : contract(contract), actions(actions), abi_context(abi_context) {}
 
     clang::FrontendAction *create() override {
-      return new find_eosio_abi_macro_action(contract, actions, abi_context);
+      return new find_enumivo_abi_macro_action(contract, actions, abi_context);
     }
 
   };

@@ -6,7 +6,7 @@
 
 #include <enumivo/chain/types.hpp>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
    /**
     *  @defgroup operations Operations
@@ -66,4 +66,4 @@ namespace eosio { namespace chain {
 
    ///@}
 
-} } // eosio::chain
+} } // enumivo::chain

@@ -18,10 +18,10 @@
 #define TESTER validating_tester
 #endif
 
-using namespace eosio;
-using namespace eosio::chain;
-using namespace eosio::chain::contracts;
-using namespace eosio::testing;
+using namespace enumivo;
+using namespace enumivo::chain;
+using namespace enumivo::chain::contracts;
+using namespace enumivo::testing;
 using namespace fc;
 using namespace std;
 using mvo = fc::mutable_variant_object;
@@ -229,23 +229,23 @@ BOOST_FIXTURE_TEST_CASE( dice_test, dice_tester ) try {
    add_dice_authority(N(bob));
    add_dice_authority(N(carol));
 
-   push_action(N(eosio), N(create), N(eosio), mvo()
-     ("issuer", "eosio")
+   push_action(N(enumivo), N(create), N(enumivo), mvo()
+     ("issuer", "enumivo")
      ("maximum_supply", "1000000000000.0000 EOS")
      ("can_freeze", "0")
      ("can_recall", "0")
      ("can_whitelist", "0")
    );
 
-   push_action(N(eosio), N(issue), N(eosio), mvo()
-     ("to", "eosio")
+   push_action(N(enumivo), N(issue), N(enumivo), mvo()
+     ("to", "enumivo")
      ("quantity", "1000000.0000 EOS")
      ("memo", "")
    );
 
-   transfer( N(eosio), N(alice), "10000.0000 EOS", "", N(eosio) );
-   transfer( N(eosio), N(bob),   "10000.0000 EOS", "", N(eosio) );
-   transfer( N(eosio), N(carol), "10000.0000 EOS", "", N(eosio) );
+   transfer( N(enumivo), N(alice), "10000.0000 EOS", "", N(enumivo) );
+   transfer( N(enumivo), N(bob),   "10000.0000 EOS", "", N(enumivo) );
+   transfer( N(enumivo), N(carol), "10000.0000 EOS", "", N(enumivo) );
 
    produce_block();
 
@@ -384,7 +384,7 @@ BOOST_FIXTURE_TEST_CASE( dice_test, dice_tester ) try {
    BOOST_REQUIRE_EQUAL( balance_of(N(alice)), asset::from_string("1.0000 EOS"));
 
    BOOST_REQUIRE_EQUAL( 
-      get_currency_balance(N(eosio), ENU_SYMBOL, N(alice)),
+      get_currency_balance(N(enumivo), ENU_SYMBOL, N(alice)),
       asset::from_string("10009.0000 EOS")
    );
 
@@ -396,7 +396,7 @@ BOOST_FIXTURE_TEST_CASE( dice_test, dice_tester ) try {
    withdraw( N(alice), asset::from_string("1.0000 EOS"));
 
    BOOST_REQUIRE_EQUAL( 
-      get_currency_balance(N(eosio), ENU_SYMBOL, N(alice)),
+      get_currency_balance(N(enumivo), ENU_SYMBOL, N(alice)),
       asset::from_string("10010.0000 EOS")
    );
 

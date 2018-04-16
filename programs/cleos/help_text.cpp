@@ -7,7 +7,7 @@
 #include <regex>
 #include <fc/io/json.hpp>
 
-using namespace eosio::client::localize;
+using namespace enumivo::client::localize;
 
 const char* transaction_help_text_header = _("An error occurred while submitting the transaction for this command!");
 
@@ -108,7 +108,7 @@ If you are currently using 'cleos push action' command, try to add the relevant 
 const char* error_advice_3030002 =  "Ensure that you have the related private keys inside your wallet and you wallet is unlocked.";
 const char* error_advice_3030003 =  "Please remove the unnecessary authority from your action!";
 const char* error_advice_3030004 =  "Please remove the unnecessary signature from your transaction!";
-const char* error_advice_3030011 =  "You can try embedding eosio nonce action inside your transaction to ensure uniqueness.";
+const char* error_advice_3030011 =  "You can try embedding enumivo nonce action inside your transaction to ensure uniqueness.";
 const char* error_advice_3030022 =  "Please increase the expiration time of your transaction!";
 const char* error_advice_3030023 =  "Please decrease the expiration time of your transaction!";
 const char* error_advice_3030024 =  "Ensure that the reference block exist in the blockchain!";
@@ -162,7 +162,7 @@ e.g.
   "read_scope":[ "initb", "initc" ],
   "write_scope":[ "initb", "initc" ],
   "actions":[{
-    "account":"eosio",
+    "account":"enumivo",
     "name":"transfer",
     "authorization":[{ "actor":"initb","permission":"active" }],
     "data":"000000008093dd74000000000094dd74e80300000000000000"
@@ -212,11 +212,11 @@ e.g.
   "hex_transaction" : "6c36a25a00002602626c5e7f0000000000010000001e4d75af460000000000a53176010000000000ea305500000000a8ed3232180000001e4d75af4680969800000000000443555200000000"
 })=====";
 
-const char* error_advice_3130001 =  "Ensure that you have \033[2meosio::chain_api_plugin\033[0m\033[32m added to your node's configuration!";
-const char* error_advice_3130002 =  "Ensure that you have \033[2meosio::wallet_api_plugin\033[0m\033[32m added to your node's configuration!\n"\
+const char* error_advice_3130001 =  "Ensure that you have \033[2menumivo::chain_api_plugin\033[0m\033[32m added to your node's configuration!";
+const char* error_advice_3130002 =  "Ensure that you have \033[2menumivo::wallet_api_plugin\033[0m\033[32m added to your node's configuration!\n"\
                                     "Otherwise specify your wallet location with \033[2m--wallet-host\033[0m\033[32m and \033[2m--wallet_port\033[0m\033[32m arguments!";
-const char* error_advice_3130003 =  "Ensure that you have \033[2meosio::account_history_api_plugin\033[0m\033[32m added to your node's configuration!";
-const char* error_advice_3130004 =  "Ensure that you have \033[2meosio::net_api_plugin\033[0m\033[32m added to your node's configuration!";
+const char* error_advice_3130003 =  "Ensure that you have \033[2menumivo::account_history_api_plugin\033[0m\033[32m added to your node's configuration!";
+const char* error_advice_3130004 =  "Ensure that you have \033[2menumivo::net_api_plugin\033[0m\033[32m added to your node's configuration!";
 
 const char* error_advice_3140001 =  "Try to use different wallet name.";
 const char* error_advice_3140002 =  "Are you sure you typed the name correctly?";
@@ -268,7 +268,7 @@ const std::map<int64_t, std::string> error_advice = {
 };
 
 
-namespace eosio { namespace client { namespace help {
+namespace enumivo { namespace client { namespace help {
 bool print_recognized_errors(const fc::exception& e, const bool verbose_errors) {
    // eos recognized error code is from 3000000 to 3999999
    // refer to libraries/chain/include/enumivo/chain/exceptions.hpp

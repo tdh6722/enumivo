@@ -5,7 +5,7 @@
 #include <enumivo/chain/transaction.hpp>
 #include <algorithm>
 
-namespace eosio { namespace chain { namespace resource_limits {
+namespace enumivo { namespace chain { namespace resource_limits {
 
 static uint64_t update_elastic_limit(uint64_t current_limit, uint64_t average_usage, const elastic_limit_parameters& params) {
    uint64_t result = current_limit;
@@ -336,4 +336,4 @@ int64_t resource_limits_manager::get_account_net_limit( const account_name& name
 }
 
 
-} } } /// eosio::chain::resource_limits
+} } } /// enumivo::chain::resource_limits

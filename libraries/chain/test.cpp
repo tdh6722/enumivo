@@ -2,7 +2,7 @@
 #include <enumivo/chain/producer_object.hpp>
 #include <fc/io/json.hpp>
 
-using namespace eosio::chain;
+using namespace enumivo::chain;
 
 int main( int argc, char** argv ) {
    try {
@@ -40,8 +40,8 @@ int main( int argc, char** argv ) {
 
 
       /*
-      auto private_key_default = std::make_pair(eosio::chain::public_key_type(default_priv_key.get_public_key()),
-                                                eosio::utilities::key_to_wif(default_priv_key));
+      auto private_key_default = std::make_pair(enumivo::chain::public_key_type(default_priv_key.get_public_key()),
+                                                enumivo::utilities::key_to_wif(default_priv_key));
                                                 */
 
       idump((pub_key)(default_priv_key));

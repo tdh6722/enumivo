@@ -7,7 +7,7 @@
 #include <enumivolib/asset.hpp>
 #include <string>
 
-namespace eosio {
+namespace enumivo {
 
    using std::string;
 
@@ -52,12 +52,12 @@ namespace eosio {
             uint64_t primary_key()const { return supply.symbol.name(); }
          };
 
-         typedef eosio::multi_index<N(accounts), account> accounts;
-         typedef eosio::multi_index<N(stat), currency_stats> stats;
+         typedef enumivo::multi_index<N(accounts), account> accounts;
+         typedef enumivo::multi_index<N(stat), currency_stats> stats;
 
          void sub_balance( account_name owner, asset value, const currency_stats& st );
          void add_balance( account_name owner, asset value, const currency_stats& st, 
                            account_name ram_payer );
    };
 
-} /// namespace eosio
+} /// namespace enumivo

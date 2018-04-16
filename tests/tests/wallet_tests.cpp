@@ -10,7 +10,7 @@
 #include <boost/test/unit_test.hpp>
 #include <enumivo/chain/authority.hpp>
 
-namespace eosio {
+namespace enumivo {
 
 BOOST_AUTO_TEST_SUITE(wallet_tests)
 
@@ -18,8 +18,8 @@ BOOST_AUTO_TEST_SUITE(wallet_tests)
 /// Test creating the wallet
 BOOST_AUTO_TEST_CASE(wallet_test)
 { try {
-   using namespace eosio::wallet;
-   using namespace eosio::utilities;
+   using namespace enumivo::wallet;
+   using namespace enumivo::utilities;
 
    wallet_data d;
    wallet_api wallet(d);
@@ -68,14 +68,14 @@ BOOST_AUTO_TEST_CASE(wallet_test)
 /// Test wallet manager
 BOOST_AUTO_TEST_CASE(wallet_manager_test)
 { try {
-   using namespace eosio::wallet;
+   using namespace enumivo::wallet;
 
    if (fc::exists("test.wallet")) fc::remove("test.wallet");
    if (fc::exists("test2.wallet")) fc::remove("test2.wallet");
 
    constexpr auto key1 = "5JktVNHnRX48BUdtewU7N1CyL4Z886c42x7wYW7XhNWkDQRhdcS";
    constexpr auto key2 = "5Ju5RTcVDo35ndtzHioPMgebvBM6LkJ6tvuU6LTNQv8yaz3ggZr";
-   constexpr auto key3 = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"; // eosio key
+   constexpr auto key3 = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"; // enumivo key
 
    wallet_manager wm;
    BOOST_CHECK_EQUAL(0, wm.list_wallets().size());
@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_CASE(wallet_manager_test)
    BOOST_CHECK(!pw.empty());
    BOOST_CHECK_EQUAL(0, pw.find("PW")); // starts with PW
    BOOST_CHECK_EQUAL(1, wm.list_wallets().size());
-   // eosio key is imported automatically when a wallet is created
+   // enumivo key is imported automatically when a wallet is created
    BOOST_CHECK_EQUAL(1, wm.list_keys().size());
    BOOST_CHECK(wm.list_wallets().at(0).find("*") != std::string::npos);
    wm.lock("test");
@@ -124,7 +124,7 @@ BOOST_AUTO_TEST_CASE(wallet_manager_test)
 
    auto pw2 = wm.create("test2");
    BOOST_CHECK_EQUAL(2, wm.list_wallets().size());
-   // eosio key is imported automatically when a wallet is created
+   // enumivo key is imported automatically when a wallet is created
    BOOST_CHECK_EQUAL(1, wm.list_keys().size());
    BOOST_CHECK_THROW(wm.import_key("test2", key3), fc::exception);
    keys = wm.list_keys();

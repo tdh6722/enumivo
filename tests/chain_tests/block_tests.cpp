@@ -2,10 +2,10 @@
 #include <enumivo/testing/tester_network.hpp>
 #include <enumivo/chain/producer_object.hpp>
 
-using namespace eosio;
-using namespace eosio::chain;
-using namespace eosio::chain::contracts;
-using namespace eosio::testing;
+using namespace enumivo;
+using namespace enumivo::chain;
+using namespace enumivo::chain::contracts;
+using namespace enumivo::testing;
 
 #ifdef NON_VALIDATING_TEST
 #define TESTER tester
@@ -355,13 +355,13 @@ BOOST_AUTO_TEST_CASE(order_dependent_transactions)
 
       // For this test case, we need two actions that dependent on each other
       // We use updateauth actions, where the second action depend on the auth created in first action
-      chain.push_action(name("eosio"), name("updateauth"), name("tester"), fc::mutable_variant_object()
+      chain.push_action(name("enumivo"), name("updateauth"), name("tester"), fc::mutable_variant_object()
               ("account", "tester")
               ("permission", "first")
               ("parent", "active")
               ("data",  authority(chain.get_public_key(name("tester"), "first")))
               ("delay", 0));
-      chain.push_action(name("eosio"), name("updateauth"), name("tester"), fc::mutable_variant_object()
+      chain.push_action(name("enumivo"), name("updateauth"), name("tester"), fc::mutable_variant_object()
               ("account", "tester")
               ("permission", "second")
               ("parent", "first")
@@ -995,7 +995,7 @@ BOOST_AUTO_TEST_CASE(get_required_keys)
 BOOST_AUTO_TEST_CASE(transaction_mroot)
 { try {
    validating_tester chain;
-   // Finalize current block (which has set contract transaction for eosio)
+   // Finalize current block (which has set contract transaction for enumivo)
    chain.produce_block();
 
    // any transaction will do

@@ -7,9 +7,9 @@
 #include <enumivolib/vector.hpp>
 
 namespace identity {
-   using eosio::action_meta;
-   using eosio::singleton;
-   using eosio::key256;
+   using enumivo::action_meta;
+   using enumivo::singleton;
+   using enumivo::key256;
    using std::string;
    using std::vector;
 
@@ -158,12 +158,12 @@ namespace identity {
             ENULIB_SERIALIZE( trustrow, (account) )
          };
 
-         typedef eosio::multi_index<N(certs), certrow,
-                                    eosio::indexed_by< N(bytuple), eosio::const_mem_fun<certrow, key256, &certrow::get_key> >
+         typedef enumivo::multi_index<N(certs), certrow,
+                                    enumivo::indexed_by< N(bytuple), enumivo::const_mem_fun<certrow, key256, &certrow::get_key> >
                                     > certs_table;
-         typedef eosio::multi_index<N(ident), identrow> idents_table;
+         typedef enumivo::multi_index<N(ident), identrow> idents_table;
          typedef singleton<code, N(account), code, identity_name>  accounts_table;
-         typedef eosio::multi_index<N(trust), trustrow> trust_table;
+         typedef enumivo::multi_index<N(trust), trustrow> trust_table;
 
          static identity_name get_claimed_identity( account_name acnt ) {
             return accounts_table::get_or_default(acnt, 0);
@@ -365,7 +365,7 @@ namespace identity {
          }
 
          static void apply( account_name c, action_name act) {
-            eosio::dispatch<contract, create, certprop, settrust>(c,act);
+            enumivo::dispatch<contract, create, certprop, settrust>(c,act);
          }
 
    };

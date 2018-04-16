@@ -7,8 +7,8 @@
 
 namespace identity_test {
    
-   using eosio::action_meta;
-   using eosio::singleton;
+   using enumivo::action_meta;
+   using enumivo::singleton;
    using std::string;
    using std::vector;
 
@@ -48,9 +48,9 @@ namespace identity_test {
          static void apply( uint64_t receiver, account_name c, action_name act) {
             if( code == N(identitytest) ) {
               if ( act == N(getowner) ) {
-                contract::on( receiver, eosio::unpack_action_data<get_owner_for_identity>() );
+                contract::on( receiver, enumivo::unpack_action_data<get_owner_for_identity>() );
               } else if ( act == N(getidentity) ) {
-                contract::on( receiver, eosio::unpack_action_data<get_identity_for_account>() );
+                contract::on( receiver, enumivo::unpack_action_data<get_identity_for_account>() );
               }
             }
          }

@@ -1,10 +1,10 @@
 #pragma once
 
-namespace eosio {
+namespace enumivo {
 
 struct contract {
    contract( account_name n ):_self(n){}
    account_name _self;
 };
 
-} /// namespace eosio
+} /// namespace enumivo

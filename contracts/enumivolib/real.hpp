@@ -2,7 +2,7 @@
 #include <enumivolib/math.hpp>
 #include <enumivolib/print.hpp>
 
-namespace eosio {
+namespace enumivo {
     /**
     *  @defgroup real Real number
     *  @ingroup mathcppapi

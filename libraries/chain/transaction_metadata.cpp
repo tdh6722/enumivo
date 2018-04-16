@@ -2,7 +2,7 @@
 #include <enumivo/chain/merkle.hpp>
 #include <fc/io/raw.hpp>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
 transaction_metadata::transaction_metadata( const packed_transaction& t, chain_id_type chainid, const time_point& published, const optional<time_point>& processing_deadline, bool implicit )
    :raw_trx(t.get_raw_transaction())
@@ -19,4 +19,4 @@ transaction_metadata::transaction_metadata( const packed_transaction& t, chain_i
    ,processing_deadline(processing_deadline)
 { }
 
-} } // eosio::chain
+} } // enumivo::chain

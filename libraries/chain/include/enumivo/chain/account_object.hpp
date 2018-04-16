@@ -10,7 +10,7 @@
 
 #include "multi_index_includes.hpp"
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
    class account_object : public chainbase::object<account_object_type, account_object> {
       OBJECT_CTOR(account_object,(code)(abi))
@@ -28,7 +28,7 @@ namespace eosio { namespace chain {
       shared_vector<char>  code;
       shared_vector<char>  abi;
 
-      void set_abi( const eosio::chain::contracts::abi_def& a ) {
+      void set_abi( const enumivo::chain::contracts::abi_def& a ) {
          // Added resize(0) here to avoid bug in boost vector container
          abi.resize( 0 );
          abi.resize( fc::raw::pack_size( a ) );
@@ -36,8 +36,8 @@ namespace eosio { namespace chain {
          fc::raw::pack( ds, a );
       }
 
-      eosio::chain::contracts::abi_def get_abi()const {
-         eosio::chain::contracts::abi_def a;
+      enumivo::chain::contracts::abi_def get_abi()const {
+         enumivo::chain::contracts::abi_def a;
          fc::datastream<const char*> ds( abi.data(), abi.size() );
          fc::raw::unpack( ds, a );
          return a;
@@ -54,9 +54,9 @@ namespace eosio { namespace chain {
       >
    >;
 
-} } // eosio::chain
+} } // enumivo::chain
 
-CHAINBASE_SET_INDEX_TYPE(eosio::chain::account_object, eosio::chain::account_index)
+CHAINBASE_SET_INDEX_TYPE(enumivo::chain::account_object, enumivo::chain::account_index)
 
 
-FC_REFLECT(eosio::chain::account_object, (name)(vm_type)(vm_version)(code_version)(code)(creation_date))
+FC_REFLECT(enumivo::chain::account_object, (name)(vm_type)(vm_version)(code_version)(code)(creation_date))

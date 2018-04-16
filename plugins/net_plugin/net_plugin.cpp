@@ -32,7 +32,7 @@ namespace fc {
    extern std::unordered_map<std::string,logger>& get_logger_map();
 }
 
-namespace eosio {
+namespace enumivo {
    static appbase::abstract_plugin& _net_plugin = app().register_plugin<net_plugin>();
 
    using std::vector;
@@ -44,7 +44,7 @@ namespace eosio {
 
    using fc::time_point;
    using fc::time_point_sec;
-   using eosio::chain::transaction_id_type;
+   using enumivo::chain::transaction_id_type;
    namespace bip = boost::interprocess;
    using chain::contracts::uint16;
 

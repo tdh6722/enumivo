@@ -18,7 +18,7 @@
 #include <boost/pfr.hpp>
 
 
-namespace eosio {
+namespace enumivo {
 
 
 /**

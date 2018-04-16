@@ -8,7 +8,7 @@
 
 using boost::container::flat_set;
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 void apply_context::exec_one()
 {
    auto start = fc::time_point::now();
@@ -631,4 +631,4 @@ int apply_context::db_end_i64( uint64_t code, uint64_t scope, uint64_t table ) {
 
    return keyval_cache.cache_table( *tab );
 }
-} } /// eosio::chain
+} } /// enumivo::chain

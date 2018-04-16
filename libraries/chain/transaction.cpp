@@ -18,7 +18,7 @@
 #include <boost/iostreams/filter/zlib.hpp>
 
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
 using namespace boost::multi_index;
 
@@ -322,4 +322,4 @@ void packed_transaction::set_transaction(const transaction& t, const vector<byte
 }
 
 
-} } // eosio::chain
+} } // enumivo::chain

@@ -15,7 +15,7 @@
 #include <boost/range/algorithm/find.hpp>
 #include <boost/algorithm/cxx11/all_of.hpp>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
 namespace detail {
 
@@ -194,4 +194,4 @@ namespace detail {
       void operator()(const permission_level& perm_level) {}
    };
 
-} } // namespace eosio::chain
+} } // namespace enumivo::chain

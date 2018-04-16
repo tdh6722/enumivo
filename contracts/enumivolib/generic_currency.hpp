@@ -7,9 +7,9 @@
 #include <enumivolib/action.hpp>
 #include <string>
 
-#define N(X) ::eosio::string_to_name(#X)
+#define N(X) ::enumivo::string_to_name(#X)
 
-namespace eosio {
+namespace enumivo {
    using std::string;
 
    template<typename Token>
@@ -84,8 +84,8 @@ namespace eosio {
            *  Each user stores their balance in the singleton table under the
            *  scope of their account name.
            */
-          typedef eosio::multi_index<accounts_table_name, account> accounts;
-          typedef eosio::multi_index<stats_table_name, currency_stats> stats;
+          typedef enumivo::multi_index<accounts_table_name, account> accounts;
+          typedef enumivo::multi_index<stats_table_name, currency_stats> stats;
 
           static token_type get_balance( account_name owner ) {
              accounts t( code, owner );
@@ -152,8 +152,8 @@ namespace eosio {
           }
 
          static void apply( account_name c, action_name act) {
-            eosio::dispatch<generic_currency, transfer, issue>(c,act);
+            enumivo::dispatch<generic_currency, transfer, issue>(c,act);
          }
    };
 
-} /// namespace eosio
+} /// namespace enumivo

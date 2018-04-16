@@ -12,7 +12,7 @@
 #include <enumivolib/serialize.hpp>
 
 
-namespace eosio {
+namespace enumivo {
   /**
   *  @defgroup tokens Token API
   *  @brief Defines the ABI for interfacing with standard-compatible token messages and database tables.
@@ -297,8 +297,8 @@ namespace eosio {
   *
   *  Example:
   *  @code
-  *  typedef eosio::token<uint64_t, N(MyBaseToken)> MyBaseToken;
-  *  typedef eosio::token<uint64_t, N(MyQuoteToken)> MyQuoteToken;
+  *  typedef enumivo::token<uint64_t, N(MyBaseToken)> MyBaseToken;
+  *  typedef enumivo::token<uint64_t, N(MyQuoteToken)> MyQuoteToken;
   *  typedef price<MyBaseToken, MyQuoteToken> MyBaseToQuotePrice;
   *  MyBaseToken zeroBaseToken;
   *  MyQuoteToken zeroQuoteToken;

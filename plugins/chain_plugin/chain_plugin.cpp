@@ -22,11 +22,11 @@
 #include <fc/io/json.hpp>
 #include <fc/variant.hpp>
 
-namespace eosio {
+namespace enumivo {
 
-using namespace eosio;
-using namespace eosio::chain;
-using namespace eosio::chain::config;
+using namespace enumivo;
+using namespace enumivo::chain;
+using namespace enumivo::chain::config;
 using vm_type = wasm_interface::vm_type;
 using fc::flat_map;
 
@@ -74,7 +74,7 @@ void chain_plugin::set_program_options(options_description& cli, options_descrip
           "Limits the maximum time (in milliseconds) that is allowed a pushed transaction's code to execute before being considered invalid")
          ("max-deferred-transaction-time", bpo::value<int32_t>()->default_value(20),
           "Limits the maximum time (in milliseconds) that is allowed a to push deferred transactions at the start of a block")
-         ("wasm-runtime", bpo::value<eosio::chain::wasm_interface::vm_type>()->value_name("wavm/binaryen"), "Override default WASM runtime")
+         ("wasm-runtime", bpo::value<enumivo::chain::wasm_interface::vm_type>()->value_name("wavm/binaryen"), "Override default WASM runtime")
 #warning TODO: rate limiting
          /*("per-authorized-account-transaction-msg-rate-limit-time-frame-sec", bpo::value<uint32_t>()->default_value(default_per_auth_account_time_frame_seconds),
           "The time frame, in seconds, that the per-authorized-account-transaction-msg-rate-limit is imposed over.")
@@ -457,7 +457,7 @@ read_only::get_code_results read_only::get_code( const get_code_params& params )
 }
 
 read_only::get_account_results read_only::get_account( const get_account_params& params )const {
-   using namespace eosio::contracts;
+   using namespace enumivo::contracts;
 
    get_account_results result;
    result.account_name = params.account_name;
@@ -526,4 +526,4 @@ read_only::get_required_keys_result read_only::get_required_keys( const get_requ
 
 
 } // namespace chain_apis
-} // namespace eosio
+} // namespace enumivo

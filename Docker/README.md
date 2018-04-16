@@ -14,13 +14,13 @@ Simple and fast setup of Enumivo on Docker is also available.
 ```bash
 git clone https://github.com/enumivo/enumivo.git --recursive
 cd eos/Docker
-docker build . -t eosio/eos
+docker build . -t enumivo/eos
 ```
 
 ## Start nodeos docker container only
 
 ```bash
-docker run --name nodeos -p 8888:8888 -p 9876:9876 -t eosio/eos nodeosd.sh arg1 arg2
+docker run --name nodeos -p 8888:8888 -p 9876:9876 -t enumivo/eos nodeosd.sh arg1 arg2
 ```
 
 By default, all data is persisted in a docker volume. It can be deleted if the data is outdated or corrupted:
@@ -32,7 +32,7 @@ $ docker volume rm fdc265730a4f697346fa8b078c176e315b959e79365fc9cbd11f090ea0cb5
 
 Alternately, you can directly mount host directory into the container
 ```bash
-docker run --name nodeos -v /path-to-data-dir:/opt/eosio/bin/data-dir -p 8888:8888 -p 9876:9876 -t eosio/eos nodeosd.sh arg1 arg2
+docker run --name nodeos -v /path-to-data-dir:/opt/enumivo/bin/data-dir -p 8888:8888 -p 9876:9876 -t enumivo/eos nodeosd.sh arg1 arg2
 ```
 
 ## Get chain info
@@ -57,7 +57,7 @@ After `docker-compose up -d`, two services named `nodeosd` and `keosd` will be s
 You can run the `cleos` commands via a bash alias.
 
 ```bash
-alias cleos='docker-compose exec keosd /opt/eosio/bin/cleos -H nodeosd'
+alias cleos='docker-compose exec keosd /opt/enumivo/bin/cleos -H nodeosd'
 cleos get info
 cleos get account inita
 ```
@@ -83,8 +83,8 @@ version: "2"
 services:
   nodeos:
     volumes:
-      - nodeos-data-volume:/opt/eosio/bin/data-dir
-      - ./config2.ini:/opt/eosio/bin/data-dir/config.ini
+      - nodeos-data-volume:/opt/enumivo/bin/data-dir
+      - ./config2.ini:/opt/enumivo/bin/data-dir/config.ini
 ```
 
 Then restart your docker containers as follows:

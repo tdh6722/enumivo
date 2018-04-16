@@ -8,7 +8,7 @@
 #include <fc/bitutil.hpp>
 #include <algorithm>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
    void shard_trace::finalize_shard() {
       {

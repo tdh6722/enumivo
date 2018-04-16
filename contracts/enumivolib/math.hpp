@@ -5,7 +5,7 @@
 #pragma once
 #include <enumivolib/math.h>
 
-namespace eosio {
+namespace enumivo {
 
   /**
    *  @defgroup mathapi Math API

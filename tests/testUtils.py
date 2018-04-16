@@ -493,7 +493,7 @@ class Node(object):
 
 
     def getEosCurrencyBalance(self, name):
-        cmd="%s %s get currency balance eosio %s EOS" % (Utils.EosClientPath, self.endpointArgs, name)
+        cmd="%s %s get currency balance enumivo %s EOS" % (Utils.EosClientPath, self.endpointArgs, name)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         try:
             trans=Node.runCmdReturnStr(cmd)
@@ -1127,7 +1127,7 @@ class Cluster(object):
         # init accounts
         self.initaAccount=Account("inita")
         self.initbAccount=Account("initb")
-        self.eosioAccount=Account("eosio")
+        self.enumivoAccount=Account("enumivo")
         self.initaAccount.ownerPrivateKey=initaPrvtKey
         self.initaAccount.activePrivateKey=initaPrvtKey
         self.initbAccount.ownerPrivateKey=initbPrvtKey
@@ -1169,9 +1169,9 @@ class Cluster(object):
         if Utils.Debug:
             nodeosArgs += "--log-level-net-plugin debug"
         if not self.walletd:
-            nodeosArgs += " --plugin eosio::wallet_api_plugin"
+            nodeosArgs += " --plugin enumivo::wallet_api_plugin"
         if self.enableMongo:
-            nodeosArgs += " --plugin eosio::mongo_db_plugin --resync --mongodb-uri %s" % self.mongoUri
+            nodeosArgs += " --plugin enumivo::mongo_db_plugin --resync --mongodb-uri %s" % self.mongoUri
 
         if nodeosArgs:
             cmdArr.append("--nodeos")
@@ -1221,7 +1221,7 @@ class Cluster(object):
         self.initbAccount.ownerPublicKey=init2Keys["public"]
         self.initbAccount.activePrivateKey=init2Keys["private"]
         self.initbAccount.activePublicKey=init2Keys["public"]
-        producerKeys.pop("eosio")
+        producerKeys.pop("enumivo")
 
         return True
 
@@ -1574,16 +1574,16 @@ class Cluster(object):
         """Parse cluster config file. Updates producer keys data members."""
 
         node="node_bios"
-        configFile="etc/eosio/%s/config.ini" % (node)
+        configFile="etc/enumivo/%s/config.ini" % (node)
         Utils.Debug and Utils.Print("Parsing config file %s" % configFile)
         producerKeys=Cluster.parseProducerKeys(configFile, node)
         if producerKeys is None:
-            Utils.Print("ERROR: Failed to parse eosio private keys from cluster config files.")
+            Utils.Print("ERROR: Failed to parse enumivo private keys from cluster config files.")
             return None
 
         for i in range(0, totalNodes):
             node="node_%02d" % (i)
-            configFile="etc/eosio/%s/config.ini" % (node)
+            configFile="etc/enumivo/%s/config.ini" % (node)
             Utils.Debug and Utils.Print("Parsing config file %s" % configFile)
 
             keys=Cluster.parseProducerKeys(configFile, node)
@@ -1621,16 +1621,16 @@ class Cluster(object):
                 Utils.Print("ERROR: Failed to create ignition wallet.")
                 return False
 
-            eosioName="eosio"
-            eosioKeys=producerKeys[eosioName]
-            eosioAccount=Account(eosioName)
-            eosioAccount.ownerPrivateKey=eosioKeys["private"]
-            eosioAccount.ownerPublicKey=eosioKeys["public"]
-            eosioAccount.activePrivateKey=eosioKeys["private"]
-            eosioAccount.activePublicKey=eosioKeys["public"]
+            enumivoName="enumivo"
+            enumivoKeys=producerKeys[enumivoName]
+            enumivoAccount=Account(enumivoName)
+            enumivoAccount.ownerPrivateKey=enumivoKeys["private"]
+            enumivoAccount.ownerPublicKey=enumivoKeys["public"]
+            enumivoAccount.activePrivateKey=enumivoKeys["private"]
+            enumivoAccount.activePublicKey=enumivoKeys["public"]
 
-            if not walletMgr.importKey(eosioAccount, ignWallet):
-                Utils.Print("ERROR: Failed to import %s account keys into ignition wallet." % (eosioName))
+            if not walletMgr.importKey(enumivoAccount, ignWallet):
+                Utils.Print("ERROR: Failed to import %s account keys into ignition wallet." % (enumivoName))
                 return False
 
             contract="enumivo.bios"
@@ -1638,20 +1638,20 @@ class Cluster(object):
             wastFile="contracts/%s/%s.wast" % (contract, contract)
             abiFile="contracts/%s/%s.abi" % (contract, contract)
             Utils.Print("Publish %s contract" % (contract))
-            trans=biosNode.publishContract(eosioAccount.name, contractDir, wastFile, abiFile, waitForTransBlock=True)
+            trans=biosNode.publishContract(enumivoAccount.name, contractDir, wastFile, abiFile, waitForTransBlock=True)
             if trans is None:
                 Utils.Print("ERROR: Failed to publish contract %s." % (contract))
                 return False
 
             Utils.Print("Creating accounts: %s " % ", ".join(producerKeys.keys()))
-            producerKeys.pop(eosioName)
+            producerKeys.pop(enumivoName)
             for name, keys in producerKeys.items():
                 initx = Account(name)
                 initx.ownerPrivateKey=keys["private"]
                 initx.ownerPublicKey=keys["public"]
                 initx.activePrivateKey=keys["private"]
                 initx.activePublicKey=keys["public"]
-                trans=biosNode.createAccount(initx, eosioAccount, 0)
+                trans=biosNode.createAccount(initx, enumivoAccount, 0)
                 if trans is None:
                     Utils.Print("ERROR: Failed to create account %s" % (name))
                     return False
@@ -1665,8 +1665,8 @@ class Cluster(object):
                     setProdsStr=f.read()
 
                     Utils.Print("Setting producers.")
-                    opts="--permission eosio@active"
-                    trans=biosNode.pushMessage("eosio", "setprods", setProdsStr, opts)
+                    opts="--permission enumivo@active"
+                    trans=biosNode.pushMessage("enumivo", "setprods", setProdsStr, opts)
                     if trans is None or not trans[0]:
                         Utils.Print("ERROR: Failed to set producers.")
                         return False
@@ -1690,8 +1690,8 @@ class Cluster(object):
                 setProdsStr += ' ] }'
                 Utils.Debug and Utils.Print("setprods: %s" % (setProdsStr))
                 Utils.Print("Setting producers: %s." % (", ".join(prodNames)))
-                opts="--permission eosio@active"
-                trans=biosNode.pushMessage("eosio", "setprods", setProdsStr, opts)
+                opts="--permission enumivo@active"
+                trans=biosNode.pushMessage("enumivo", "setprods", setProdsStr, opts)
                 if trans is None or not trans[0]:
                     Utils.Print("ERROR: Failed to set producer %s." % (keys["name"]))
                     return False
@@ -1706,21 +1706,21 @@ class Cluster(object):
             wastFile="contracts/%s/%s.wast" % (contract, contract)
             abiFile="contracts/%s/%s.abi" % (contract, contract)
             Utils.Print("Publish %s contract" % (contract))
-            trans=biosNode.publishContract(eosioAccount.name, contractDir, wastFile, abiFile, waitForTransBlock=True)
+            trans=biosNode.publishContract(enumivoAccount.name, contractDir, wastFile, abiFile, waitForTransBlock=True)
             if trans is None:
                 Utils.Print("ERROR: Failed to publish contract %s." % (contract))
                 return False
 
             # TBD: Create currency, followed by issue currency
             
-            Utils.Print("push issue action to eosio contract")
-            contract=eosioAccount.name
+            Utils.Print("push issue action to enumivo contract")
+            contract=enumivoAccount.name
             action="issue"
-            data="{\"to\":\"eosio\",\"quantity\":\"1000000000.0000 EOS\"}"
-            opts="--permission eosio@active"
+            data="{\"to\":\"enumivo\",\"quantity\":\"1000000000.0000 EOS\"}"
+            opts="--permission enumivo@active"
             trans=biosNode.pushMessage(contract, action, data, opts)
             if trans is None or not trans[0]:
-                Utils.Print("ERROR: Failed to push issue action to eosio contract.")
+                Utils.Print("ERROR: Failed to push issue action to enumivo contract.")
                 return False
 
             Utils.Print("Wait for issue action transaction to become finalized.")
@@ -1730,8 +1730,8 @@ class Cluster(object):
             # TDB: Known issue (Issue 2043) that 'get currency balance' doesn't return balance.
             #  Uncomment when functional
             # expectedAmount=10000000000000
-            # Utils.Print("Verify eosio issue, Expected: %d" % (expectedAmount))
-            # actualAmount=biosNode.getAccountBalance(eosioAccount.name)
+            # Utils.Print("Verify enumivo issue, Expected: %d" % (expectedAmount))
+            # actualAmount=biosNode.getAccountBalance(enumivoAccount.name)
             # if expectedAmount != actualAmount:
             #     Utils.Print("ERROR: Issue verification failed. Excepted %d, actual: %d" %
             #                 (expectedAmount, actualAmount))
@@ -1746,9 +1746,9 @@ class Cluster(object):
                 initx.ownerPublicKey=keys["public"]
                 initx.activePrivateKey=keys["private"]
                 initx.activePublicKey=keys["public"]
-                trans = biosNode.transferFunds(eosioAccount, initx, initialFunds, "init transfer")
+                trans = biosNode.transferFunds(enumivoAccount, initx, initialFunds, "init transfer")
                 if trans is None:
-                    Utils.Print("ERROR: Failed to transfer funds from %s to %s." % (eosioAccount.name, name))
+                    Utils.Print("ERROR: Failed to transfer funds from %s to %s." % (enumivoAccount.name, name))
                     return False
 
             Utils.Print("Wait for last transfer transaction to become finalized.")
@@ -1871,7 +1871,7 @@ class Cluster(object):
 
     def dumpErrorDetails(self):
         for i in range(0, len(self.nodes)):
-            fileName="etc/eosio/node_$02d/config.ini" % (i)
+            fileName="etc/enumivo/node_$02d/config.ini" % (i)
             self.dumpErrorDetailImpl(fileName)
             fileName="var/lib/node_%02d/stderr.txt" % (i)
             self.dumpErrorDetailImpl(fileName)
@@ -1915,7 +1915,7 @@ class Cluster(object):
     def cleanup(self):
         for f in glob.glob("var/lib/node_*"):
             shutil.rmtree(f)
-        for f in glob.glob("etc/eosio/node_*"):
+        for f in glob.glob("etc/enumivo/node_*"):
             shutil.rmtree(f)
 
         if self.enableMongo:

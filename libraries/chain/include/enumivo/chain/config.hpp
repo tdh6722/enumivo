@@ -9,7 +9,7 @@
 
 #pragma GCC diagnostic ignored "-Wunused-variable"
 
-namespace eosio { namespace chain { namespace config {
+namespace enumivo { namespace chain { namespace config {
 
 typedef __uint128_t uint128_t;
 
@@ -17,16 +17,16 @@ const static auto default_block_log_dir     = "block_log";
 const static auto default_shared_memory_dir = "shared_mem";
 const static auto default_shared_memory_size = 1024*1024*1024ll;
 
-const static uint64_t system_account_name    = N(eosio);
+const static uint64_t system_account_name    = N(enumivo);
 const static uint64_t nobody_account_name    = N(nobody);
 const static uint64_t anybody_account_name   = N(anybody);
 const static uint64_t producers_account_name = N(producers);
-const static uint64_t eosio_auth_scope       = N(eosio.auth);
-const static uint64_t eosio_all_scope        = N(eosio.all);
+const static uint64_t enumivo_auth_scope       = N(enumivo.auth);
+const static uint64_t enumivo_all_scope        = N(enumivo.all);
 
 const static uint64_t active_name = N(active);
 const static uint64_t owner_name  = N(owner);
-const static uint64_t eosio_any_name = N(eosio.any);
+const static uint64_t enumivo_any_name = N(enumivo.any);
 
 const static int      block_interval_ms = 500;
 const static int      block_interval_us = block_interval_ms*1000;
@@ -79,7 +79,7 @@ const static uint32_t   overhead_per_row_per_index_ram_bytes = 32;    ///< overh
 const static uint32_t   overhead_per_account_ram_bytes     = 2*1024; ///< overhead accounts for basic account storage and pre-pays features like account recovery
 const static uint32_t   setcode_ram_bytes_multiplier       = 10;     ///< multiplier on contract size to account for multiple copies and cached compilation
 
-const static eosio::chain::wasm_interface::vm_type default_wasm_runtime = eosio::chain::wasm_interface::vm_type::binaryen;
+const static enumivo::chain::wasm_interface::vm_type default_wasm_runtime = enumivo::chain::wasm_interface::vm_type::binaryen;
 
 /**
  *  The number of sequential blocks produced by a single producer
@@ -103,14 +103,14 @@ template<typename T>
 constexpr uint64_t billable_size_v = ((billable_size<T>::value + billable_alignment - 1) / billable_alignment) * billable_alignment;
 
 
-} } } // namespace eosio::chain::config
+} } } // namespace enumivo::chain::config
 
 template<typename Number>
 Number ENU_PERCENT(Number value, uint32_t percentage) {
-   return value * percentage / eosio::chain::config::percent_100;
+   return value * percentage / enumivo::chain::config::percent_100;
 }
 
 template<typename Number>
 Number ENU_PERCENT_CEIL(Number value, uint32_t percentage) {
-   return ((value * percentage) + eosio::chain::config::percent_100 - eosio::chain::config::percent_1)  / eosio::chain::config::percent_100;
+   return ((value * percentage) + enumivo::chain::config::percent_100 - enumivo::chain::config::percent_1)  / enumivo::chain::config::percent_100;
 }

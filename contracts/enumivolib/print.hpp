@@ -9,7 +9,7 @@
 #include <enumivolib/fixed_key.hpp>
 #include <utility>
 
-namespace eosio {
+namespace enumivo {
 
    static_assert( sizeof(long) == sizeof(int), "unexpected size difference" );
 

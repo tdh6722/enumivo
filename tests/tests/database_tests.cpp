@@ -15,8 +15,8 @@
 #endif
 
 
-using namespace eosio::chain;
-using namespace eosio::testing;
+using namespace enumivo::chain;
+using namespace enumivo::testing;
 namespace bfs = boost::filesystem;
 
 BOOST_AUTO_TEST_SUITE(database_tests)
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_SUITE(database_tests)
          BOOST_TEST(test.control->last_irreversible_block_num() == expected_last_irreversible_block_number);
          // Check that block 201 cannot be found (only 20 blocks exist)
          BOOST_CHECK_THROW(test.control->get_block_id_for_num(num_of_blocks_to_prod + 1),
-                           eosio::chain::unknown_block_exception);
+                           enumivo::chain::unknown_block_exception);
 
          const uint32_t next_num_of_blocks_to_prod = 100;
          // Produce 100 blocks and check their IDs should match the above

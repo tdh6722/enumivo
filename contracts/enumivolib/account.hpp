@@ -10,7 +10,7 @@
 #include <enumivolib/asset.hpp>
 
 
-namespace eosio { namespace account {
+namespace enumivo { namespace account {
   /**
   *  @defgroup accountcppapi Account C++ API
   *  @brief C++ API for querying account data, e.g. account balance
@@ -28,7 +28,7 @@ namespace eosio { namespace account {
 *  test1_balance.account = N(test1);
 *  if (account_api::get(test1_balance))
 *  {
-*     eosio::print("test1 balance=", test1_balance.eos_balance, "\n");
+*     enumivo::print("test1 balance=", test1_balance.eos_balance, "\n");
 *  }
 *  @endcode
 *  @{
@@ -77,5 +77,5 @@ bool get(account_balance& acnt)
    return account_balance_get(&acnt, sizeof(account_balance));
 }
 
-/// @}  eosio
+/// @}  enumivo
 } }

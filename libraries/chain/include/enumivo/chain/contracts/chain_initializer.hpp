@@ -8,7 +8,7 @@
 #include <enumivo/chain/contracts/types.hpp>
 #include <enumivo/chain/chain_controller.hpp>
 
-namespace eosio { namespace chain {  namespace contracts {
+namespace enumivo { namespace chain {  namespace contracts {
 
    class chain_initializer 
    {
@@ -30,5 +30,5 @@ namespace eosio { namespace chain {  namespace contracts {
          genesis_state_type genesis;
    };
 
-} } } // namespace eosio::chain::contracts
+} } } // namespace enumivo::chain::contracts
 

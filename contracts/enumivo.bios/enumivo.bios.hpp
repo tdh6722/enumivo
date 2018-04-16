@@ -2,7 +2,7 @@
 #include <enumivolib/privileged.h>
 #include <enumivolib/producer_schedule.hpp>
 
-namespace eosio {
+namespace enumivo {
 
    class bios : public contract {
       public:
@@ -36,4 +36,4 @@ namespace eosio {
       private:
    };
 
-} /// namespace eosio
+} /// namespace enumivo

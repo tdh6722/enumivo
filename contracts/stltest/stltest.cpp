@@ -139,7 +139,7 @@
 #include <enumivolib/token.hpp>
 #include <enumivolib/dispatcher.hpp>
 
-using namespace eosio;
+using namespace enumivo;
 /*
 namespace std {
    extern ios_base __start_std_streams;
@@ -159,7 +159,7 @@ namespace stltest {
     
     class contract {
     public:
-        typedef eosio::token<N(mycurrency),S(4,MYCUR)> token_type;
+        typedef enumivo::token<N(mycurrency),S(4,MYCUR)> token_type;
         static const uint64_t code                = token_type::code;
         static const uint64_t symbol              = token_type::symbol;
         static const uint64_t sent_table_name = N(sent);
@@ -257,11 +257,11 @@ namespace stltest {
         }
 
         static void apply( account_name c, action_name act) {
-            eosio::dispatch<stltest::contract, message>(c,act);
+            enumivo::dispatch<stltest::contract, message>(c,act);
         }
     };
 
-} /// namespace eosio
+} /// namespace enumivo
 
 
 extern "C" {

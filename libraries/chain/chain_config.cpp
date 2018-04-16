@@ -8,7 +8,7 @@
 
 #include <fc/io/json.hpp>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
 
 template <typename T, typename Range>
@@ -70,4 +70,4 @@ bool operator==(const chain_config& a, const chain_config& b) {
    return true;
 }
 
-} } // namespace eosio::chain
+} } // namespace enumivo::chain

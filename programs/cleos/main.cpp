@@ -12,7 +12,7 @@
   @section intro Introduction to cleos
 
   `cleos` is a command line tool that interfaces with the REST api exposed by @ref nodeos. In order to use `cleos` you will need to
-  have a local copy of `nodeos` running and configured to load the 'eosio::chain_api_plugin'.
+  have a local copy of `nodeos` running and configured to load the 'enumivo::chain_api_plugin'.
 
    cleos contains documentation for all of its commands. For a list of all commands known to cleos, simply run it with no arguments:
 ```
@@ -110,13 +110,13 @@ Options:
 #include "httpc.hpp"
 
 using namespace std;
-using namespace eosio;
-using namespace eosio::chain;
-using namespace eosio::utilities;
-using namespace eosio::client::help;
-using namespace eosio::client::http;
-using namespace eosio::client::localize;
-using namespace eosio::client::config;
+using namespace enumivo;
+using namespace enumivo::chain;
+using namespace enumivo::utilities;
+using namespace enumivo::client::help;
+using namespace enumivo::client::http;
+using namespace enumivo::client::localize;
+using namespace enumivo::client::config;
 using namespace boost::filesystem;
 
 FC_DECLARE_EXCEPTION( explained_exception, 9000000, "explained exception, see error log" );
@@ -194,14 +194,14 @@ vector<chain::permission_level> get_account_permissions(const vector<string>& pe
 template<typename T>
 fc::variant call( const std::string& server, uint16_t port,
                   const std::string& path,
-                  const T& v ) { return eosio::client::http::call( server, port, path, fc::variant(v) ); }
+                  const T& v ) { return enumivo::client::http::call( server, port, path, fc::variant(v) ); }
 
 template<typename T>
 fc::variant call( const std::string& path,
-                  const T& v ) { return eosio::client::http::call( host, port, path, fc::variant(v) ); }
+                  const T& v ) { return enumivo::client::http::call( host, port, path, fc::variant(v) ); }
 
-eosio::chain_apis::read_only::get_info_results get_info() {
-  return call(host, port, get_info_func ).as<eosio::chain_apis::read_only::get_info_results>();
+enumivo::chain_apis::read_only::get_info_results get_info() {
+  return call(host, port, get_info_func ).as<enumivo::chain_apis::read_only::get_info_results>();
 }
 
 string generate_nonce_value() {
@@ -215,8 +215,8 @@ chain::action generate_nonce() {
 
    try {
       auto result = call(get_code_func, fc::mutable_variant_object("account_name", name(config::system_account_name)));
-      abi_serializer eosio_serializer(result["abi"].as<contracts::abi_def>());
-      return chain::action( {}, config::system_account_name, "nonce", eosio_serializer.variant_to_binary("nonce", nonce));
+      abi_serializer enumivo_serializer(result["abi"].as<contracts::abi_def>());
+      return chain::action( {}, config::system_account_name, "nonce", enumivo_serializer.variant_to_binary("nonce", nonce));
    }
    catch (...) {
       ENU_THROW(account_query_exception, "A system contract is required to use nonce");
@@ -304,7 +304,7 @@ void print_result( const fc::variant& result ) {
          auto console = at["console"].as_string();
 
          /*
-         if( code == "eosio" && func == "setcode" )
+         if( code == "enumivo" && func == "setcode" )
             args = args.substr(40)+"...";
          if( name(code) == config::system_account_name && func == "setabi" )
             args = args.substr(40)+"...";
@@ -338,7 +338,7 @@ void send_transaction( signed_transaction& trx, int32_t extra_kcpu, packed_trans
    if( tx_print_json ) {
       cout << fc::json::to_pretty_string( result );
    } else {
-      auto trace = result["processed"].as<eosio::chain::transaction_trace>();
+      auto trace = result["processed"].as<enumivo::chain::transaction_trace>();
       print_result( result );
    }
 }
@@ -349,9 +349,9 @@ chain::action create_newaccount(const name& creator, const name& newaccount, pub
       contracts::newaccount{
          .creator      = creator,
          .name         = newaccount,
-         .owner        = eosio::chain::authority{1, {{owner, 1}}, {}},
-         .active       = eosio::chain::authority{1, {{active, 1}}, {}},
-         .recovery     = eosio::chain::authority{1, {}, {{{creator, config::active_name}, 1}}}
+         .owner        = enumivo::chain::authority{1, {{owner, 1}}, {}},
+         .active       = enumivo::chain::authority{1, {{active, 1}}, {}},
+         .recovery     = enumivo::chain::authority{1, {}, {{{creator, config::active_name}, 1}}}
       }
    };
 }
@@ -549,7 +549,7 @@ int main( int argc, char** argv ) {
    version->require_subcommand();
 
    version->add_subcommand("client", localized("Retrieve version information of the client"))->set_callback([] {
-     std::cout << localized("Build version: ${ver}", ("ver", eosio::client::config::version_str)) << std::endl;
+     std::cout << localized("Build version: ${ver}", ("ver", enumivo::client::config::version_str)) << std::endl;
    });
 
    // Create subcommand

@@ -57,8 +57,8 @@ FC_REFLECT( invalid_access_action, (code)(val)(index)(store) )
 #define TESTER validating_tester
 #endif
 
-using namespace eosio;
-using namespace eosio::testing;
+using namespace enumivo;
+using namespace enumivo::testing;
 using namespace chain;
 using namespace chain::contracts;
 using namespace fc;
@@ -175,7 +175,7 @@ transaction_trace CallFunction(TESTER& test, T ac, const vector<char>& data, con
 }
 
 #define CALL_TEST_FUNCTION(_TESTER, CLS, MTH, DATA) CallFunction(_TESTER, test_api_action<TEST_METHOD(CLS, MTH)>{}, DATA)
-#define CALL_TEST_FUNCTION_SYSTEM(_TESTER, CLS, MTH, DATA) CallFunction(_TESTER, test_chain_action<TEST_METHOD(CLS, MTH)>{}, DATA, {N(eosio)} )
+#define CALL_TEST_FUNCTION_SYSTEM(_TESTER, CLS, MTH, DATA) CallFunction(_TESTER, test_chain_action<TEST_METHOD(CLS, MTH)>{}, DATA, {N(enumivo)} )
 #define CALL_TEST_FUNCTION_SCOPE(_TESTER, CLS, MTH, DATA, ACCOUNT) CallFunction(_TESTER, test_api_action<TEST_METHOD(CLS, MTH)>{}, DATA, ACCOUNT)
 #define CALL_TEST_FUNCTION_AND_CHECK_EXCEPTION(_TESTER, CLS, MTH, DATA, EXC, EXC_MESSAGE) \
 BOOST_CHECK_EXCEPTION( \
@@ -190,7 +190,7 @@ bool is_access_violation(fc::unhandled_exception const & e) {
    try {
       std::rethrow_exception(e.get_inner_exception());
     }
-    catch (const eosio::chain::wasm_execution_error& e) {
+    catch (const enumivo::chain::wasm_execution_error& e) {
        return true;
     } catch (...) {
 
@@ -205,7 +205,7 @@ bool is_page_memory_error(page_memory_error const &e) { return true; }
 bool is_tx_missing_auth(tx_missing_auth const & e) { return true; }
 bool is_tx_missing_recipient(tx_missing_recipient const & e) { return true;}
 bool is_tx_missing_sigs(tx_missing_sigs const & e) { return true;}
-bool is_wasm_execution_error(eosio::chain::wasm_execution_error const& e) {return true;}
+bool is_wasm_execution_error(enumivo::chain::wasm_execution_error const& e) {return true;}
 bool is_tx_resource_exhausted(const tx_resource_exhausted& e) { return true; }
 bool is_checktime_exceeded(const checktime_exceeded& e) { return true; }
 
@@ -268,8 +268,8 @@ BOOST_FIXTURE_TEST_CASE(action_tests, TESTER) { try {
 
    // test read_action_to_0
    raw_bytes.resize((1<<16)+1);
-   BOOST_CHECK_EXCEPTION(CALL_TEST_FUNCTION( *this, "test_action", "read_action_to_0", raw_bytes), eosio::chain::wasm_execution_error,
-         [](const eosio::chain::wasm_execution_error& e) {
+   BOOST_CHECK_EXCEPTION(CALL_TEST_FUNCTION( *this, "test_action", "read_action_to_0", raw_bytes), enumivo::chain::wasm_execution_error,
+         [](const enumivo::chain::wasm_execution_error& e) {
             return expect_assert_message(e, "access violation");
          }
       );
@@ -280,8 +280,8 @@ BOOST_FIXTURE_TEST_CASE(action_tests, TESTER) { try {
 
    // test read_action_to_64k
    raw_bytes.resize(3);
-	BOOST_CHECK_EXCEPTION(CALL_TEST_FUNCTION( *this, "test_action", "read_action_to_64k", raw_bytes ), eosio::chain::wasm_execution_error,
-         [](const eosio::chain::wasm_execution_error& e) {
+	BOOST_CHECK_EXCEPTION(CALL_TEST_FUNCTION( *this, "test_action", "read_action_to_64k", raw_bytes ), enumivo::chain::wasm_execution_error,
+         [](const enumivo::chain::wasm_execution_error& e) {
             return expect_assert_message(e, "access violation");
          }
       );
@@ -713,15 +713,15 @@ BOOST_FIXTURE_TEST_CASE(transaction_tests, TESTER) { try {
    CALL_TEST_FUNCTION(*this, "test_transaction", "test_tapos_block_prefix", fc::raw::pack(control->head_block_id()._hash[1]) );
 
    // test send_action_recurse
-   BOOST_CHECK_EXCEPTION(CALL_TEST_FUNCTION(*this, "test_transaction", "send_action_recurse", {}), eosio::chain::transaction_exception,
-         [](const eosio::chain::transaction_exception& e) {
+   BOOST_CHECK_EXCEPTION(CALL_TEST_FUNCTION(*this, "test_transaction", "send_action_recurse", {}), enumivo::chain::transaction_exception,
+         [](const enumivo::chain::transaction_exception& e) {
             return expect_assert_message(e, "inline action recursion depth reached");
          }
       );
 
    // test send_transaction_expiring_late
    BOOST_CHECK_EXCEPTION(CALL_TEST_FUNCTION( *this, "test_transaction", "send_transaction_expiring_late", fc::raw::pack(N(testapi))),
-                         eosio::chain::transaction_exception,  [](const eosio::chain::transaction_exception& e) {
+                         enumivo::chain::transaction_exception,  [](const enumivo::chain::transaction_exception& e) {
                                                                   return expect_assert_message(e, "Transaction expiration is too far");
                                                                }
       );

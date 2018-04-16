@@ -22,12 +22,12 @@
 #include <cmath>
 
 namespace enumivosystem {
-   using eosio::indexed_by;
-   using eosio::const_mem_fun;
-   using eosio::bytes;
-   using eosio::print;
-   using eosio::singleton;
-   using eosio::transaction;
+   using enumivo::indexed_by;
+   using enumivo::const_mem_fun;
+   using enumivo::bytes;
+   using enumivo::print;
+   using enumivo::singleton;
+   using enumivo::transaction;
 
 
    template<account_name SystemAccount>
@@ -36,7 +36,7 @@ namespace enumivosystem {
          static constexpr account_name system_account = SystemAccount;
          using currency = typename common<SystemAccount>::currency;
          using system_token_type = typename common<SystemAccount>::system_token_type;
-         using eosio_parameters = typename common<SystemAccount>::eosio_parameters;
+         using enumivo_parameters = typename common<SystemAccount>::enumivo_parameters;
          using global_state_singleton = typename common<SystemAccount>::global_state_singleton;
 
          static constexpr uint32_t max_inflation_rate = common<SystemAccount>::max_inflation_rate;
@@ -45,8 +45,8 @@ namespace enumivosystem {
          struct producer_info {
             account_name      owner;
             uint128_t         total_votes = 0;
-            eosio_parameters  prefs;
-            eosio::bytes      packed_key; /// a packed public key object
+            enumivo_parameters  prefs;
+            enumivo::bytes      packed_key; /// a packed public key object
             system_token_type per_block_payments;
             time              last_rewards_claim = 0;
             time              time_became_active = 0;
@@ -61,7 +61,7 @@ namespace enumivosystem {
                               (time_became_active)(last_produced_block_time) )
          };
 
-         typedef eosio::multi_index< N(producerinfo), producer_info,
+         typedef enumivo::multi_index< N(producerinfo), producer_info,
                                      indexed_by<N(prototalvote), const_mem_fun<producer_info, uint128_t, &producer_info::by_votes>  >
                                      >  producers_table;
 
@@ -84,12 +84,12 @@ namespace enumivosystem {
             ENULIB_SERIALIZE( voter_info, (owner)(proxy)(last_update)(is_proxy)(staked)(unstaking)(unstake_per_week)(proxied_votes)(producers)(deferred_trx_id)(last_unstake_time) )
          };
 
-         typedef eosio::multi_index< N(voters), voter_info>  voters_table;
+         typedef enumivo::multi_index< N(voters), voter_info>  voters_table;
 
          ACTION( SystemAccount, regproducer ) {
             account_name     producer;
             bytes            producer_key;
-            eosio_parameters prefs;
+            enumivo_parameters prefs;
 
             ENULIB_SERIALIZE( regproducer, (producer)(producer_key)(prefs) )
          };
@@ -265,7 +265,7 @@ namespace enumivosystem {
             std::array<uint32_t, 21> percent_of_max_inflation_rate;
             std::array<uint32_t, 21> storage_reserve_ratio;
 
-            eosio::producer_schedule schedule;
+            enumivo::producer_schedule schedule;
             schedule.producers.reserve(21);
             size_t n = 0;
             for ( auto it = idx.crbegin(); it != idx.crend() && n < 21 && 0 < it->total_votes; ++it ) {

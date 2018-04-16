@@ -3,11 +3,11 @@
 #include <enumivo/chain/wasm_interface.hpp>
 #include <enumivo/chain/wasm_enumivo_constraints.hpp>
 
-#define ENUMIVO_INJECTED_MODULE_NAME "eosio_injection"
+#define ENUMIVO_INJECTED_MODULE_NAME "enumivo_injection"
 
 using namespace fc;
 
-namespace eosio { namespace chain { 
+namespace enumivo { namespace chain { 
 
    class apply_context;
 
@@ -84,4 +84,4 @@ namespace eosio { namespace chain {
       char *value;
    };
 
- } } // eosio::chain
+ } } // enumivo::chain

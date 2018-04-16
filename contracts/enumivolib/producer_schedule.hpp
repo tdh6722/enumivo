@@ -3,7 +3,7 @@
 
 #include <vector>
 
-namespace eosio {
+namespace enumivo {
    struct producer_key {
       account_name     producer_name;
       public_key       block_signing_key;
@@ -15,4 +15,4 @@ namespace eosio {
       uint32_t                     version;   ///< sequentially incrementing version number
       std::vector<producer_key>    producers;
    };
-} /// namespace eosio
+} /// namespace enumivo

@@ -20,7 +20,7 @@
 
 #include "config.hpp"
 #include <boost/test/framework.hpp>
-using namespace eosio;
+using namespace enumivo;
 using namespace chain;
 using namespace chain::contracts;
 
@@ -382,13 +382,13 @@ BOOST_AUTO_TEST_CASE(uint_types)
 
 } FC_LOG_AND_RETHROW() }
 
-using namespace eosio::tests::config;
+using namespace enumivo::tests::config;
 
 struct abi_gen_helper {
 
   abi_gen_helper() {}
 
-  static bool is_abi_generation_exception(const eosio::abi_generation_exception& e) { return true; };
+  static bool is_abi_generation_exception(const enumivo::abi_generation_exception& e) { return true; };
 
   bool generate_abi(const char* source, const char* abi, bool opt_sfs=false) {
 
@@ -403,7 +403,7 @@ struct abi_gen_helper {
     std::string contract;
     std::vector<std::string> actions;
 
-    bool res = runToolOnCodeWithArgs(new find_eosio_abi_macro_action(contract, actions, ""), source,
+    bool res = runToolOnCodeWithArgs(new find_enumivo_abi_macro_action(contract, actions, ""), source,
       {"-fparse-all-comments", "--std=c++14", "--target=wasm32", "-ffreestanding", "-nostdlib",
       "-nostdlibinc", "-fno-threadsafe-statics", "-fno-rtti",  "-fno-exceptions",
       include_param, boost_include_param, stdcpp_include_param,
@@ -448,7 +448,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_unknown_type, abi_gen_helper)
    };
    )=====";
 
-   BOOST_CHECK_EXCEPTION( generate_abi(unknown_type, ""), eosio::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
+   BOOST_CHECK_EXCEPTION( generate_abi(unknown_type, ""), enumivo::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
 
 } FC_LOG_AND_RETHROW() }
 
@@ -499,7 +499,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_all_types, abi_gen_helper)
       int16_t                 field16;
       int32_t                 field17;
       int64_t                 field18;
-      eosio::name             field19;
+      enumivo::name             field19;
       field                   field20;
       struct_def              field21;
       fields                  field22;
@@ -520,7 +520,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_all_types, abi_gen_helper)
       table_def               field37;
       abi_def                 field38;
       public_key              field39;
-      eosio::asset            field40;
+      enumivo::asset            field40;
    };
    )=====";
 
@@ -682,7 +682,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_double_base, abi_gen_helper)
    };
    )=====";
 
-   BOOST_CHECK_EXCEPTION( generate_abi(double_base, ""), eosio::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
+   BOOST_CHECK_EXCEPTION( generate_abi(double_base, ""), enumivo::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
 
 } FC_LOG_AND_RETHROW() }
 
@@ -757,7 +757,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_all_indexes, abi_gen_helper)
    #include <enumivolib/types.hpp>
    #include <string>
 
-   using namespace eosio;
+   using namespace enumivo;
 
    //@abi table
    struct table1 {
@@ -917,7 +917,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_unable_to_determine_index, abi_gen_helper)
 
    )=====";
 
-   BOOST_CHECK_EXCEPTION( generate_abi(unable_to_determine_index, ""), eosio::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
+   BOOST_CHECK_EXCEPTION( generate_abi(unable_to_determine_index, ""), enumivo::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
 
 } FC_LOG_AND_RETHROW() }
 
@@ -984,7 +984,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_same_type_different_namespace, abi_gen_helper)
 
    )=====";
 
-   BOOST_CHECK_EXCEPTION( generate_abi(same_type_different_namespace, ""), eosio::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
+   BOOST_CHECK_EXCEPTION( generate_abi(same_type_different_namespace, ""), enumivo::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
 
 } FC_LOG_AND_RETHROW() }
 
@@ -1003,7 +1003,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_bad_index_type, abi_gen_helper)
 
    )=====";
 
-   BOOST_CHECK_EXCEPTION( generate_abi(bad_index_type, "{}"), eosio::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
+   BOOST_CHECK_EXCEPTION( generate_abi(bad_index_type, "{}"), enumivo::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
 
 } FC_LOG_AND_RETHROW() }
 
@@ -1017,7 +1017,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_full_table_decl, abi_gen_helper)
    class table1 {
    public:
       uint64_t  id;
-      eosio::name name;
+      enumivo::name name;
       uint32_t  age;
    };
 
@@ -1126,7 +1126,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_union_table, abi_gen_helper)
 
    )=====";
 
-   BOOST_CHECK_EXCEPTION( generate_abi(union_table, ""), eosio::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
+   BOOST_CHECK_EXCEPTION( generate_abi(union_table, ""), enumivo::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
 
 } FC_LOG_AND_RETHROW() }
 
@@ -1148,7 +1148,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_same_action_different_type, abi_gen_helper)
 
    )=====";
 
-   BOOST_CHECK_EXCEPTION( generate_abi(same_action_different_type, ""), eosio::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
+   BOOST_CHECK_EXCEPTION( generate_abi(same_action_different_type, ""), enumivo::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
 } FC_LOG_AND_RETHROW() }
 
 BOOST_FIXTURE_TEST_CASE(abigen_template_base, abi_gen_helper)
@@ -1269,7 +1269,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_simple_typedef, abi_gen_helper)
    const char* simple_typedef = R"=====(
    #include <enumivolib/types.hpp>
 
-   using namespace eosio;
+   using namespace enumivo;
 
    struct common_params {
       uint64_t c1;
@@ -1332,7 +1332,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_field_typedef, abi_gen_helper)
    const char* field_typedef = R"=====(
    #include <enumivolib/types.hpp>
 
-   using namespace eosio;
+   using namespace enumivo;
 
    typedef name my_name_alias;
 
@@ -1413,7 +1413,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_vector_of_POD, abi_gen_helper)
    #include <string>
    #include <enumivolib/types.hpp>
 
-   using namespace eosio;
+   using namespace enumivo;
    using namespace std;
 
    //@abi table
@@ -1481,7 +1481,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_vector_of_structs, abi_gen_helper)
    #include <string>
    #include <enumivolib/types.hpp>
 
-   using namespace eosio;
+   using namespace enumivo;
    using namespace std;
 
    struct my_struct {
@@ -1565,7 +1565,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_vector_multidimension, abi_gen_helper)
    #include <string>
    #include <enumivolib/types.hpp>
 
-   using namespace eosio;
+   using namespace enumivo;
    using namespace std;
 
    //@abi table
@@ -1576,7 +1576,7 @@ BOOST_FIXTURE_TEST_CASE(abigen_vector_multidimension, abi_gen_helper)
 
    )=====";
 
-   BOOST_CHECK_EXCEPTION( generate_abi(abigen_vector_multidimension, ""), eosio::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
+   BOOST_CHECK_EXCEPTION( generate_abi(abigen_vector_multidimension, ""), enumivo::abi_generation_exception, abi_gen_helper::is_abi_generation_exception );
 
 } FC_LOG_AND_RETHROW() }
 
@@ -1648,10 +1648,10 @@ BOOST_FIXTURE_TEST_CASE(abgigen_vector_alias, abi_gen_helper)
 
 } FC_LOG_AND_RETHROW() }
 
-BOOST_FIXTURE_TEST_CASE(abgigen_eosioabi_macro, abi_gen_helper)
+BOOST_FIXTURE_TEST_CASE(abgigen_enumivoabi_macro, abi_gen_helper)
 { try {
 
-   const char* abgigen_eosioabi_macro = R"=====(
+   const char* abgigen_enumivoabi_macro = R"=====(
 
       #pragma GCC diagnostic push
       #pragma GCC diagnostic ignored "-Wpointer-bool-conversion"
@@ -1660,9 +1660,9 @@ BOOST_FIXTURE_TEST_CASE(abgigen_eosioabi_macro, abi_gen_helper)
       #include <enumivolib/print.hpp>
 
 
-      using namespace eosio;
+      using namespace enumivo;
 
-      struct hello : public eosio::contract {
+      struct hello : public enumivo::contract {
         public:
             using contract::contract;
 
@@ -1681,7 +1681,7 @@ BOOST_FIXTURE_TEST_CASE(abgigen_eosioabi_macro, abi_gen_helper)
 
    )=====";
 
-   const char* abgigen_eosioabi_macro_abi = R"=====(
+   const char* abgigen_enumivoabi_macro_abi = R"=====(
    {
      "types": [],
      "structs": [{
@@ -1704,7 +1704,7 @@ BOOST_FIXTURE_TEST_CASE(abgigen_eosioabi_macro, abi_gen_helper)
    }
    )=====";
 
-   BOOST_TEST( generate_abi(abgigen_eosioabi_macro, abgigen_eosioabi_macro_abi) == true );
+   BOOST_TEST( generate_abi(abgigen_enumivoabi_macro, abgigen_enumivoabi_macro_abi) == true );
 
 } FC_LOG_AND_RETHROW() }
 
@@ -1719,9 +1719,9 @@ BOOST_FIXTURE_TEST_CASE(abgigen_contract_inheritance, abi_gen_helper)
       #include <enumivolib/print.hpp>
 
 
-      using namespace eosio;
+      using namespace enumivo;
 
-      struct hello : public eosio::contract {
+      struct hello : public enumivo::contract {
         public:
             using contract::contract;
 

@@ -18,9 +18,9 @@
 #include "IR/Module.h"
 #include "IR/Validate.h"
 
-using namespace eosio::chain::contracts;
+using namespace enumivo::chain::contracts;
 
-namespace eosio { namespace testing {
+namespace enumivo { namespace testing {
 
    fc::variant_object filter_fields(const fc::variant_object& filter, const fc::variant_object& value) {
       fc::mutable_variant_object res;
@@ -584,7 +584,7 @@ namespace eosio { namespace testing {
          for (int i = 1; i <= a.control->head_block_num(); ++i) {
             auto block = a.control->fetch_block_by_number(i);
             if (block && !b.control->is_known_block(block->id())) {
-               b.control->push_block(*block, eosio::chain::validation_steps::created_block);
+               b.control->push_block(*block, enumivo::chain::validation_steps::created_block);
             }
          }
       };
@@ -608,7 +608,7 @@ namespace eosio { namespace testing {
          schedule.producers.emplace_back(pk);
       }
 
-      push_action(N(eosio), N(setprods), N(eosio),
+      push_action(N(enumivo), N(setprods), N(enumivo),
                   fc::mutable_variant_object()("version", schedule.version)("producers", schedule.producers));
 
       return schedule;
@@ -619,7 +619,7 @@ namespace eosio { namespace testing {
       return tid;
    }
 
-} }  /// eosio::test
+} }  /// enumivo::test
 
 std::ostream& operator<<( std::ostream& osm, const fc::variant& v ) {
    //fc::json::to_stream( osm, v );

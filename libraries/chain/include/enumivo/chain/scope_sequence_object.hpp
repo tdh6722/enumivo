@@ -10,7 +10,7 @@
 
 #include "multi_index_includes.hpp"
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
    class scope_sequence_object : public chainbase::object<scope_sequence_object_type, scope_sequence_object> {
       OBJECT_CTOR(scope_sequence_object)
@@ -38,10 +38,10 @@ namespace eosio { namespace chain {
 
    typedef chainbase::generic_index<scope_sequence_multi_index> scope_sequence_index;
 
-} } // eosio::chain
+} } // enumivo::chain
 
-CHAINBASE_SET_INDEX_TYPE(eosio::chain::scope_sequence_object, eosio::chain::scope_sequence_multi_index)
+CHAINBASE_SET_INDEX_TYPE(enumivo::chain::scope_sequence_object, enumivo::chain::scope_sequence_multi_index)
 
-FC_REFLECT(chainbase::oid<eosio::chain::scope_sequence_object>, (_id))
+FC_REFLECT(chainbase::oid<enumivo::chain::scope_sequence_object>, (_id))
 
-FC_REFLECT(eosio::chain::scope_sequence_object, (id)(scope)(receiver)(sequence))
+FC_REFLECT(enumivo::chain::scope_sequence_object, (id)(scope)(receiver)(sequence))

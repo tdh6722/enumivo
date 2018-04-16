@@ -7,9 +7,9 @@
 #include "IR/Operators.h"
 #include "WASM/WASM.h"
 
-namespace eosio { namespace chain { namespace wasm_injections {
+namespace enumivo { namespace chain { namespace wasm_injections {
 using namespace IR;
-using namespace eosio::chain::wasm_constraints;
+using namespace enumivo::chain::wasm_constraints;
 
 std::map<std::vector<uint16_t>, uint32_t> injector_utils::type_slots;
 std::map<std::string, uint32_t>           injector_utils::registered_injected;
@@ -38,4 +38,4 @@ void max_memory_injection_visitor::initializer() {}
 uint32_t instruction_counter::icnt = 0;
 int32_t  checktime_injector::checktime_idx = -1;
 
-}}} // namespace eosio, chain, injectors
+}}} // namespace enumivo, chain, injectors

@@ -26,17 +26,17 @@
 #include <currency/currency.wast.hpp>
 #include <currency/currency.abi.hpp>
 
-namespace eosio { namespace detail {
+namespace enumivo { namespace detail {
   struct txn_test_gen_empty {};
 }}
 
-FC_REFLECT(eosio::detail::txn_test_gen_empty, );
+FC_REFLECT(enumivo::detail::txn_test_gen_empty, );
 
-namespace eosio {
+namespace enumivo {
 
 static appbase::abstract_plugin& _txn_test_gen_plugin = app().register_plugin<txn_test_gen_plugin>();
 
-using namespace eosio::chain;
+using namespace enumivo::chain;
 
 #define CALL(api_name, api_handle, call_name, INVOKE, http_response_code) \
 {std::string("/v1/" #api_name "/" #call_name), \
@@ -59,16 +59,16 @@ using namespace eosio::chain;
 #define INVOKE_V_R_R_R(api_handle, call_name, in_param0, in_param1, in_param2) \
      const auto& vs = fc::json::json::from_string(body).as<fc::variants>(); \
      api_handle->call_name(vs.at(0).as<in_param0>(), vs.at(1).as<in_param1>(), vs.at(2).as<in_param2>()); \
-     eosio::detail::txn_test_gen_empty result;
+     enumivo::detail::txn_test_gen_empty result;
 
 #define INVOKE_V_R_R(api_handle, call_name, in_param0, in_param1) \
      const auto& vs = fc::json::json::from_string(body).as<fc::variants>(); \
      api_handle->call_name(vs.at(0).as<in_param0>(), vs.at(1).as<in_param1>()); \
-     eosio::detail::txn_test_gen_empty result;
+     enumivo::detail::txn_test_gen_empty result;
 
 #define INVOKE_V_V(api_handle, call_name) \
      api_handle->call_name(); \
-     eosio::detail::txn_test_gen_empty result;
+     enumivo::detail::txn_test_gen_empty result;
 
 struct txn_test_gen_plugin_impl {
    void create_test_accounts(const std::string& init_name, const std::string& init_priv_key) {
@@ -98,25 +98,25 @@ struct txn_test_gen_plugin_impl {
 
          //create "A" account
          {
-         auto owner_auth   = eosio::chain::authority{1, {{txn_text_receiver_A_pub_key, 1}}, {}};
-         auto active_auth  = eosio::chain::authority{1, {{txn_text_receiver_A_pub_key, 1}}, {}};
-         auto recovery_auth = eosio::chain::authority{1, {}, {{{creator, "active"}, 1}}};
+         auto owner_auth   = enumivo::chain::authority{1, {{txn_text_receiver_A_pub_key, 1}}, {}};
+         auto active_auth  = enumivo::chain::authority{1, {{txn_text_receiver_A_pub_key, 1}}, {}};
+         auto recovery_auth = enumivo::chain::authority{1, {}, {{{creator, "active"}, 1}}};
 
          trx.actions.emplace_back(vector<chain::permission_level>{{creator,"active"}}, contracts::newaccount{creator, newaccountA, owner_auth, active_auth, recovery_auth});
          }
          //create "B" account
          {
-         auto owner_auth   = eosio::chain::authority{1, {{txn_text_receiver_B_pub_key, 1}}, {}};
-         auto active_auth  = eosio::chain::authority{1, {{txn_text_receiver_B_pub_key, 1}}, {}};
-         auto recovery_auth = eosio::chain::authority{1, {}, {{{creator, "active"}, 1}}};
+         auto owner_auth   = enumivo::chain::authority{1, {{txn_text_receiver_B_pub_key, 1}}, {}};
+         auto active_auth  = enumivo::chain::authority{1, {{txn_text_receiver_B_pub_key, 1}}, {}};
+         auto recovery_auth = enumivo::chain::authority{1, {}, {{{creator, "active"}, 1}}};
 
          trx.actions.emplace_back(vector<chain::permission_level>{{creator,"active"}}, contracts::newaccount{creator, newaccountB, owner_auth, active_auth, recovery_auth});
          }
          //create "currency" account
          {
-         auto owner_auth   = eosio::chain::authority{1, {{txn_text_receiver_C_pub_key, 1}}, {}};
-         auto active_auth  = eosio::chain::authority{1, {{txn_text_receiver_C_pub_key, 1}}, {}};
-         auto recovery_auth = eosio::chain::authority{1, {}, {{{creator, "active"}, 1}}};
+         auto owner_auth   = enumivo::chain::authority{1, {{txn_text_receiver_C_pub_key, 1}}, {}};
+         auto active_auth  = enumivo::chain::authority{1, {{txn_text_receiver_C_pub_key, 1}}, {}};
+         auto recovery_auth = enumivo::chain::authority{1, {}, {{{creator, "active"}, 1}}};
 
          trx.actions.emplace_back(vector<chain::permission_level>{{creator,"active"}}, contracts::newaccount{creator, newaccountC, owner_auth, active_auth, recovery_auth});
          }
@@ -248,7 +248,7 @@ struct txn_test_gen_plugin_impl {
       fc::crypto::private_key b_priv_key = fc::crypto::private_key::regenerate(fc::sha256(std::string(64, 'b')));
 
       static uint64_t nonce = static_cast<uint64_t>(fc::time_point::now().sec_since_epoch()) << 32;
-      abi_serializer eosio_serializer(cc.get_database().find<account_object, by_name>(config::system_account_name)->get_abi());
+      abi_serializer enumivo_serializer(cc.get_database().find<account_object, by_name>(config::system_account_name)->get_abi());
 
 
       for(unsigned int i = 0; i < batch; ++i) {
@@ -257,7 +257,7 @@ struct txn_test_gen_plugin_impl {
          ("value", fc::to_string(nonce++));
       signed_transaction trx;
       trx.actions.push_back(act_a_to_b);
-      trx.context_free_actions.emplace_back(action({}, config::system_account_name, "nonce", eosio_serializer.variant_to_binary("nonce", nonce_vo)));
+      trx.context_free_actions.emplace_back(action({}, config::system_account_name, "nonce", enumivo_serializer.variant_to_binary("nonce", nonce_vo)));
       trx.set_reference_block(cc.head_block_id());
       trx.expiration = cc.head_block_time() + fc::seconds(30);
       trx.max_net_usage_words = 100;
@@ -270,7 +270,7 @@ struct txn_test_gen_plugin_impl {
          ("value", fc::to_string(nonce++));
       signed_transaction trx;
       trx.actions.push_back(act_b_to_a);
-      trx.context_free_actions.emplace_back(action({}, config::system_account_name, "nonce", eosio_serializer.variant_to_binary("nonce", nonce_vo)));
+      trx.context_free_actions.emplace_back(action({}, config::system_account_name, "nonce", enumivo_serializer.variant_to_binary("nonce", nonce_vo)));
       trx.set_reference_block(cc.head_block_id());
       trx.expiration = cc.head_block_time() + fc::seconds(30);
       trx.max_net_usage_words = 100;

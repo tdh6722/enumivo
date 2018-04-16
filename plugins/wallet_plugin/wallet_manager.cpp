@@ -4,7 +4,7 @@
  */
 #include <enumivo/wallet_plugin/wallet_manager.hpp>
 #include <enumivo/chain/exceptions.hpp>
-namespace eosio {
+namespace enumivo {
 namespace wallet {
 
 constexpr auto file_ext = ".wallet";
@@ -46,7 +46,7 @@ std::string wallet_manager::create(const std::string& name) {
    wallet->set_password(password);
    wallet->set_wallet_filename(wallet_filename.string());
    wallet->unlock(password);
-   wallet->import_key(eosio_key);
+   wallet->import_key(enumivo_key);
    wallet->lock();
    wallet->unlock(password);
    
@@ -193,4 +193,4 @@ wallet_manager::sign_transaction(const chain::signed_transaction& txn, const fla
 }
 
 } // namespace wallet
-} // namespace eosio
+} // namespace enumivo

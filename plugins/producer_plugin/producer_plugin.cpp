@@ -18,11 +18,11 @@
 using std::string;
 using std::vector;
 
-namespace eosio {
+namespace enumivo {
 
 static appbase::abstract_plugin& _producer_plugin = app().register_plugin<producer_plugin>();
 
-using namespace eosio::chain;
+using namespace enumivo::chain;
 
 class producer_plugin_impl {
 public:
@@ -36,7 +36,7 @@ public:
    boost::program_options::variables_map _options;
    bool     _production_enabled                 = false;
    uint32_t _required_producer_participation    = uint32_t(config::required_producer_participation);
-   uint32_t _production_skip_flags              = eosio::chain::skip_nothing;
+   uint32_t _production_skip_flags              = enumivo::chain::skip_nothing;
 
    std::map<chain::public_key_type, chain::private_key_type> _private_keys;
    std::set<chain::account_name>                             _producers;
@@ -46,7 +46,7 @@ public:
    uint32_t _prev_result_count = 0;
 };
 
-void new_chain_banner(const eosio::chain::chain_controller& db)
+void new_chain_banner(const enumivo::chain::chain_controller& db)
 {
    std::cerr << "\n"
       "*******************************\n"
@@ -168,7 +168,7 @@ void producer_plugin::plugin_startup()
       {
          if(chain.head_block_num() == 0)
             new_chain_banner(chain);
-         my->_production_skip_flags |= eosio::chain::skip_undo_history_check;
+         my->_production_skip_flags |= enumivo::chain::skip_undo_history_check;
       }
       my->schedule_production_loop();
    } else
@@ -309,7 +309,7 @@ block_production_condition::block_production_condition_enum producer_plugin_impl
    }
 
    auto scheduled_time = chain.get_slot_time( slot );
-   eosio::chain::public_key_type scheduled_key = chain.get_producer(scheduled_producer).signing_key;
+   enumivo::chain::public_key_type scheduled_key = chain.get_producer(scheduled_producer).signing_key;
    auto private_key_itr = _private_keys.find( scheduled_key );
 
    if( private_key_itr == _private_keys.end() )
@@ -345,4 +345,4 @@ block_production_condition::block_production_condition_enum producer_plugin_impl
    return block_production_condition::produced;
 }
 
-} // namespace eosio
+} // namespace enumivo

@@ -6,7 +6,7 @@
 #include <enumivo/chain/transaction.hpp>
 #include <enumivo/chain/block.hpp>
 
-namespace eosio { namespace chain {
+namespace enumivo { namespace chain {
 
 class transaction_metadata {
    public:
@@ -74,6 +74,6 @@ class transaction_metadata {
       const transaction* _trx = nullptr;
 };
 
-} } // eosio::chain
+} } // enumivo::chain
 
-FC_REFLECT( eosio::chain::transaction_metadata, (raw_trx)(signing_keys)(id)(region_id)(cycle_index)(shard_index)(billable_packed_size)(published)(sender)(sender_id)(is_implicit))
+FC_REFLECT( enumivo::chain::transaction_metadata, (raw_trx)(signing_keys)(id)(region_id)(cycle_index)(shard_index)(billable_packed_size)(published)(sender)(sender_id)(is_implicit))

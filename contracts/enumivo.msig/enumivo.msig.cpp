@@ -1,7 +1,7 @@
 #include <enumivo.msig/enumivo.msig.hpp>
 #include <enumivolib/action.hpp>
 
-namespace eosio {
+namespace enumivo {
 
 /*
 propose function manually parses input data (instead of taking parsed arguments from dispatcher)
@@ -106,6 +106,6 @@ void multisig::exec( account_name proposer, name proposal_name, account_name exe
    proptable.erase(prop_it);
 }
 
-} /// namespace eosio
+} /// namespace enumivo
 
-ENUMIVO_ABI( eosio::multisig, (propose)(approve)(unapprove)(cancel)(exec) )
+ENUMIVO_ABI( enumivo::multisig, (propose)(approve)(unapprove)(cancel)(exec) )

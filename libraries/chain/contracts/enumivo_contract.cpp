@@ -24,7 +24,7 @@
 
 #include <enumivo/chain/resource_limits.hpp>
 
-namespace eosio { namespace chain { namespace contracts {
+namespace enumivo { namespace chain { namespace contracts {
 
 void validate_authority_precondition( const apply_context& context, const authority& auth ) {
    for(const auto& a : auth.accounts) {
@@ -36,11 +36,11 @@ void validate_authority_precondition( const apply_context& context, const author
 /**
  *  This method is called assuming precondition_system_newaccount succeeds a
  */
-void apply_eosio_newaccount(apply_context& context) {
+void apply_enumivo_newaccount(apply_context& context) {
    auto create = context.act.data_as<newaccount>();
    try {
    context.require_authorization(create.creator);
-   context.require_write_lock( config::eosio_auth_scope );
+   context.require_write_lock( config::enumivo_auth_scope );
    auto& resources = context.mutable_controller.get_mutable_resource_limits_manager();
 
    ENU_ASSERT( validate(create.owner), action_validate_exception, "Invalid owner authority");
@@ -57,8 +57,8 @@ void apply_eosio_newaccount(apply_context& context) {
    // Check if the creator is privileged
    const auto &creator = db.get<account_object, by_name>(create.creator);
    if( !creator.privileged ) {
-      ENU_ASSERT( name_str.find( "eosio." ) != 0, action_validate_exception,
-                  "only privileged accounts can have names that start with 'eosio.'" );
+      ENU_ASSERT( name_str.find( "enumivo." ) != 0, action_validate_exception,
+                  "only privileged accounts can have names that start with 'enumivo.'" );
    }
 
    auto existing_account = db.find<account_object, by_name>(create.name);
@@ -103,12 +103,12 @@ void apply_eosio_newaccount(apply_context& context) {
 
 } FC_CAPTURE_AND_RETHROW( (create) ) }
 
-void apply_eosio_setcode(apply_context& context) {
+void apply_enumivo_setcode(apply_context& context) {
    auto& db = context.mutable_db;
    auto& resources = context.mutable_controller.get_mutable_resource_limits_manager();
    auto  act = context.act.data_as<setcode>();
    context.require_authorization(act.account);
-   context.require_write_lock( config::eosio_auth_scope );
+   context.require_write_lock( config::enumivo_auth_scope );
 
    FC_ASSERT( act.vmtype == 0 );
    FC_ASSERT( act.vmversion == 0 );
@@ -146,7 +146,7 @@ void apply_eosio_setcode(apply_context& context) {
    }
 }
 
-void apply_eosio_setabi(apply_context& context) {
+void apply_enumivo_setabi(apply_context& context) {
    auto& db = context.mutable_db;
    auto& resources = context.mutable_controller.get_mutable_resource_limits_manager();
    auto  act = context.act.data_as<setabi>();
@@ -154,7 +154,7 @@ void apply_eosio_setabi(apply_context& context) {
    context.require_authorization(act.account);
 
    // if system account append native abi
-   if ( act.account == eosio::chain::config::system_account_name ) {
+   if ( act.account == enumivo::chain::config::system_account_name ) {
       act.abi = chain_initializer::eos_contract_abi(act.abi);
    }
    /// if an ABI is specified make sure it is well formed and doesn't
@@ -179,16 +179,16 @@ void apply_eosio_setabi(apply_context& context) {
    }
 }
 
-void apply_eosio_updateauth(apply_context& context) {
+void apply_enumivo_updateauth(apply_context& context) {
    auto& resources = context.mutable_controller.get_mutable_resource_limits_manager();
-   context.require_write_lock( config::eosio_auth_scope );
+   context.require_write_lock( config::enumivo_auth_scope );
 
    auto& db = context.mutable_db;
 
    auto update = context.act.data_as<updateauth>();
    ENU_ASSERT(!update.permission.empty(), action_validate_exception, "Cannot create authority with empty name");
-   ENU_ASSERT( update.permission.to_string().find( "eosio." ) != 0, action_validate_exception,
-               "Permission names that start with 'eosio.' are reserved" );
+   ENU_ASSERT( update.permission.to_string().find( "enumivo." ) != 0, action_validate_exception,
+               "Permission names that start with 'enumivo.' are reserved" );
    ENU_ASSERT(update.permission != update.parent, action_validate_exception, "Cannot set an authority as its own parent");
    db.get<account_object, by_name>(update.account);
    ENU_ASSERT(validate(update.data), action_validate_exception,
@@ -281,7 +281,7 @@ void apply_eosio_updateauth(apply_context& context) {
    }
 }
 
-void apply_eosio_deleteauth(apply_context& context) {
+void apply_enumivo_deleteauth(apply_context& context) {
    auto& resources = context.mutable_controller.get_mutable_resource_limits_manager();
    auto remove = context.act.data_as<deleteauth>();
    ENU_ASSERT(remove.permission != config::active_name, action_validate_exception, "Cannot delete active authority");
@@ -316,7 +316,7 @@ void apply_eosio_deleteauth(apply_context& context) {
    db.remove(permission);
 }
 
-void apply_eosio_linkauth(apply_context& context) {
+void apply_enumivo_linkauth(apply_context& context) {
    auto& resources = context.mutable_controller.get_mutable_resource_limits_manager();
    auto requirement = context.act.data_as<linkauth>();
    try {
@@ -331,7 +331,7 @@ void apply_eosio_linkauth(apply_context& context) {
       const auto *code = db.find<account_object, by_name>(requirement.code);
       ENU_ASSERT(code != nullptr, account_query_exception,
                  "Failed to retrieve code for account: ${account}", ("account", requirement.code));
-      if( requirement.requirement != config::eosio_any_name ) {
+      if( requirement.requirement != config::enumivo_any_name ) {
          const auto *permission = db.find<permission_object, by_name>(requirement.requirement);
          ENU_ASSERT(permission != nullptr, permission_query_exception,
                     "Failed to retrieve permission: ${permission}", ("permission", requirement.requirement));
@@ -362,7 +362,7 @@ void apply_eosio_linkauth(apply_context& context) {
   } FC_CAPTURE_AND_RETHROW((requirement))
 }
 
-void apply_eosio_unlinkauth(apply_context& context) {
+void apply_enumivo_unlinkauth(apply_context& context) {
    auto& resources = context.mutable_controller.get_mutable_resource_limits_manager();
    auto& db = context.mutable_db;
    auto unlink = context.act.data_as<unlinkauth>();
@@ -381,7 +381,7 @@ void apply_eosio_unlinkauth(apply_context& context) {
 }
 
 
-void apply_eosio_onerror(apply_context& context) {
+void apply_enumivo_onerror(apply_context& context) {
    FC_ASSERT(context.trx_meta.sender.valid(), "onerror action cannot be called directly");
    context.require_recipient(*context.trx_meta.sender);
 }
@@ -426,8 +426,8 @@ static auto get_permission_last_used(const apply_context& context, const account
    return optional<time_point>();
 };
 
-void apply_eosio_postrecovery(apply_context& context) {
-   context.require_write_lock( config::eosio_auth_scope );
+void apply_enumivo_postrecovery(apply_context& context) {
+   context.require_write_lock( config::enumivo_auth_scope );
 
    FC_ASSERT(context.act.authorization.size() == 1, "Recovery Message must have exactly one authorization");
 
@@ -516,7 +516,7 @@ static void remove_pending_recovery(apply_context& context, const account_name& 
    }
 }
 
-void apply_eosio_passrecovery(apply_context& context) {
+void apply_enumivo_passrecovery(apply_context& context) {
    auto pass_act = context.act.data_as<passrecovery>();
    const auto& account = pass_act.account;
 
@@ -538,8 +538,8 @@ void apply_eosio_passrecovery(apply_context& context) {
    context.console_append_formatted("Account ${account} successfully recovered!\n", mutable_variant_object()("account", account));
 }
 
-void apply_eosio_vetorecovery(apply_context& context) {
-   context.require_write_lock( config::eosio_auth_scope );
+void apply_enumivo_vetorecovery(apply_context& context) {
+   context.require_write_lock( config::enumivo_auth_scope );
    auto pass_act = context.act.data_as<vetorecovery>();
    const auto& account = pass_act.account;
    context.require_authorization(account);
@@ -554,7 +554,7 @@ void apply_eosio_vetorecovery(apply_context& context) {
    context.console_append_formatted("Recovery for account ${account} vetoed!\n", mutable_variant_object()("account", account));
 }
 
-void apply_eosio_canceldelay(apply_context& context) {
+void apply_enumivo_canceldelay(apply_context& context) {
    auto cancel = context.act.data_as<canceldelay>();
    const auto& trx_id = cancel.trx_id;
 
@@ -586,4 +586,4 @@ void apply_eosio_canceldelay(apply_context& context) {
    context.cancel_deferred(context.controller.transaction_id_to_sender_id(trx_id));
 }
 
-} } } // namespace eosio::chain::contracts
+} } } // namespace enumivo::chain::contracts

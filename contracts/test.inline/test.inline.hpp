@@ -2,7 +2,7 @@
 #include <enumivolib/privileged.h>
 #include <enumivolib/producer_schedule.hpp>
 
-namespace eosio {
+namespace enumivo {
 
    class testinline : public contract {
       public:
@@ -18,4 +18,4 @@ namespace eosio {
          }
    };
 
-} /// namespace eosio
+} /// namespace enumivo

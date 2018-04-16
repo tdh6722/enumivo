@@ -7,7 +7,7 @@
 #include <functional>
 #include <tuple>
 
-namespace eosio {
+namespace enumivo {
 
    /**
     *  @brief Converts a base32 symbol into its binary representation, used by string_to_name()
@@ -61,7 +61,7 @@ namespace eosio {
     * @brief used to generate a compile time uint64_t from the base32 encoded string interpretation of X
     * @ingroup types
     */
-   #define N(X) ::eosio::string_to_name(#X)
+   #define N(X) ::enumivo::string_to_name(#X)
 
    /**
     *  @brief wraps a uint64_t to ensure it is only passed to methods that expect a Name
@@ -80,7 +80,7 @@ namespace eosio {
    };
    /// @}
 
-} // namespace eosio
+} // namespace enumivo
 
 namespace std {
    /**

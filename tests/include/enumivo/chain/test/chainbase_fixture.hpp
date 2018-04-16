@@ -3,7 +3,7 @@
 
 #include <memory>
 
-namespace eosio { namespace chain { namespace test {
+namespace enumivo { namespace chain { namespace test {
 
 /**
  * Utility class to create and tear down a temporary chainbase::database using RAII
@@ -28,4 +28,4 @@ struct chainbase_fixture {
    std::unique_ptr<chainbase::database>  _db;
 };
 
-} } }  // eosio::chain::test
+} } }  // enumivo::chain::test

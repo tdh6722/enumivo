@@ -1,18 +1,18 @@
 #pragma once
 #include <enumivolib/generic_currency.hpp>
 
-namespace eosio {
+namespace enumivo {
 
 /* TODO: make native currency match generic currency, requires changes in the native code
 struct native_token_def {
-   static const uint64_t code = N(eosio);
+   static const uint64_t code = N(enumivo);
    static const uint64_t symbol = N(eos);
 };
 using native_currency = generic_currency<native_token_def>;
  */
 
 struct native_currency {
-   struct transfer : public action_meta<N(eosio),N(transfer)> {
+   struct transfer : public action_meta<N(enumivo),N(transfer)> {
       account_name from;
       account_name to;
       uint64_t     quantity;
@@ -32,5 +32,5 @@ struct native_currency {
    };
 };
 
-} /// namespace eosio
+} /// namespace enumivo
 

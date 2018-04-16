@@ -15,19 +15,19 @@
 
 #include <enumivo.system/enumivo.system.hpp>
 
-using eos_currency = enumivosystem::contract<N(eosio)>::currency;
+using eos_currency = enumivosystem::contract<N(enumivo)>::currency;
 
-using eosio::key256;
-using eosio::indexed_by;
-using eosio::const_mem_fun;
-using eosio::asset;
+using enumivo::key256;
+using enumivo::indexed_by;
+using enumivo::const_mem_fun;
+using enumivo::asset;
 
-class dice : public eosio::contract {
+class dice : public enumivo::contract {
    public:
       const uint32_t FIVE_MINUTES = 5*60;
 
       dice(account_name self)
-      :eosio::contract(self),
+      :enumivo::contract(self),
        offers(_self, _self),
        games(_self, _self),
        global_dices(_self, _self),
@@ -271,7 +271,7 @@ class dice : public eosio::contract {
          ENULIB_SERIALIZE( offer, (id)(owner)(bet)(commitment)(gameid) )
       };
 
-      typedef eosio::multi_index< N(offer), offer,
+      typedef enumivo::multi_index< N(offer), offer,
          indexed_by< N(bet), const_mem_fun<offer, uint64_t, &offer::by_bet > >,
          indexed_by< N(commitment), const_mem_fun<offer, key256,  &offer::by_commitment> >
       > offer_index;
@@ -296,7 +296,7 @@ class dice : public eosio::contract {
          ENULIB_SERIALIZE( game, (id)(bet)(deadline)(player1)(player2) )
       };
 
-      typedef eosio::multi_index< N(game), game> game_index;
+      typedef enumivo::multi_index< N(game), game> game_index;
 
       //@abi table global i64
       struct global_dice {
@@ -308,7 +308,7 @@ class dice : public eosio::contract {
          ENULIB_SERIALIZE( global_dice, (id)(nextgameid) )
       };
 
-      typedef eosio::multi_index< N(global), global_dice> global_dice_index;
+      typedef enumivo::multi_index< N(global), global_dice> global_dice_index;
 
       //@abi table account i64
       struct account {
@@ -326,7 +326,7 @@ class dice : public eosio::contract {
          ENULIB_SERIALIZE( account, (owner)(eos_balance)(open_offers)(open_games) )
       };
 
-      typedef eosio::multi_index< N(account), account> account_index;
+      typedef enumivo::multi_index< N(account), account> account_index;
 
       offer_index       offers;
       game_index        games;

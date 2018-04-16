@@ -1,7 +1,7 @@
 file(GLOB HEADERS "include/enumivo/chain/*.hpp" "include/enumivo/chain/contracts/*.hpp")
 
 ## SORT .cpp by most likely to change / break compile
-add_library( eosio_chain
+add_library( enumivo_chain
              chain_config.cpp
              merkle.cpp
              name.cpp
@@ -35,10 +35,10 @@ add_library( eosio_chain
              ${HEADERS}
              transaction_metadata.cpp)
 
-target_link_libraries( eosio_chain eos_utilities fc chainbase Logging IR WAST WASM Runtime
+target_link_libraries( enumivo_chain eos_utilities fc chainbase Logging IR WAST WASM Runtime
       wasm asmjs passes cfg ast emscripten-optimizer support softfloat 
                      )
-target_include_directories( eosio_chain
+target_include_directories( enumivo_chain
                             PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include" "${CMAKE_CURRENT_BINARY_DIR}/include"
                                    "${CMAKE_CURRENT_SOURCE_DIR}/../wasm-jit/Include"
                                    "${CMAKE_CURRENT_SOURCE_DIR}/../../externals/binaryen/src"

@@ -7,7 +7,7 @@
 
 #include <boost/multiprecision/cpp_int.hpp>
 
-namespace eosio { namespace chain { namespace contracts {
+namespace enumivo { namespace chain { namespace contracts {
 
 using namespace boost::multiprecision;
 
@@ -24,7 +24,7 @@ using fixed_string16 = fc::fixed_string<>;
 using type_name      = string;
 using field_name     = string;
 using table_name     = name;
-using action_name    = eosio::chain::action_name;
+using action_name    = enumivo::chain::action_name;
 
 struct type_def {
    type_def() = default;
@@ -293,24 +293,24 @@ struct canceldelay {
    }
 };
 
-} } } /// namespace eosio::chain::contracts
+} } } /// namespace enumivo::chain::contracts
 
-FC_REFLECT( eosio::chain::contracts::type_def                         , (new_type_name)(type) )
-FC_REFLECT( eosio::chain::contracts::field_def                        , (name)(type) )
-FC_REFLECT( eosio::chain::contracts::struct_def                       , (name)(base)(fields) )
-FC_REFLECT( eosio::chain::contracts::action_def                       , (name)(type)(ricardian_contract) )
-FC_REFLECT( eosio::chain::contracts::clause_pair                      , (id)(body) )
-FC_REFLECT( eosio::chain::contracts::table_def                        , (name)(index_type)(key_names)(key_types)(type) )
-FC_REFLECT( eosio::chain::contracts::abi_def                          , (types)(structs)(actions)(tables)(ricardian_clauses) )
+FC_REFLECT( enumivo::chain::contracts::type_def                         , (new_type_name)(type) )
+FC_REFLECT( enumivo::chain::contracts::field_def                        , (name)(type) )
+FC_REFLECT( enumivo::chain::contracts::struct_def                       , (name)(base)(fields) )
+FC_REFLECT( enumivo::chain::contracts::action_def                       , (name)(type)(ricardian_contract) )
+FC_REFLECT( enumivo::chain::contracts::clause_pair                      , (id)(body) )
+FC_REFLECT( enumivo::chain::contracts::table_def                        , (name)(index_type)(key_names)(key_types)(type) )
+FC_REFLECT( enumivo::chain::contracts::abi_def                          , (types)(structs)(actions)(tables)(ricardian_clauses) )
 
-FC_REFLECT( eosio::chain::contracts::newaccount                       , (creator)(name)(owner)(active)(recovery) )
-FC_REFLECT( eosio::chain::contracts::setcode                          , (account)(vmtype)(vmversion)(code) ) //abi
-FC_REFLECT( eosio::chain::contracts::setabi                           , (account)(abi) )
-FC_REFLECT( eosio::chain::contracts::updateauth                       , (account)(permission)(parent)(data)(delay) )
-FC_REFLECT( eosio::chain::contracts::deleteauth                       , (account)(permission) )
-FC_REFLECT( eosio::chain::contracts::linkauth                         , (account)(code)(type)(requirement) )
-FC_REFLECT( eosio::chain::contracts::unlinkauth                       , (account)(code)(type) )
-FC_REFLECT( eosio::chain::contracts::postrecovery                     , (account)(data)(memo) )
-FC_REFLECT( eosio::chain::contracts::passrecovery                     , (account) )
-FC_REFLECT( eosio::chain::contracts::vetorecovery                     , (account) )
-FC_REFLECT( eosio::chain::contracts::canceldelay                      , (trx_id) )
+FC_REFLECT( enumivo::chain::contracts::newaccount                       , (creator)(name)(owner)(active)(recovery) )
+FC_REFLECT( enumivo::chain::contracts::setcode                          , (account)(vmtype)(vmversion)(code) ) //abi
+FC_REFLECT( enumivo::chain::contracts::setabi                           , (account)(abi) )
+FC_REFLECT( enumivo::chain::contracts::updateauth                       , (account)(permission)(parent)(data)(delay) )
+FC_REFLECT( enumivo::chain::contracts::deleteauth                       , (account)(permission) )
+FC_REFLECT( enumivo::chain::contracts::linkauth                         , (account)(code)(type)(requirement) )
+FC_REFLECT( enumivo::chain::contracts::unlinkauth                       , (account)(code)(type) )
+FC_REFLECT( enumivo::chain::contracts::postrecovery                     , (account)(data)(memo) )
+FC_REFLECT( enumivo::chain::contracts::passrecovery                     , (account) )
+FC_REFLECT( enumivo::chain::contracts::vetorecovery                     , (account) )
+FC_REFLECT( enumivo::chain::contracts::canceldelay                      , (trx_id) )

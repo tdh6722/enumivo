@@ -20,7 +20,7 @@ namespace enumivosystem {
       checksum256                               block_mroot;
       account_name                              producer;
       uint32_t                                  schedule_version;
-      eosio::optional<eosio::producer_schedule> new_producers;
+      enumivo::optional<enumivo::producer_schedule> new_producers;
 
       ENULIB_SERIALIZE(block_header, (previous)(timestamp)(transaction_mroot)(action_mroot)(block_mroot)
                                      (producer)(schedule_version)(new_producers))
@@ -43,7 +43,7 @@ namespace enumivosystem {
          static const uint32_t num_of_payed_producers = 121;
 
          ACTION( SystemAccount, nonce ) {
-            eosio::string                   value;
+            enumivo::string                   value;
 
             ENULIB_SERIALIZE( nonce, (value) )
          };
@@ -162,8 +162,8 @@ namespace enumivosystem {
          }
 
          static void apply( account_name receiver, account_name code, action_name act ) {
-            if ( !eosio::dispatch<currency, typename currency::transfer, typename currency::issue>( code, act ) ) {
-               if( !eosio::dispatch<contract, typename delegate_bandwidth<SystemAccount>::delegatebw,
+            if ( !enumivo::dispatch<currency, typename currency::transfer, typename currency::issue>( code, act ) ) {
+               if( !enumivo::dispatch<contract, typename delegate_bandwidth<SystemAccount>::delegatebw,
                                  typename delegate_bandwidth<SystemAccount>::refund,
                                  typename voting<SystemAccount>::regproxy,
                                  typename voting<SystemAccount>::unregproxy,
@@ -186,7 +186,7 @@ namespace enumivosystem {
                   //TODO: Small hack until we refactor enumivo.system like enumivo.coin
                   using undelegatebw = typename delegate_bandwidth<SystemAccount>::undelegatebw;
                   if(code == undelegatebw::get_account() && act == undelegatebw::get_name() ){
-                     contract().on( receiver, eosio::unpack_action_data<undelegatebw>() );
+                     contract().on( receiver, enumivo::unpack_action_data<undelegatebw>() );
                   }
                }
             }

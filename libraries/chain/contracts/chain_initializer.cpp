@@ -14,7 +14,7 @@
 #include <boost/range/adaptor/transformed.hpp>
 #include <boost/range/algorithm/copy.hpp>
 
-namespace eosio { namespace chain { namespace contracts {
+namespace enumivo { namespace chain { namespace contracts {
 
 time_point chain_initializer::get_chain_start_time() {
    return genesis.initial_timestamp;
@@ -34,18 +34,18 @@ void chain_initializer::register_types(chain_controller& chain, chainbase::datab
 
 #define SET_APP_HANDLER( contract, scope, action, nspace ) \
    chain._set_apply_handler( #contract, #scope, #action, &BOOST_PP_CAT(contracts::apply_, BOOST_PP_CAT(contract, BOOST_PP_CAT(_,action) ) ) )
-   SET_APP_HANDLER( eosio, eosio, newaccount, eosio );
-   SET_APP_HANDLER( eosio, eosio, setcode, eosio );
-   SET_APP_HANDLER( eosio, eosio, setabi, eosio );
-   SET_APP_HANDLER( eosio, eosio, updateauth, eosio );
-   SET_APP_HANDLER( eosio, eosio, deleteauth, eosio );
-   SET_APP_HANDLER( eosio, eosio, linkauth, eosio );
-   SET_APP_HANDLER( eosio, eosio, unlinkauth, eosio );
-   SET_APP_HANDLER( eosio, eosio, onerror, eosio );
-   SET_APP_HANDLER( eosio, eosio, postrecovery, eosio );
-   SET_APP_HANDLER( eosio, eosio, passrecovery, eosio );
-   SET_APP_HANDLER( eosio, eosio, vetorecovery, eosio );
-   SET_APP_HANDLER( eosio, eosio, canceldelay, eosio );
+   SET_APP_HANDLER( enumivo, enumivo, newaccount, enumivo );
+   SET_APP_HANDLER( enumivo, enumivo, setcode, enumivo );
+   SET_APP_HANDLER( enumivo, enumivo, setabi, enumivo );
+   SET_APP_HANDLER( enumivo, enumivo, updateauth, enumivo );
+   SET_APP_HANDLER( enumivo, enumivo, deleteauth, enumivo );
+   SET_APP_HANDLER( enumivo, enumivo, linkauth, enumivo );
+   SET_APP_HANDLER( enumivo, enumivo, unlinkauth, enumivo );
+   SET_APP_HANDLER( enumivo, enumivo, onerror, enumivo );
+   SET_APP_HANDLER( enumivo, enumivo, postrecovery, enumivo );
+   SET_APP_HANDLER( enumivo, enumivo, passrecovery, enumivo );
+   SET_APP_HANDLER( enumivo, enumivo, vetorecovery, enumivo );
+   SET_APP_HANDLER( enumivo, enumivo, canceldelay, enumivo );
 }
 
 
@@ -398,4 +398,4 @@ void chain_initializer::prepare_database( chain_controller& chain,
    create_special_account(config::producers_account_name, empty_authority, active_producers_authority);
 }
 
-} } } // namespace eosio::chain::contracts
+} } } // namespace enumivo::chain::contracts
