@@ -2,7 +2,7 @@
  *  @file
  *  @copyright defined in enumivo/LICENSE.txt
  */
-#include <eos/types/type_parser.hpp>
+#include <enumivo/types/type_parser.hpp>
 
 #include <boost/test/unit_test.hpp>
 

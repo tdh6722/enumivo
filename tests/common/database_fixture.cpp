@@ -6,16 +6,16 @@
 #include <boost/program_options.hpp>
 #include <boost/signals2/shared_connection_block.hpp>
 
-#include <eos/chain/account_object.hpp>
-#include <eos/chain/producer_object.hpp>
-#include <eos/chain/authority_checker.hpp>
-#include <eos/producer_plugin/producer_plugin.hpp>
+#include <enumivo/chain/account_object.hpp>
+#include <enumivo/chain/producer_object.hpp>
+#include <enumivo/chain/authority_checker.hpp>
+#include <enumivo/producer_plugin/producer_plugin.hpp>
 
-#include <eos/utilities/tempdir.hpp>
+#include <enumivo/utilities/tempdir.hpp>
 
-#include <eos/native_contract/native_contract_chain_initializer.hpp>
-#include <eos/native_contract/native_contract_chain_administrator.hpp>
-#include <eos/native_contract/objects.hpp>
+#include <enumivo/native_contract/native_contract_chain_initializer.hpp>
+#include <enumivo/native_contract/native_contract_chain_administrator.hpp>
+#include <enumivo/native_contract/objects.hpp>
 
 #include <fc/crypto/digest.hpp>
 #include <fc/smart_ref_impl.hpp>

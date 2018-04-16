@@ -113,7 +113,7 @@ struct local_identity {
 
 } local_id;
 
-class eosd_def;
+class enud_def;
 
 class host_def {
 public:
@@ -144,7 +144,7 @@ public:
   uint16_t         base_p2p_port;
   uint16_t         base_http_port;
   uint16_t         def_file_size;
-  vector<eosd_def> instances;
+  vector<enud_def> instances;
 
   uint16_t p2p_port() {
     return base_p2p_port + p2p_count++;
@@ -194,9 +194,9 @@ protected:
 
 class tn_node_def;
 
-class eosd_def {
+class enud_def {
 public:
-  eosd_def()
+  enud_def()
     : config_dir_name (),
       data_dir_name (),
       p2p_port(),
@@ -240,12 +240,12 @@ public:
   vector<private_key_type> keys;
   vector<string>  peers;
   vector<string>  producers;
-  eosd_def*       instance;
+  enud_def*       instance;
   string          gelf_endpoint;
 };
 
 void
-eosd_def::mk_dot_label () {
+enud_def::mk_dot_label () {
   dot_label_str = name + "\\nprod=";
   if (node == 0 || node->producers.empty()) {
     dot_label_str += "<none>";
@@ -263,7 +263,7 @@ eosd_def::mk_dot_label () {
 }
 
 void
-eosd_def::set_host( host_def* h, bool is_bios ) {
+enud_def::set_host( host_def* h, bool is_bios ) {
   host = h->host_name;
   p2p_port = is_bios ? h->p2p_bios_port() : h->p2p_port();
   http_port = is_bios ? h->http_bios_port() : h->http_port();
@@ -377,7 +377,7 @@ struct launcher_def {
    string start_temp;
    string start_script;
 
-   void assign_name (eosd_def &node, bool is_bios);
+   void assign_name (enud_def &node, bool is_bios);
 
   void set_options (bpo::options_description &cli);
   void initialize (const variables_map &vmap);
@@ -409,11 +409,11 @@ struct launcher_def {
   void write_dot_file ();
   void format_ssh (const string &cmd, const string &host_name, string &ssh_cmd_line);
   bool do_ssh (const string &cmd, const string &host_name);
-  void prep_remote_config_dir (eosd_def &node, host_def *host);
-  void launch (eosd_def &node, string &gts);
+  void prep_remote_config_dir (enud_def &node, host_def *host);
+  void launch (enud_def &node, string &gts);
   void kill (launch_modes mode, string sig_opt);
-  pair<host_def, eosd_def> find_node(uint16_t node_num);
-  vector<pair<host_def, eosd_def>> get_nodes(const string& node_number_list);
+  pair<host_def, enud_def> find_node(uint16_t node_num);
+  vector<pair<host_def, enud_def>> get_nodes(const string& node_number_list);
   void bounce (const string& node_numbers);
   void down (const string& node_numbers);
   void roll (const string& host_names);
@@ -570,7 +570,7 @@ launcher_def::load_servers () {
 
 
 void
-launcher_def::assign_name (eosd_def &node, bool is_bios) {
+launcher_def::assign_name (enud_def &node, bool is_bios) {
    string node_cfg_name;
 
    if (is_bios) {
@@ -663,7 +663,7 @@ launcher_def::define_network () {
     local_host.enumivo_home = erd;
     local_host.genesis = genesis.string();
     for (size_t i = 0; i < (total_nodes); i++) {
-      eosd_def eosd;
+      enud_def eosd;
       assign_name(eosd, i == 0);
       aliases.push_back(eosd.name);
       eosd.set_host (&local_host, i == 0);
@@ -712,7 +712,7 @@ launcher_def::define_network () {
         host_ndx++;
       } // ph_count == 0
 
-      eosd_def eosd;
+      enud_def eosd;
       assign_name(eosd, do_bios);
       eosd.has_db = false;
 
@@ -825,7 +825,7 @@ launcher_def::find_host_by_name_or_address (const string &host_id)
 host_def *
 launcher_def::deploy_config_files (tn_node_def &node) {
   boost::system::error_code ec;
-  eosd_def &instance = *node.instance;
+  enud_def &instance = *node.instance;
   host_def *host = find_host (instance.host);
 
   bfs::path source = stage / instance.config_dir_name / "config.ini";
@@ -938,7 +938,7 @@ void
 launcher_def::write_config_file (tn_node_def &node) {
    bool is_bios = (node.name == "bios");
    bfs::path filename;
-   eosd_def &instance = *node.instance;
+   enud_def &instance = *node.instance;
    host_def *host = find_host (instance.host);
 
    bfs::path dd = stage / instance.config_dir_name;
@@ -1018,7 +1018,7 @@ launcher_def::write_config_file (tn_node_def &node) {
 void
 launcher_def::write_logging_config_file(tn_node_def &node) {
   bfs::path filename;
-  eosd_def &instance = *node.instance;
+  enud_def &instance = *node.instance;
 
   bfs::path dd = stage / instance.config_dir_name;
   if (!bfs::exists(dd)) {
@@ -1077,7 +1077,7 @@ launcher_def::init_genesis () {
 void
 launcher_def::write_genesis_file(tn_node_def &node) {
   bfs::path filename;
-  eosd_def &instance = *node.instance;
+  enud_def &instance = *node.instance;
 
   bfs::path dd = stage / instance.config_dir_name;
   if (!bfs::exists(dd)) {
@@ -1328,7 +1328,7 @@ launcher_def::do_ssh (const string &cmd, const string &host_name) {
 }
 
 void
-launcher_def::prep_remote_config_dir (eosd_def &node, host_def *host) {
+launcher_def::prep_remote_config_dir (enud_def &node, host_def *host) {
   bfs::path abs_config_dir = bfs::path(host->enumivo_home) / node.config_dir_name;
   bfs::path abs_data_dir = bfs::path(host->enumivo_home) / node.data_dir_name;
 
@@ -1378,7 +1378,7 @@ launcher_def::prep_remote_config_dir (eosd_def &node, host_def *host) {
 }
 
 void
-launcher_def::launch (eosd_def &instance, string &gts) {
+launcher_def::launch (enud_def &instance, string &gts) {
   bfs::path dd = instance.data_dir_name;
   bfs::path reout = dd / "stdout.txt";
   bfs::path reerr_sl = dd / "stderr.txt";
@@ -1467,7 +1467,7 @@ launcher_def::launch (eosd_def &instance, string &gts) {
 
 #if 0
 void
-launcher_def::kill_instance(eosd_def, string sig_opt) {
+launcher_def::kill_instance(enud_def, string sig_opt) {
 }
 #endif
 
@@ -1510,7 +1510,7 @@ launcher_def::kill (launch_modes mode, string sig_opt) {
   }
 }
 
-pair<host_def, eosd_def>
+pair<host_def, enud_def>
 launcher_def::find_node(uint16_t node_num) {
    string dex = node_num < 10 ? "0":"";
    dex += boost::lexical_cast<string,uint16_t>(node_num);
@@ -1526,9 +1526,9 @@ launcher_def::find_node(uint16_t node_num) {
    exit (-1);
 }
 
-vector<pair<host_def, eosd_def>>
+vector<pair<host_def, enud_def>>
 launcher_def::get_nodes(const string& node_number_list) {
-   vector<pair<host_def, eosd_def>> node_list;
+   vector<pair<host_def, enud_def>> node_list;
    if (fc::to_lower(node_number_list) == "all") {
       for (auto host: bindings) {
          for (auto node: host.instances) {
@@ -1563,7 +1563,7 @@ launcher_def::bounce (const string& node_numbers) {
    auto node_list = get_nodes(node_numbers);
    for (auto node_pair: node_list) {
       const host_def& host = node_pair.first;
-      const eosd_def& node = node_pair.second;
+      const enud_def& node = node_pair.second;
       string node_num = node.name.substr( node.name.length() - 2 );
       string cmd = "cd " + host.enumivo_home + "; "
                  + "export ENUMIVO_HOME=" + host.enumivo_home + string("; ")
@@ -1582,7 +1582,7 @@ launcher_def::down (const string& node_numbers) {
    auto node_list = get_nodes(node_numbers);
    for (auto node_pair: node_list) {
       const host_def& host = node_pair.first;
-      const eosd_def& node = node_pair.second;
+      const enud_def& node = node_pair.second;
       string node_num = node.name.substr( node.name.length() - 2 );
       string cmd = "cd " + host.enumivo_home + "; "
                  + "export ENUMIVO_HOME=" + host.enumivo_home + "; "
@@ -1879,7 +1879,7 @@ FC_REFLECT( host_def,
             (base_p2p_port)(base_http_port)(def_file_size)
             (instances) )
 
-FC_REFLECT( eosd_def,
+FC_REFLECT( enud_def,
             (name)(config_dir_name)(data_dir_name)(has_db)
             (p2p_port)(http_port)(file_size) )
 

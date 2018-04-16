@@ -5,7 +5,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include <eos/chain/block_schedule.hpp>
+#include <enumivo/chain/block_schedule.hpp>
 #include "../common/expect.hpp"
 
 using namespace enumivo;
