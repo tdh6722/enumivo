@@ -277,10 +277,10 @@ try {
                          assert_message_ends_with("account names can only be 12 chars long"));
 
    // Creating account with enumivo. prefix with privileged account
-   chain.create_account("enumivo.test1");
+   chain.create_account("enumivo.tst1");
 
    // Creating account with enumivo. prefix with non-privileged account, should fail
-   BOOST_CHECK_EXCEPTION(chain.create_account("enumivo.test2", "joe"), action_validate_exception,
+   BOOST_CHECK_EXCEPTION(chain.create_account("enumivo.tst2", "joe"), action_validate_exception,
                          assert_message_ends_with("only privileged accounts can have names that start with 'enumivo.'"));
 
 } FC_LOG_AND_RETHROW() }
