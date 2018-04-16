@@ -2,7 +2,7 @@
  *  @file
  *  @copyright defined in enumivo/LICENSE.txt
  */
-#include <enumivo/chain/contracts/eos_contract.hpp>
+#include <enumivo/chain/contracts/enu_contract.hpp>
 #include <enumivo/chain/contracts/contract_table_objects.hpp>
 #include <enumivo/chain/contracts/chain_initializer.hpp>
 

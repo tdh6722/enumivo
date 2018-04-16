@@ -14,7 +14,7 @@
 
 #include <enumivo/chain/contracts/chain_initializer.hpp>
 #include <enumivo/chain/contracts/genesis_state.hpp>
-#include <enumivo/chain/contracts/eos_contract.hpp>
+#include <enumivo/chain/contracts/enu_contract.hpp>
 
 #include <enumivo/utilities/key_conversion.hpp>
 #include <enumivo/chain/wast_to_wasm.hpp>
