@@ -33,11 +33,11 @@ void multisig::propose() {
    ds >> trx_header;
 
    require_auth( proposer );
-   eosio_assert( trx_header.expiration > now(), "transaction expired" );
-   //eosio_assert( trx_header.actions.size() > 0, "transaction must have at least one action" );
+   enu_assert( trx_header.expiration > now(), "transaction expired" );
+   //enu_assert( trx_header.actions.size() > 0, "transaction must have at least one action" );
 
    proposals proptable( _self, proposer );
-   eosio_assert( proptable.find( proposal_name ) == proptable.end(), "proposal with the same name exists" );
+   enu_assert( proptable.find( proposal_name ) == proptable.end(), "proposal with the same name exists" );
 
    check_auth( buffer+trx_pos, size-trx_pos, requested );
 
@@ -53,10 +53,10 @@ void multisig::approve( account_name proposer, name proposal_name, permission_le
 
    proposals proptable( _self, proposer );
    auto prop_it = proptable.find( proposal_name );
-   eosio_assert( prop_it != proptable.end(), "proposal not found" );
+   enu_assert( prop_it != proptable.end(), "proposal not found" );
 
    auto itr = std::find( prop_it->requested_approvals.begin(), prop_it->requested_approvals.end(), level );
-   eosio_assert( itr != prop_it->requested_approvals.end(), "approval is not on the list of requested approvals" );
+   enu_assert( itr != prop_it->requested_approvals.end(), "approval is not on the list of requested approvals" );
  
    proptable.modify( prop_it, proposer, [&]( auto& mprop ) {
       mprop.provided_approvals.push_back( level );
@@ -69,9 +69,9 @@ void multisig::unapprove( account_name proposer, name proposal_name, permission_
 
    proposals proptable( _self, proposer );
    auto prop_it = proptable.find( proposal_name );
-   eosio_assert( prop_it != proptable.end(), "proposal not found" );
+   enu_assert( prop_it != proptable.end(), "proposal not found" );
    auto itr = std::find( prop_it->provided_approvals.begin(), prop_it->provided_approvals.end(), level );
-   eosio_assert( itr != prop_it->provided_approvals.end(), "no approval previously granted" );
+   enu_assert( itr != prop_it->provided_approvals.end(), "no approval previously granted" );
 
    proptable.modify( prop_it, proposer, [&]( auto& mprop ) {
       mprop.requested_approvals.push_back(level);
@@ -84,10 +84,10 @@ void multisig::cancel( account_name proposer, name proposal_name, account_name c
 
    proposals proptable( _self, proposer );
    auto prop_it = proptable.find( proposal_name );
-   eosio_assert( prop_it != proptable.end(), "proposal not found" );
+   enu_assert( prop_it != proptable.end(), "proposal not found" );
 
    if( canceler != proposer ) {
-      eosio_assert( unpack<transaction>( prop_it->packed_transaction ).expiration < now(), "cannot cancel until expiration" );
+      enu_assert( unpack<transaction>( prop_it->packed_transaction ).expiration < now(), "cannot cancel until expiration" );
    }
 
    proptable.erase(prop_it);
@@ -98,7 +98,7 @@ void multisig::exec( account_name proposer, name proposal_name, account_name exe
 
    proposals proptable( _self, proposer );
    auto prop_it = proptable.find( proposal_name );
-   eosio_assert( prop_it != proptable.end(), "proposal not found" );
+   enu_assert( prop_it != proptable.end(), "proposal not found" );
 
    check_auth( prop_it->packed_transaction, prop_it->provided_approvals );
    send_deferred( (uint128_t(proposer) << 64) | proposal_name, executer, prop_it->packed_transaction.data(), prop_it->packed_transaction.size() );

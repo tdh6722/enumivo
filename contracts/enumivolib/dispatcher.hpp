@@ -77,7 +77,7 @@ extern "C" { \
          switch( action ) { \
             ENUMIVO_API( TYPE, MEMBERS ) \
          } \
-         eosio_exit(0); \
+         enu_exit(0); \
       } \
    } \
 } \

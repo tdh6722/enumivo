@@ -134,7 +134,7 @@ namespace enumivosystem {
 
             producers_table producers_tbl( SystemAccount, SystemAccount );
             auto prod = producers_tbl.find( unreg.producer );
-            eosio_assert( prod != producers_tbl.end(), "producer not found" );
+            enu_assert( prod != producers_tbl.end(), "producer not found" );
 
             producers_tbl.modify( prod, 0, [&]( producer_info& info ){
                   info.packed_key.clear();
@@ -161,7 +161,7 @@ namespace enumivosystem {
             const std::vector<account_name>* producers = nullptr;
             if ( voter->proxy ) {
                auto proxy = voters_tbl.find( voter->proxy );
-               eosio_assert( proxy != voters_tbl.end(), "selected proxy not found" ); //data corruption
+               enu_assert( proxy != voters_tbl.end(), "selected proxy not found" ); //data corruption
                voters_tbl.modify( proxy, 0, [&](voter_info& a) { a.proxied_votes += amount.quantity; } );
                if ( proxy->is_proxy ) { //only if proxy is still active. if proxy has been unregistered, we update proxied_votes, but don't propagate to producers
                   producers = &proxy->producers;
@@ -174,7 +174,7 @@ namespace enumivosystem {
                producers_table producers_tbl( SystemAccount, SystemAccount );
                for( auto p : *producers ) {
                   auto prod = producers_tbl.find( p );
-                  eosio_assert( prod != producers_tbl.end(), "never existed producer" ); //data corruption
+                  enu_assert( prod != producers_tbl.end(), "never existed producer" ); //data corruption
                   producers_tbl.modify( prod, 0, [&]( auto& v ) {
                         v.total_votes += amount.quantity;
                      });
@@ -186,10 +186,10 @@ namespace enumivosystem {
             require_auth( acnt );
             voters_table voters_tbl( SystemAccount, SystemAccount );
             auto voter = voters_tbl.find( acnt );
-            eosio_assert( voter != voters_tbl.end(), "stake not found" );
+            enu_assert( voter != voters_tbl.end(), "stake not found" );
 
             if ( 0 < amount.quantity ) {
-               eosio_assert( amount <= voter->staked, "cannot unstake more than total stake amount" );
+               enu_assert( amount <= voter->staked, "cannot unstake more than total stake amount" );
                voters_tbl.modify( voter, 0, [&](voter_info& a) {
                      a.staked -= amount;
                      a.last_update = now();
@@ -210,7 +210,7 @@ namespace enumivosystem {
                   producers_table producers_tbl( SystemAccount, SystemAccount );
                   for( auto p : *producers ) {
                      auto prod = producers_tbl.find( p );
-                     eosio_assert( prod != producers_tbl.end(), "never existed producer" ); //data corruption
+                     enu_assert( prod != producers_tbl.end(), "never existed producer" ); //data corruption
                      producers_tbl.modify( prod, 0, [&]( auto& v ) {
                            v.total_votes -= amount.quantity;
                         });
@@ -272,7 +272,7 @@ namespace enumivosystem {
                if ( it->active() ) {
                   schedule.producers.emplace_back();
                   schedule.producers.back().producer_name = it->owner;
-                  eosio_assert( sizeof(schedule.producers.back().block_signing_key) == it->packed_key.size(), "size mismatch" );
+                  enu_assert( sizeof(schedule.producers.back().block_signing_key) == it->packed_key.size(), "size mismatch" );
                   std::copy( it->packed_key.begin(), it->packed_key.end(), schedule.producers.back().block_signing_key.data );
 
                   base_per_transaction_net_usage[n] = it->prefs.base_per_transaction_net_usage;
@@ -400,21 +400,21 @@ namespace enumivosystem {
 
             //validate input
             if ( vp.proxy ) {
-               eosio_assert( vp.producers.size() == 0, "cannot vote for producers and proxy at same time" );
+               enu_assert( vp.producers.size() == 0, "cannot vote for producers and proxy at same time" );
                require_recipient( vp.proxy );
             } else {
-               eosio_assert( vp.producers.size() <= 30, "attempt to vote for too many producers" );
+               enu_assert( vp.producers.size() <= 30, "attempt to vote for too many producers" );
                for( size_t i = 1; i < vp.producers.size(); ++i ) {
-                  eosio_assert( vp.producers[i-1] < vp.producers[i], "producer votes must be unique and sorted" );
+                  enu_assert( vp.producers[i-1] < vp.producers[i], "producer votes must be unique and sorted" );
                }
             }
 
             voters_table voters_tbl( SystemAccount, SystemAccount );
             auto voter = voters_tbl.find( vp.voter );
 
-            eosio_assert( voter != voters_tbl.end() && ( 0 < voter->staked.quantity || ( voter->is_proxy && 0 < voter->proxied_votes ) ), "no stake to vote" );
+            enu_assert( voter != voters_tbl.end() && ( 0 < voter->staked.quantity || ( voter->is_proxy && 0 < voter->proxied_votes ) ), "no stake to vote" );
             if ( voter->is_proxy ) {
-               eosio_assert( vp.proxy == 0 , "account registered as a proxy is not allowed to use a proxy" );
+               enu_assert( vp.proxy == 0 , "account registered as a proxy is not allowed to use a proxy" );
             }
 
             //find old producers, update old proxy if needed
@@ -424,7 +424,7 @@ namespace enumivosystem {
                   return; // nothing changed
                }
                auto old_proxy = voters_tbl.find( voter->proxy );
-               eosio_assert( old_proxy != voters_tbl.end(), "old proxy not found" ); //data corruption
+               enu_assert( old_proxy != voters_tbl.end(), "old proxy not found" ); //data corruption
                voters_tbl.modify( old_proxy, 0, [&](auto& a) { a.proxied_votes -= voter->staked.quantity; } );
                if ( old_proxy->is_proxy ) { //if proxy stoped being proxy, the votes were already taken back from producers by on( const unregister_proxy& )
                   old_producers = &old_proxy->producers;
@@ -437,7 +437,7 @@ namespace enumivosystem {
             const std::vector<account_name>* new_producers = nullptr;
             if ( vp.proxy ) {
                auto new_proxy = voters_tbl.find( vp.proxy );
-               eosio_assert( new_proxy != voters_tbl.end() && new_proxy->is_proxy, "proxy not found" );
+               enu_assert( new_proxy != voters_tbl.end() && new_proxy->is_proxy, "proxy not found" );
                voters_tbl.modify( new_proxy, 0, [&](auto& a) { a.proxied_votes += voter->staked.quantity; } );
                new_producers = &new_proxy->producers;
             } else {
@@ -456,7 +456,7 @@ namespace enumivosystem {
                auto end_it = std::set_difference( old_producers->begin(), old_producers->end(), new_producers->begin(), new_producers->end(), revoked.begin() );
                for ( auto it = revoked.begin(); it != end_it; ++it ) {
                   auto prod = producers_tbl.find( *it );
-                  eosio_assert( prod != producers_tbl.end(), "never existed producer" ); //data corruption
+                  enu_assert( prod != producers_tbl.end(), "never existed producer" ); //data corruption
                   producers_tbl.modify( prod, 0, [&]( auto& pi ) { pi.total_votes -= votes; } );
                }
             }
@@ -471,9 +471,9 @@ namespace enumivosystem {
             }
             for ( auto it = elected.begin(); it != end_it; ++it ) {
                auto prod = producers_tbl.find( *it );
-               eosio_assert( prod != producers_tbl.end(), "producer is not registered" );
+               enu_assert( prod != producers_tbl.end(), "producer is not registered" );
                if ( vp.proxy == 0 ) { //direct voting, in case of proxy voting update total_votes even for inactive producers
-                  eosio_assert( prod->active(), "producer is not currently registered" );
+                  enu_assert( prod->active(), "producer is not currently registered" );
                }
                producers_tbl.modify( prod, 0, [&]( auto& pi ) { pi.total_votes += votes; } );
             }
@@ -498,8 +498,8 @@ namespace enumivosystem {
             voters_table voters_tbl( SystemAccount, SystemAccount );
             auto proxy = voters_tbl.find( reg.proxy );
             if ( proxy != voters_tbl.end() ) {
-               eosio_assert( proxy->is_proxy == 0, "account is already a proxy" );
-               eosio_assert( proxy->proxy == 0, "account that uses a proxy is not allowed to become a proxy" );
+               enu_assert( proxy->is_proxy == 0, "account is already a proxy" );
+               enu_assert( proxy->proxy == 0, "account that uses a proxy is not allowed to become a proxy" );
                voters_tbl.modify( proxy, 0, [&](voter_info& a) {
                      a.is_proxy = 1;
                      a.last_update = now();
@@ -509,7 +509,7 @@ namespace enumivosystem {
                   producers_table producers_tbl( SystemAccount, SystemAccount );
                   for ( auto p : proxy->producers ) {
                      auto prod = producers_tbl.find( p );
-                     eosio_assert( prod != producers_tbl.end(), "never existed producer" ); //data corruption
+                     enu_assert( prod != producers_tbl.end(), "never existed producer" ); //data corruption
                      producers_tbl.modify( prod, 0, [&]( auto& pi ) { pi.total_votes += proxy->proxied_votes; });
                   }
                }
@@ -536,8 +536,8 @@ namespace enumivosystem {
 
             voters_table voters_tbl( SystemAccount, SystemAccount );
             auto proxy = voters_tbl.find( reg.proxy );
-            eosio_assert( proxy != voters_tbl.end(), "proxy not found" );
-            eosio_assert( proxy->is_proxy == 1, "account is not a proxy" );
+            enu_assert( proxy != voters_tbl.end(), "proxy not found" );
+            enu_assert( proxy->is_proxy == 1, "account is not a proxy" );
 
             voters_tbl.modify( proxy, 0, [&](voter_info& a) {
                      a.is_proxy = 0;
@@ -549,7 +549,7 @@ namespace enumivosystem {
                producers_table producers_tbl( SystemAccount, SystemAccount );
                for ( auto p : proxy->producers ) {
                   auto prod = producers_tbl.find( p );
-                  eosio_assert( prod != producers_tbl.end(), "never existed producer" ); //data corruption
+                  enu_assert( prod != producers_tbl.end(), "never existed producer" ); //data corruption
                   producers_tbl.modify( prod, 0, [&]( auto& pi ) { pi.total_votes -= proxy->proxied_votes; });
                }
             }

@@ -29,13 +29,13 @@ extern "C" {
     *  @param cstr - a null terminated action to explain the reason for failure
 
     */
-   void  eosio_assert( uint32_t test, const char* cstr );
+   void  enu_assert( uint32_t test, const char* cstr );
 
    /**
     * This method will abort execution of wasm without failing the contract. This
     * is used to bypass all cleanup / destructors that would normally be called.
     */
-   [[noreturn]] void  eosio_exit( int32_t code );
+   [[noreturn]] void  enu_exit( int32_t code );
 
    /**
     *  Returns the time in seconds from 1970 of the last accepted block (not the block including this action)

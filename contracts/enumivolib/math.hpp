@@ -102,7 +102,7 @@ namespace enumivo {
         }
 
         explicit operator uint64_t()const {
-           eosio_assert( !(value >> 64), "cast to 64 bit loss of precision" );
+           enu_assert( !(value >> 64), "cast to 64 bit loss of precision" );
            return uint64_t(value);
         }
 
