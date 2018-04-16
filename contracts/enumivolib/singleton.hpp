@@ -36,7 +36,7 @@ namespace  enumivo {
          static T get( scope_name scope = Code ) {
             table t( Code, scope );
             auto itr = t.find( pk_value );
-            eosio_assert( itr != t.end(), "singleton does not exist" );
+            enumivo_assert( itr != t.end(), "singleton does not exist" );
             return itr->value;
          }
 

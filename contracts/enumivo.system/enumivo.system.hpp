@@ -111,13 +111,13 @@ namespace enumivosystem {
 
          static void on(const claimrewards& cr) {
             require_auth(cr.owner);
-            eosio_assert(current_sender() == account_name(), "claimrewards can not be part of a deferred transaction");
+            enumivo_assert(current_sender() == account_name(), "claimrewards can not be part of a deferred transaction");
             producers_table producers_tbl(SystemAccount, SystemAccount);
             auto prod = producers_tbl.find(cr.owner);
-            eosio_assert(prod != producers_tbl.end(), "account name is not in producer list");
-            eosio_assert(prod->active(), "producer is not active"); // QUESTION: Why do we want to prevent inactive producers from claiming their earned rewards?
+            enumivo_assert(prod != producers_tbl.end(), "account name is not in producer list");
+            enumivo_assert(prod->active(), "producer is not active"); // QUESTION: Why do we want to prevent inactive producers from claiming their earned rewards?
             if( prod->last_rewards_claim > 0 ) {
-               eosio_assert(now() >= prod->last_rewards_claim + seconds_per_day, "already claimed rewards within a day");
+               enumivo_assert(now() >= prod->last_rewards_claim + seconds_per_day, "already claimed rewards within a day");
             }
             system_token_type rewards = prod->per_block_payments;
             auto idx = producers_tbl.template get_index<N(prototalvote)>();
@@ -151,7 +151,7 @@ namespace enumivosystem {
                }
             }
 
-            eosio_assert( rewards > system_token_type(), "no rewards available to claim" );
+            enumivo_assert( rewards > system_token_type(), "no rewards available to claim" );
 
             producers_tbl.modify( prod, 0, [&](auto& p) {
                   p.last_rewards_claim = now();

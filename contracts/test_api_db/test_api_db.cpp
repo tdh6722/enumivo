@@ -19,7 +19,7 @@ extern "C" {
       WASM_TEST_HANDLER_EX(test_db, test_invalid_access);
 
       //unhandled test call
-      eosio_assert(false, "Unknown Test");
+      enumivo_assert(false, "Unknown Test");
    }
 
 }

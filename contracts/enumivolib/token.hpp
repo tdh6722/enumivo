@@ -49,8 +49,8 @@ namespace enumivo {
     explicit operator asset()const { return asset( int64_t(quantity), Symbol ); }
 
     token( const asset& a ):quantity(NumberType(a.amount)) {
-       eosio_assert( a.symbol == Symbol, "attempt to construct token from asset with different symbol" );
-       eosio_assert( 0 <= a.amount, "attemt to convert asset with negative value to token" );
+       enumivo_assert( a.symbol == Symbol, "attempt to construct token from asset with different symbol" );
+       enumivo_assert( 0 <= a.amount, "attemt to convert asset with negative value to token" );
     }
 
     /**
@@ -74,7 +74,7 @@ namespace enumivo {
     * @return this token after subtraction
     */
     token& operator-=( const token& a ) {
-      eosio_assert( quantity >= a.quantity, "integer underflow subtracting token balance" );
+      enumivo_assert( quantity >= a.quantity, "integer underflow subtracting token balance" );
       quantity -= a.quantity;
       return *this;
     }
@@ -87,7 +87,7 @@ namespace enumivo {
     * @return this token after addition
     */
     token& operator+=( const token& a ) {
-      eosio_assert( quantity + a.quantity >= a.quantity, "integer overflow adding token balance" );
+      enumivo_assert( quantity + a.quantity >= a.quantity, "integer overflow adding token balance" );
       quantity += a.quantity;
       return *this;
     }
@@ -128,7 +128,7 @@ namespace enumivo {
     * @return this token after addition
     */
     token& operator*=( uint64_t a ) {
-      eosio_assert( a == 0 || (quantity * a) / a == quantity, "integer overflow multiplying token balance" );
+      enumivo_assert( a == 0 || (quantity * a) / a == quantity, "integer overflow multiplying token balance" );
       quantity *= a;
       return *this;
     }
@@ -355,8 +355,8 @@ namespace enumivo {
     * @param quote - quote token
     */
     price( BaseToken base, QuoteToken quote ) {
-      eosio_assert( base  >= BaseToken(1ul), "invalid price" );
-      eosio_assert( quote >= QuoteToken(1ul), "invalid price" );
+      enumivo_assert( base  >= BaseToken(1ul), "invalid price" );
+      enumivo_assert( quote >= QuoteToken(1ul), "invalid price" );
 
       base_per_quote = base.quantity;
       base_per_quote *= precision;
