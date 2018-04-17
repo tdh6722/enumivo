@@ -54,14 +54,14 @@ fi
 
 total_nodes="${total_nodes:-`echo $pnodes`}"
 launcherPath="programs/enumivo-launcher/enumivo-launcher"
-clientPath="programs/cleos/cleos"
+clientPath="programs/enucli/enucli"
 
 rm -rf etc/enumivo/node_* var/lib/* stage
 ls -l etc/enumivo var/lib
 
 debugArg=""
 if [ "$debug" == true ]; then
-   debugArg="--nodeos \"--log-level-net-plugin debug\""
+   debugArg="--enunode \"--log-level-net-plugin debug\""
 fi
 
 cmd="$launcherPath -p $pnodes -n $total_nodes -s $topo -d $delay $debugArg"

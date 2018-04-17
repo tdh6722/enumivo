@@ -2,28 +2,28 @@
  *  @file
  *  @copyright defined in enumivo/LICENSE.txt
  *  @defgroup eosclienttool Enumivo Command Line Client Reference
- *  @brief Tool for sending transactions and querying state from @ref nodeos
+ *  @brief Tool for sending transactions and querying state from @ref enunode
  *  @ingroup eosclienttool
  */
 
 /**
   @defgroup eosclienttool
 
-  @section intro Introduction to cleos
+  @section intro Introduction to enucli
 
-  `cleos` is a command line tool that interfaces with the REST api exposed by @ref nodeos. In order to use `cleos` you will need to
-  have a local copy of `nodeos` running and configured to load the 'enumivo::chain_api_plugin'.
+  `enucli` is a command line tool that interfaces with the REST api exposed by @ref enunode. In order to use `enucli` you will need to
+  have a local copy of `enunode` running and configured to load the 'enumivo::chain_api_plugin'.
 
-   cleos contains documentation for all of its commands. For a list of all commands known to cleos, simply run it with no arguments:
+   enucli contains documentation for all of its commands. For a list of all commands known to enucli, simply run it with no arguments:
 ```
-$ ./cleos
+$ ./enucli
 Command Line Interface to Enumivo Client
-Usage: programs/cleos/cleos [OPTIONS] SUBCOMMAND
+Usage: programs/enucli/enucli [OPTIONS] SUBCOMMAND
 
 Options:
   -h,--help                   Print this help message and exit
-  -H,--host TEXT=localhost    the host where nodeos is running
-  -p,--port UINT=8888         the port where nodeos is running
+  -H,--host TEXT=localhost    the host where enunode is running
+  -p,--port UINT=8888         the port where enunode is running
   --wallet-host TEXT=localhost
                               the host where keosd is running
   --wallet-port UINT=8888     the port where keosd is running
@@ -43,17 +43,17 @@ Subcommands:
 ```
 To get help with any particular subcommand, run it with no arguments as well:
 ```
-$ ./cleos create
+$ ./enucli create
 Create various items, on and off the blockchain
-Usage: ./cleos create SUBCOMMAND
+Usage: ./enucli create SUBCOMMAND
 
 Subcommands:
   key                         Create a new keypair and print the public and private keys
   account                     Create a new account on the blockchain
 
-$ ./cleos create account
+$ ./enucli create account
 Create a new account on the blockchain
-Usage: ./cleos create account [OPTIONS] creator name OwnerKey ActiveKey
+Usage: ./enucli create account [OPTIONS] creator name OwnerKey ActiveKey
 
 Positionals:
   creator TEXT                The name of the account creating the new account
@@ -537,8 +537,8 @@ int main( int argc, char** argv ) {
 
    CLI::App app{"Command Line Interface to Enumivo Client"};
    app.require_subcommand();
-   app.add_option( "-H,--host", host, localized("the host where nodeos is running"), true );
-   app.add_option( "-p,--port", port, localized("the port where nodeos is running"), true );
+   app.add_option( "-H,--host", host, localized("the host where enunode is running"), true );
+   app.add_option( "-p,--port", port, localized("the port where enunode is running"), true );
    app.add_option( "--wallet-host", wallet_host, localized("the host where keosd is running"), true );
    app.add_option( "--wallet-port", wallet_port, localized("the port where keosd is running"), true );
 
@@ -1163,7 +1163,7 @@ int main( int argc, char** argv ) {
       auto errorString = e.to_detail_string();
       if (errorString.find("Connection refused") != string::npos) {
          if (errorString.find(fc::json::to_string(port)) != string::npos) {
-            std::cerr << localized("Failed to connect to nodeos at ${ip}:${port}; is nodeos running?", ("ip", host)("port", port)) << std::endl;
+            std::cerr << localized("Failed to connect to enunode at ${ip}:${port}; is enunode running?", ("ip", host)("port", port)) << std::endl;
          } else if (errorString.find(fc::json::to_string(wallet_port)) != string::npos) {
             std::cerr << localized("Failed to connect to keosd at ${ip}:${port}; is keosd running?", ("ip", wallet_host)("port", wallet_port)) << std::endl;
          } else {

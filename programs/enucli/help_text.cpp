@@ -63,7 +63,7 @@ const char* duplicate_key_import_help_text = _("This key is already imported int
 const char* unknown_abi_table_help_text = _(R"text(The ABI for the code on account "${1}" does not specify table "${2}".
 
 Please check the account and table name, and verify that the account has the expected code using:
-  cleos get code ${1})text");
+  enucli get code ${1})text");
 
 const char* help_regex_error = _("Error locating help text: ${code} ${what}");
 
@@ -104,7 +104,7 @@ const char* error_advice_3010004 =  "Most likely, the given contract doesnt' exi
 
 const char* error_advice_3030000 =  "Ensure that your transaction satisfy the contract's constraint!";
 const char* error_advice_3030001 =  R"=====(Ensure that you have the related authority inside your transaction!;
-If you are currently using 'cleos push action' command, try to add the relevant authority using -p option.)=====";
+If you are currently using 'enucli push action' command, try to add the relevant authority using -p option.)=====";
 const char* error_advice_3030002 =  "Ensure that you have the related private keys inside your wallet and you wallet is unlocked.";
 const char* error_advice_3030003 =  "Please remove the unnecessary authority from your action!";
 const char* error_advice_3030004 =  "Please remove the unnecessary signature from your transaction!";
@@ -114,7 +114,7 @@ const char* error_advice_3030023 =  "Please decrease the expiration time of your
 const char* error_advice_3030024 =  "Ensure that the reference block exist in the blockchain!";
 
 const char* error_advice_3040002 = R"=====(Ensure that your arguments follow the contract abi!
-You can check the contract's abi by using 'cleos get code' command.)=====";
+You can check the contract's abi by using 'enucli get code' command.)=====";
 
 const char* error_advice_3120001 = R"=====(Name should be less than 13 characters and only contains the following symbol .12345abcdefghijklmnopqrstuvwxyz)=====";
 const char* error_advice_3120002 = R"=====(Public key should be encoded in base58 and starts with EOS prefix)=====";

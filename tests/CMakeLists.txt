@@ -41,19 +41,19 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/distributed-transactions-remote-test.
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sample-cluster-map.json ${CMAKE_CURRENT_BINARY_DIR}/sample-cluster-map.json COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/restart-scenarios-test.py ${CMAKE_CURRENT_BINARY_DIR}/restart-scenarios-test.py COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/testUtils.py ${CMAKE_CURRENT_BINARY_DIR}/testUtils.py COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nodeos_run_test.py ${CMAKE_CURRENT_BINARY_DIR}/nodeos_run_test.py COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nodeos_run_remote_test.py ${CMAKE_CURRENT_BINARY_DIR}/nodeos_run_remote_test.py COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/enunode_run_test.py ${CMAKE_CURRENT_BINARY_DIR}/enunode_run_test.py COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/enunode_run_remote_test.py ${CMAKE_CURRENT_BINARY_DIR}/enunode_run_remote_test.py COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/consensus-validation-malicious-producers.py ${CMAKE_CURRENT_BINARY_DIR}/consensus-validation-malicious-producers.py COPYONLY)
 
 #Manually run chain_test for all supported runtimes
 #To run chain_test with all log from blockchain displayed, put --verbose after --, i.e. chain_test -- --verbose
 add_test(NAME chain_test_binaryen COMMAND chain_test --report_level=detailed --color_output -- --binaryen)
 add_test(NAME chain_test_wavm COMMAND chain_test --report_level=detailed --color_output --catch_system_errors=no -- --wavm)
-add_test(NAME nodeos_run_test COMMAND tests/nodeos_run_test.py -v --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-add_test(NAME nodeos_run_remote_test COMMAND tests/nodeos_run_remote_test.py -v --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_test(NAME enunode_run_test COMMAND tests/enunode_run_test.py -v --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_test(NAME enunode_run_remote_test COMMAND tests/enunode_run_remote_test.py -v --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 add_test(NAME p2p_dawn515_test COMMAND tests/p2p_tests/dawn_515/test.sh WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 if(BUILD_MONGO_DB_PLUGIN)
-   add_test(NAME nodeos_run_test-mongodb COMMAND tests/nodeos_run_test.py --mongodb -v --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+   add_test(NAME enunode_run_test-mongodb COMMAND tests/enunode_run_test.py --mongodb -v --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 endif()
 
 # TODO: Tests removed until working again on master.
@@ -85,7 +85,7 @@ if(ENABLE_COVERAGE_TESTING)
 
   # no spaces allowed within tests list
   set(ctest_tests 'chain_test_binaryen|chain_test_wavm|p2p_dawn515_test')
-  set(ctest_exclude_tests 'nodeos_run_test|nodeos_run_remote_test|nodeos_run_test-mongodb|distributed-transactions-test|distributed-transactions-remote-test')
+  set(ctest_exclude_tests 'enunode_run_test|enunode_run_remote_test|enunode_run_test-mongodb|distributed-transactions-test|distributed-transactions-remote-test')
 
   # Setup target
   add_custom_target(${Coverage_NAME}

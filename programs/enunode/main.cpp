@@ -80,14 +80,14 @@ void initialize_logging()
 int main(int argc, char** argv)
 {
    try {
-      app().set_version(enumivo::nodeos::config::version);
+      app().set_version(enumivo::enunode::config::version);
       auto root = fc::app_path(); 
-      app().set_default_data_dir(root / "enumivo/nodeos/data" );
-      app().set_default_config_dir(root / "enumivo/nodeos/config" );
+      app().set_default_data_dir(root / "enumivo/enunode/data" );
+      app().set_default_config_dir(root / "enumivo/enunode/config" );
       if(!app().initialize<chain_plugin, http_plugin, net_plugin, producer_plugin>(argc, argv))
          return -1;
       initialize_logging();
-      ilog("nodeos version ${ver}", ("ver", enumivo::nodeos::config::itoh(static_cast<uint32_t>(app().version()))));
+      ilog("enunode version ${ver}", ("ver", enumivo::enunode::config::itoh(static_cast<uint32_t>(app().version()))));
       ilog("enumivo root is ${root}", ("root", root.string()));
       app().startup();
       app().exec();

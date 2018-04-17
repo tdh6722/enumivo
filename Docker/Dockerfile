@@ -14,9 +14,9 @@ COPY --from=builder /usr/local/lib/* /usr/local/lib/
 COPY --from=builder /tmp/build/bin /opt/enumivo/bin
 COPY --from=builder /tmp/build/contracts /contracts
 COPY --from=builder /eos/Docker/config.ini /
-COPY nodeosd.sh /opt/enumivo/bin/nodeosd.sh
+COPY enunoded.sh /opt/enumivo/bin/enunoded.sh
 ENV ENUMIVO_ROOT=/opt/enumivo
-RUN chmod +x /opt/enumivo/bin/nodeosd.sh
+RUN chmod +x /opt/enumivo/bin/enunoded.sh
 ENV LD_LIBRARY_PATH /usr/local/lib
 VOLUME /opt/enumivo/bin/data-dir
 ENV PATH /opt/enumivo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

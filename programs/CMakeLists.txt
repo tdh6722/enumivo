@@ -1,5 +1,5 @@
-add_subdirectory( nodeos )
-add_subdirectory( cleos )
+add_subdirectory( enunode )
+add_subdirectory( enucli )
 add_subdirectory( keosd )
 add_subdirectory( enumivo-launcher )
 add_subdirectory( enumivo-applesedemo )

@@ -8,7 +8,7 @@ import random
 import re
 
 ###############################################################
-# nodeos_run_test
+# enunode_run_test
 # --dump-error-details <Upon error print etc/enumivo/node_*/config.ini and var/lib/node_*/stderr.log to stdout>
 # --keep-logs <Don't delete var/lib/node_* folders upon test completion>
 ###############################################################
@@ -74,7 +74,7 @@ killEosInstances=not dontKill
 killWallet=not dontKill
 
 WalletdName="keosd"
-ClientName="cleos"
+ClientName="enucli"
 # testUtils.Utils.setMongoSyncTime(50)
 
 try:
@@ -437,7 +437,7 @@ try:
     if trans is None or not trans[0]:
         errorExit("FAILURE - issue action to currency contract failed", raw=True)
 
-    # TODO need to update enumivo.system contract to use new currency and update cleos and chain_plugin for interaction
+    # TODO need to update enumivo.system contract to use new currency and update enucli and chain_plugin for interaction
     # Print("Verify currency contract has proper initial balance (via get table)")
     # contract="currency"
     # table="accounts"
@@ -486,7 +486,7 @@ try:
         cmdError("%s get transaction trans_id" % (ClientName))
         errorExit("Failed to verify push message transaction id.")
 
-    # TODO need to update enumivo.system contract to use new currency and update cleos and chain_plugin for interaction
+    # TODO need to update enumivo.system contract to use new currency and update enucli and chain_plugin for interaction
     # Print("read current contract balance")
     # contract="currency"
     # table="accounts"

@@ -36,4 +36,4 @@ else
     CONFIG_DIR=""
 fi
 
-exec /opt/enumivo/bin/nodeos $CONFIG_DIR $@
+exec /opt/enumivo/bin/enunode $CONFIG_DIR $@

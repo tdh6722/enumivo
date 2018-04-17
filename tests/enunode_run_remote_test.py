@@ -31,7 +31,7 @@ delay=1
 prodCount=1 # producers per producer node
 pnodes=1
 total_nodes=pnodes
-actualTest="tests/nodeos_run_test.py"
+actualTest="tests/enunode_run_test.py"
 testSuccessful=False
 
 cluster=testUtils.Cluster()
@@ -56,7 +56,7 @@ try:
     initbPrvtKey=producerKeys["initb"]["private"]
 
     cmd="%s --dont-launch --inita_prvt_key %s --initb_prvt_key %s %s %s" % (actualTest, initaPrvtKey, initbPrvtKey, "-v" if debug else "", "--dont-kill" if dontKill else "")
-    Print("Starting up %s test: %s" % ("nodeos", actualTest))
+    Print("Starting up %s test: %s" % ("enunode", actualTest))
     Print("cmd: %s\n" % (cmd))
     if 0 != subprocess.call(cmd, shell=True):
         errorExit("failed to run cmd.")

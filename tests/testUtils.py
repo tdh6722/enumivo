@@ -24,13 +24,13 @@ class Utils:
     Debug=False
     FNull = open(os.devnull, 'w')
 
-    EosClientPath="programs/cleos/cleos"
+    EosClientPath="programs/enucli/enucli"
 
     EosWalletName="keosd"
     EosWalletPath="programs/keosd/"+ EosWalletName
 
-    EosServerName="nodeos"
-    EosServerPath="programs/nodeos/"+ EosServerName
+    EosServerName="enunode"
+    EosServerPath="programs/enunode/"+ EosServerName
 
     EosLauncherPath="programs/enumivo-launcher/enumivo-launcher"
     MongoPath="mongo"
@@ -53,7 +53,7 @@ class Utils:
 
     systemWaitTimeout=90
 
-    # mongoSyncTime: nodeos mongodb plugin seems to sync with a 10-15 seconds delay. This will inject
+    # mongoSyncTime: enunode mongodb plugin seems to sync with a 10-15 seconds delay. This will inject
     #  a wait period before the 2nd DB check (if first check fails)
     mongoSyncTime=25
 
@@ -231,7 +231,7 @@ class Node(object):
 
     @staticmethod
     def getTransId_nj(trans):
-        """Retrieve transaction id from cleos non-json output."""
+        """Retrieve transaction id from enucli non-json output."""
         # parse out transaction id
         pattern="executed transaction:\s+(\w+)\s+"
         m=re.search(pattern, trans, re.MULTILINE)
@@ -910,15 +910,15 @@ class WalletMgr(object):
     __walletDataDir="test_wallet_0"
 
     # walletd [True|False] True=Launch wallet(keosd) process; False=Manage launch process externally.
-    def __init__(self, walletd, nodeosPort=8888, nodeosHost="localhost", port=8899, host="localhost"):
+    def __init__(self, walletd, enunodePort=8888, enunodeHost="localhost", port=8899, host="localhost"):
         self.walletd=walletd
-        self.nodeosPort=nodeosPort
-        self.nodeosHost=nodeosHost
+        self.enunodePort=enunodePort
+        self.enunodeHost=enunodeHost
         self.port=port
         self.host=host
         self.wallets={}
         self.__walletPid=None
-        self.endpointArgs="--host %s --port %d" % (self.nodeosHost, self.nodeosPort)
+        self.endpointArgs="--host %s --port %d" % (self.enunodeHost, self.enunodePort)
         self.walletEndpointArgs=""
         if self.walletd:
             self.walletEndpointArgs += " --wallet-host %s --wallet-port %d" % (self.host, self.port)
@@ -1165,17 +1165,17 @@ class Cluster(object):
         if self.staging:
             cmdArr.append("--nogen")
 
-        nodeosArgs=""
+        enunodeArgs=""
         if Utils.Debug:
-            nodeosArgs += "--log-level-net-plugin debug"
+            enunodeArgs += "--log-level-net-plugin debug"
         if not self.walletd:
-            nodeosArgs += " --plugin enumivo::wallet_api_plugin"
+            enunodeArgs += " --plugin enumivo::wallet_api_plugin"
         if self.enableMongo:
-            nodeosArgs += " --plugin enumivo::mongo_db_plugin --resync --mongodb-uri %s" % self.mongoUri
+            enunodeArgs += " --plugin enumivo::mongo_db_plugin --resync --mongodb-uri %s" % self.mongoUri
 
-        if nodeosArgs:
-            cmdArr.append("--nodeos")
-            cmdArr.append(nodeosArgs)
+        if enunodeArgs:
+            cmdArr.append("--enunode")
+            cmdArr.append(enunodeArgs)
 
         s=" ".join(cmdArr)
         Utils.Debug and Utils.Print("cmd: %s" % (s))
@@ -1809,7 +1809,7 @@ class Cluster(object):
 
         return nodes
 
-    # Check state of running nodeos process and update EosInstanceInfos
+    # Check state of running enunode process and update EosInstanceInfos
     #def updateEosInstanceInfos(eosInstanceInfos):
     def updateNodesStatus(self):
         for node in self.nodes:
