@@ -1125,7 +1125,7 @@ fc::microseconds chain_controller::check_unlinkauth_authorization( const contrac
                "cannot unlink non-existent permission link of account '${account}' for actions matching '${code}::${action}'",
                ("account", unlink.account)("code", unlink.code)("action", unlink.type) );
 
-   if( *unlinked_permission_name == config::eosio_any_name )
+   if( *unlinked_permission_name == config::enumivo_any_name )
       return fc::microseconds(0);
 
    const auto delay = get_permission(auth).satisfies( get_permission({unlink.account, *unlinked_permission_name}),
