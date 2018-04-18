@@ -11,7 +11,7 @@ namespace proxy {
       account_name owner;
       uint32_t     delay;
 
-      EOSLIB_SERIALIZE( set_owner, (owner)(delay) )
+      ENULIB_SERIALIZE( set_owner, (owner)(delay) )
    };
 
    //@abi table
