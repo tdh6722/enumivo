@@ -132,9 +132,10 @@ namespace enumivosystem {
          }
 
          ACTION( SystemAccount, canceldelay ) {
+            permission_level      canceling_auth;
             transaction_id_type   trx_id;
 
-            ENULIB_SERIALIZE( canceldelay, (trx_id) )
+            ENULIB_SERIALIZE( canceldelay, (canceling_auth)(trx_id) )
          };
 
          static void on( const canceldelay& ) {

@@ -5,22 +5,20 @@
 
 #include <utility>
 #include <vector>
-#include <enumivolib/crypto.h>
-#include <enumivolib/types.hpp>
-#include <enumivolib/token.hpp>
-#include <enumivolib/print.hpp>
-#include <enumivolib/action.hpp>
-#include <enumivolib/multi_index.hpp>
+#include <string>
+#include <enumivolib/enumivo.hpp>
+#include <enumivolib/asset.hpp>
 #include <enumivolib/contract.hpp>
-
-#include <enumivo.system/enumivo.system.hpp>
-
-using enu_currency = enumivosystem::contract<N(enumivo)>::currency;
+#include <enumivolib/crypto.h>
 
 using enumivo::key256;
 using enumivo::indexed_by;
 using enumivo::const_mem_fun;
 using enumivo::asset;
+using enumivo::permission_level;
+using enumivo::action;
+using enumivo::print;
+using enumivo::name;
 
 class dice : public enumivo::contract {
    public:
@@ -37,9 +35,10 @@ class dice : public enumivo::contract {
       //@abi action
       void offerbet(const asset& bet, const account_name player, const checksum256& commitment) {
 
-         auto amount = enu_currency::token_type(bet);
+         eosio_assert( bet.symbol == S(4,EOS) , "only EOS token allowed" );
+         eosio_assert( bet.is_valid(), "invalid bet" );
+         eosio_assert( bet.amount > 0, "must bet positive quantity" );
 
-         eosio_assert( amount.quantity > 0, "invalid bet" );
          eosio_assert( !has_offer( commitment ), "offer with this commitment already exist" );
          require_auth( player );
 
@@ -60,12 +59,13 @@ class dice : public enumivo::contract {
          auto matched_offer_itr = idx.lower_bound( (uint64_t)new_offer_itr->bet.amount );
 
          if( matched_offer_itr == idx.end()
-            || matched_offer_itr->bet.amount != new_offer_itr->bet.amount
+            || matched_offer_itr->bet != new_offer_itr->bet
             || matched_offer_itr->owner == new_offer_itr->owner ) {
 
             // No matching bet found, update player's account
             accounts.modify( cur_player_itr, 0, [&](auto& acnt) {
-               acnt.enu_balance = (asset)(enu_currency::token_type(acnt.enu_balance) - amount);
+               eosio_assert( acnt.enu_balance >= bet, "insufficient balance" );
+               acnt.enu_balance -= bet;
                acnt.open_offers++;
             });
 
@@ -114,7 +114,8 @@ class dice : public enumivo::contract {
             });
 
             accounts.modify( cur_player_itr, 0, [&](auto& acnt) {
-               acnt.enu_balance = (asset)(enu_currency::token_type(acnt.enu_balance) - amount);
+               eosio_assert( acnt.enu_balance >= bet, "insufficient balance" );
+               acnt.enu_balance -= bet;
                acnt.open_games++;
             });
          }
@@ -133,7 +134,7 @@ class dice : public enumivo::contract {
          auto acnt_itr = accounts.find(offer_itr->owner);
          accounts.modify(acnt_itr, 0, [&](auto& acnt){
             acnt.open_offers--;
-            acnt.enu_balance.amount += offer_itr->bet.amount;
+            acnt.enu_balance += offer_itr->bet;
          });
 
          idx.erase(offer_itr);
@@ -212,7 +213,10 @@ class dice : public enumivo::contract {
       }
 
       //@abi action
-      void deposit( const account_name from, const asset& a ) {
+      void deposit( const account_name from, const asset& quantity ) {
+         
+         eosio_assert( quantity.is_valid(), "invalid quantity" );
+         eosio_assert( quantity.amount > 0, "must deposit positive quantity" );
 
          auto itr = accounts.find(from);
          if( itr == accounts.end() ) {
@@ -221,27 +225,37 @@ class dice : public enumivo::contract {
             });
          }
 
-         auto amount = enu_currency::token_type(a);
+         action(
+            permission_level{ from, N(active) },
+            N(enumivo.coin), N(transfer),
+            std::make_tuple(from, _self, quantity, std::string(""))
+         ).send();
 
-         enu_currency::inline_transfer( from, _self, amount );
          accounts.modify( itr, 0, [&]( auto& acnt ) {
-            acnt.enu_balance = (asset)(enu_currency::token_type(acnt.enu_balance) + amount);
+            acnt.enu_balance += quantity;
          });
       }
 
       //@abi action
-      void withdraw( const account_name to, const asset& a ) {
+      void withdraw( const account_name to, const asset& quantity ) {
          require_auth( to );
+
+         eosio_assert( quantity.is_valid(), "invalid quantity" );
+         eosio_assert( quantity.amount > 0, "must withdraw positive quantity" );
 
          auto itr = accounts.find( to );
          eosio_assert(itr != accounts.end(), "unknown account");
 
-         auto amount = enu_currency::token_type(a);
          accounts.modify( itr, 0, [&]( auto& acnt ) {
-            acnt.enu_balance = (asset)(enu_currency::token_type(acnt.enu_balance) - amount);
+            eosio_assert( acnt.enu_balance >= quantity, "insufficient balance" );
+            acnt.enu_balance -= quantity;
          });
 
-         enu_currency::inline_transfer( _self, to, amount );
+         action(
+            permission_level{ _self, N(active) },
+            N(enumivo.coin), N(transfer),
+            std::make_tuple(_self, to, quantity, std::string(""))
+         ).send();
 
          if( itr->is_empty() ) {
             accounts.erase(itr);
@@ -354,7 +368,7 @@ class dice : public enumivo::contract {
          // Update winner account balance and game count
          auto winner_account = accounts.find(winner_offer.owner);
          accounts.modify( winner_account, 0, [&]( auto& acnt ) {
-            acnt.enu_balance.amount += 2*g.bet.amount;
+            acnt.enu_balance += 2*g.bet;
             acnt.open_games--;
          });
 

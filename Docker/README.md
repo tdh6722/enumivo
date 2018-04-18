@@ -3,11 +3,13 @@
 Simple and fast setup of Enumivo on Docker is also available.
 
 ## Install Dependencies
- - [Docker](https://docs.docker.com) Docker 17.05 or higher is required
- - [docker-compose](https://docs.docker.com/compose/) version >= 1.10.0
+
+- [Docker](https://docs.docker.com) Docker 17.05 or higher is required
+- [docker-compose](https://docs.docker.com/compose/) version >= 1.10.0
 
 ## Docker Requirement
- - At least 8GB RAM (Docker -> Preferences -> Advanced -> Memory -> 8GB or above)
+
+- At least 8GB RAM (Docker -> Preferences -> Advanced -> Memory -> 8GB or above)
 
 ## Build eos image
 
@@ -24,13 +26,15 @@ docker run --name enunode -p 8888:8888 -p 9876:9876 -t enumivo/eos enunoded.sh a
 ```
 
 By default, all data is persisted in a docker volume. It can be deleted if the data is outdated or corrupted:
-``` bash
+
+```bash
 $ docker inspect --format '{{ range .Mounts }}{{ .Name }} {{ end }}' enunode
 fdc265730a4f697346fa8b078c176e315b959e79365fc9cbd11f090ea0cb5cbc
 $ docker volume rm fdc265730a4f697346fa8b078c176e315b959e79365fc9cbd11f090ea0cb5cbc
 ```
 
 Alternately, you can directly mount host directory into the container
+
 ```bash
 docker run --name enunode -v /path-to-data-dir:/opt/enumivo/bin/data-dir -p 8888:8888 -p 9876:9876 -t enumivo/eos enunoded.sh arg1 arg2
 ```
@@ -50,7 +54,6 @@ docker-compose up -d
 ```
 
 After `docker-compose up -d`, two services named `enunoded` and `keosd` will be started. enunode service would expose ports 8888 and 9876 to the host. keosd service does not expose any port to the host, it is only accessible to enucli when runing enucli is running inside the keosd container as described in "Execute enucli commands" section.
-
 
 ### Execute enucli commands
 
@@ -73,6 +76,7 @@ If you don't need keosd afterwards, you can stop the keosd service using
 ```bash
 docker-compose stop keosd
 ```
+
 ### Change default configuration
 
 You can use docker compose override file to change the default configurations. For example, create an alternate config file `config2.ini` and a `docker-compose.override.yml` with the following content.
@@ -95,9 +99,53 @@ docker-compose up
 ```
 
 ### Clear data-dir
+
 The data volume created by docker-compose can be deleted as follows:
 
 ```bash
 docker volume rm enunode-data-volume
 docker volume rm keosd-data-volume
 ```
+
+### Docker Hub
+
+Docker Hub image available from [docker hub](https://hub.docker.com/r/enumivo/eos/).
+Replace the `docker-compose.yaml` file with the content below
+
+```bash
+version: "3"
+
+services:
+  nodeosd:
+    image: enumivo/eos:latest
+    command: /opt/enumivo/bin/nodeosd.sh
+    hostname: nodeosd
+    ports:
+      - 8888:8888
+      - 9876:9876
+    expose:
+      - "8888"
+    volumes:
+      - nodeos-data-volume:/opt/enumivo/bin/data-dir
+
+  keosd:
+    image: enumivo/eos:latest
+    command: /opt/enumivo/bin/keosd
+    hostname: keosd
+    links:
+      - nodeosd
+    volumes:
+      - keosd-data-volume:/opt/enumivo/bin/data-dir
+
+volumes:
+  nodeos-data-volume:
+  keosd-data-volume:
+
+```
+
+*NOTE:* the defalut version is the latest, you can change it to what you want
+
+run `docker pull enumivo/eos:latest` 
+
+run `docker-compose up`
+

@@ -1,6 +1,6 @@
 /**
  *  @file
- *  @copyright defined in enumivo/LICENSE.txt
+ *  @copyright defined in eos/LICENSE.txt
  */
 #pragma once
 
@@ -72,7 +72,7 @@ namespace enumivo { namespace chain {
    FC_DECLARE_DERIVED_EXCEPTION( tx_receipt_inconsistent_net,       enumivo::chain::transaction_exception, 3030035, "Transaction receipt applied net_usage_words does not match received net_usage_words" )
 
    FC_DECLARE_DERIVED_EXCEPTION( account_name_exists_exception,     enumivo::chain::action_validate_exception, 3040001, "account name already exists" )
-   FC_DECLARE_DERIVED_EXCEPTION( invalid_action_args_exception,     enumivo::chain::action_validate_exception, 3040002, "Invalid Action Arguments" )
+   FC_DECLARE_DERIVED_EXCEPTION( invalid_action_args_exception,       enumivo::chain::action_validate_exception, 3040002, "Invalid Action Arguments" )
    FC_DECLARE_DERIVED_EXCEPTION( invalid_pts_address,               enumivo::chain::utility_exception, 3060001, "invalid pts address" )
    FC_DECLARE_DERIVED_EXCEPTION( insufficient_feeds,                enumivo::chain::chain_exception, 37006, "insufficient feeds" )
 

@@ -75,8 +75,8 @@ abi_def chain_initializer::enu_contract_abi(const abi_def& enumivo_system_abi)
    enu_abi.actions.push_back( action_def{name("onerror"), "onerror",""} );
    enu_abi.actions.push_back( action_def{name("onblock"), "onblock",""} );
    enu_abi.actions.push_back( action_def{name("canceldelay"), "canceldelay",""} );
-   
-   // TODO add any ricardian_clauses 
+
+   // TODO add any ricardian_clauses
    //
    // ACTION PAYLOADS
 
@@ -163,6 +163,7 @@ abi_def chain_initializer::enu_contract_abi(const abi_def& enumivo_system_abi)
 
    enu_abi.structs.emplace_back( struct_def {
       "canceldelay", "", {
+         {"canceling_auth", "permission_level"},
          {"trx_id", "transaction_id_type"},
       }
    });
@@ -270,7 +271,7 @@ abi_def chain_initializer::enu_contract_abi(const abi_def& enumivo_system_abi)
    enu_abi.structs.emplace_back( struct_def {
          "clause_pair", "", {
             {"id", "string"},
-            {"body", "string"} 
+            {"body", "string"}
          }
    });
    enu_abi.structs.emplace_back( struct_def {

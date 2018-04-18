@@ -219,33 +219,34 @@ BOOST_AUTO_TEST_SUITE(dice_tests)
 
 BOOST_FIXTURE_TEST_CASE( dice_test, dice_tester ) try {
 
-   set_code(config::system_account_name, enumivo_coin_wast);
-   set_abi(config::system_account_name, enumivo_coin_abi);
+   create_accounts( {N(enumivo.coin), N(dice),N(alice),N(bob),N(carol),N(david)}, false);
+   
+   set_code(N(enumivo.coin), enumivo_coin_wast);
+   set_abi(N(enumivo.coin), enumivo_coin_abi);
 
-   create_accounts( {N(dice),N(alice),N(bob),N(carol),N(david)}, false);
    produce_block();
    
    add_dice_authority(N(alice));
    add_dice_authority(N(bob));
    add_dice_authority(N(carol));
 
-   push_action(N(enumivo), N(create), N(enumivo), mvo()
-     ("issuer", "enumivo")
-     ("maximum_supply", "1000000000000.0000 EOS")
+   push_action(N(enumivo.coin), N(create), N(enumivo.coin), mvo()
+     ("issuer", "enumivo.coin")
+     ("maximum_supply", "1000000000.0000 EOS")
      ("can_freeze", "0")
      ("can_recall", "0")
      ("can_whitelist", "0")
    );
 
-   push_action(N(enumivo), N(issue), N(enumivo), mvo()
+   push_action(N(enumivo.coin), N(issue), N(enumivo.coin), mvo()
      ("to", "enumivo")
-     ("quantity", "1000000.0000 EOS")
+     ("quantity", "1000000000.0000 EOS")
      ("memo", "")
    );
 
-   transfer( N(enumivo), N(alice), "10000.0000 EOS", "", N(enumivo) );
-   transfer( N(enumivo), N(bob),   "10000.0000 EOS", "", N(enumivo) );
-   transfer( N(enumivo), N(carol), "10000.0000 EOS", "", N(enumivo) );
+   transfer( N(enumivo), N(alice), "10000.0000 EOS", "", N(enumivo.coin) );
+   transfer( N(enumivo), N(bob),   "10000.0000 EOS", "", N(enumivo.coin) );
+   transfer( N(enumivo), N(carol), "10000.0000 EOS", "", N(enumivo.coin) );
 
    produce_block();
 
@@ -283,7 +284,7 @@ BOOST_FIXTURE_TEST_CASE( dice_test, dice_tester ) try {
 
    // Alice tries to bet 1000 EOS (fail)
    // secret : a512f6b1b589a8906d574e9de74a529e504a5c53a760f0991a3e00256c027971
-   BOOST_CHECK_THROW( offer_bet( N(alice), asset::from_string("10000.0000 EOS"), 
+   BOOST_CHECK_THROW( offer_bet( N(alice), asset::from_string("1000.0000 EOS"), 
       commitment_for("a512f6b1b589a8906d574e9de74a529e504a5c53a760f0991a3e00256c027971")
    ), fc::exception);
    produce_block();
@@ -384,7 +385,7 @@ BOOST_FIXTURE_TEST_CASE( dice_test, dice_tester ) try {
    BOOST_REQUIRE_EQUAL( balance_of(N(alice)), asset::from_string("1.0000 EOS"));
 
    BOOST_REQUIRE_EQUAL( 
-      get_currency_balance(N(enumivo), ENU_SYMBOL, N(alice)),
+      get_currency_balance(N(enumivo.coin), ENU_SYMBOL, N(alice)),
       asset::from_string("10009.0000 EOS")
    );
 
@@ -396,7 +397,7 @@ BOOST_FIXTURE_TEST_CASE( dice_test, dice_tester ) try {
    withdraw( N(alice), asset::from_string("1.0000 EOS"));
 
    BOOST_REQUIRE_EQUAL( 
-      get_currency_balance(N(enumivo), ENU_SYMBOL, N(alice)),
+      get_currency_balance(N(enumivo.coin), ENU_SYMBOL, N(alice)),
       asset::from_string("10010.0000 EOS")
    );
 
