@@ -1198,7 +1198,7 @@ BOOST_AUTO_TEST_CASE(producer_r1_key) { try {
    chain.create_account(tester_producer_name);
    auto producer_r1_priv_key = chain.get_private_key<fc::crypto::r1::private_key_shim>( tester_producer_name, "active" );
    auto producer_r1_pub_key = producer_r1_priv_key.get_public_key();
-   chain.push_action(N(eosio), N(setprods), N(eosio),
+   chain.push_action(N(enumivo), N(setprods), N(enumivo),
                      fc::mutable_variant_object()("version", 1)("producers", vector<producer_key>{{ tester_producer_name, producer_r1_pub_key }}));
 
    // Add signing key to the tester object, so it can sign with the correct key
