@@ -12,7 +12,7 @@
 
 #include <fc/utility.hpp>
 #include <fc/io/json.hpp>
-#include <eosio/chain/producer_object.hpp>
+#include <enumivo/chain/producer_object.hpp>
 
 #include "WAST/WAST.h"
 #include "WASM/WASM.h"
