@@ -9,9 +9,9 @@ services:
   enunoded:
     build:
       context: .
-    image: enumivo/eos
-    command: /opt/enumivo/bin/enunoded.sh
-    hostname: enunoded
+    image: enumivo/enumivo
+    command: /opt/enumivo/bin/nodeosd.sh --data-dir /opt/enumivo/bin/data-dir
+    hostname: nodeosd
     ports:
       - 8888:8888
       - 9876:9876
@@ -21,8 +21,8 @@ services:
       - enunode-data-volume:/opt/enumivo/bin/data-dir
 
   keosd:
-    image: enumivo/eos
-    command: /opt/enumivo/bin/keosd
+    image: enumivo/enumivo
+    command: /opt/enumivo/bin/keosd --wallet-dir /opt/enumivo/bin/data-dir
     hostname: keosd
     links:
       - enunoded

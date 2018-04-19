@@ -3,7 +3,7 @@ version: "3"
 services:
   nodeosd:
     image: enumivo/enumivo:dawn3x
-    command: /opt/enumivo/bin/nodeosd.sh
+    command: /opt/enumivo/bin/nodeosd.sh --data-dir /opt/enumivo/bin/data-dir
     hostname: nodeosd
     ports:
       - 8888:8888
@@ -15,7 +15,7 @@ services:
 
   keosd:
     image: enumivo/enumivo:dawn3x
-    command: /opt/enumivo/bin/keosd
+    command: /opt/enumivo/bin/keosd --wallet-dir /opt/enumivo/bin/data-dir
     hostname: keosd
     links:
       - nodeosd
