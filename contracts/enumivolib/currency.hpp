@@ -1,3 +1,4 @@
+#pragma once
 #include <enumivolib/enumivo.hpp>
 #include <enumivolib/asset.hpp>
 #include <enumivolib/multi_index.hpp>

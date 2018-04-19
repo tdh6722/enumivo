@@ -1,3 +1,4 @@
+#pragma once
 #include <enumivolib/enumivo.hpp>
 #include <enumivolib/privileged.h>
 #include <enumivolib/producer_schedule.hpp>
