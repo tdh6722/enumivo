@@ -40,9 +40,9 @@ dontKill=args.dont_kill
 dumpErrorDetails=args.dump_error_details
 
 killWallet=not dontKill
-killEosInstances=not dontKill
+killEnuInstances=not dontKill
 if nodesFile is not None:
-    killEosInstances=False
+    killEnuInstances=False
 
 testUtils.Utils.Debug=debug
 testSuccessful=False
@@ -120,7 +120,7 @@ finally:
         cluster.dumpErrorDetails()
         Print("== Errors see above ==")
 
-    if killEosInstances:
+    if killEnuInstances:
         Print("Shut down the cluster and cleanup.")
         cluster.killall()
         cluster.cleanup()

@@ -57,7 +57,7 @@ debug=args.v
 total_nodes = pnodes
 killCount=args.kill_count if args.kill_count > 0 else int(round((DefaultKillPercent/100.0)*total_nodes))
 killSignal=args.kill_sig
-killEosInstances= not args.dont_kill
+killEnuInstances= not args.dont_kill
 dumpErrorDetails=args.dump_error_details
 keepLogs=args.keep_logs
 amINoon=not args.not_noon
@@ -82,7 +82,7 @@ try:
     cluster.setWalletMgr(walletMgr)
     Print("Stand up cluster")
     if cluster.launch(pnodes, total_nodes, topo, delay) is False:
-        errorExit("Failed to stand up eos cluster.")
+        errorExit("Failed to stand up Enumivo cluster.")
 
     Print ("Wait for Cluster stabilization")
     # wait for cluster to start producing blocks
@@ -118,8 +118,8 @@ try:
         errorExit("Cluster sync wait failed.")
 
     Print("Kill %d cluster node instances." % (killCount))
-    if cluster.killSomeEosInstances(killCount, killSignal) is False:
-        errorExit("Failed to kill Eos instances")
+    if cluster.killSomeEnuInstances(killCount, killSignal) is False:
+        errorExit("Failed to kill Enumivo instances")
     Print("enunode instances killed.")
 
     Print("Spread funds and validate")
@@ -131,8 +131,8 @@ try:
         errorExit("Cluster sync wait failed.")
 
     Print ("Relaunch dead cluster nodes instances.")
-    if cluster.relaunchEosInstances() is False:
-        errorExit("Failed to relaunch Eos instances")
+    if cluster.relaunchEnuInstances() is False:
+        errorExit("Failed to relaunch Enumivo instances")
     Print("enunode instances relaunched.")
 
     Print ("Resyncing cluster nodes.")
@@ -155,7 +155,7 @@ finally:
         walletMgr.dumpErrorDetails()
         Print("== Errors see above ==")
 
-    if killEosInstances:
+    if killEnuInstances:
         Print("Shut down the cluster%s" % (" and cleanup." if (testSuccessful and not keepLogs) else "."))
         cluster.killall()
         walletMgr.killall()

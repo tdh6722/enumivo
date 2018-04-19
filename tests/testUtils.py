@@ -24,15 +24,15 @@ class Utils:
     Debug=False
     FNull = open(os.devnull, 'w')
 
-    EosClientPath="programs/enucli/enucli"
+    EnuClientPath="programs/enucli/enucli"
 
-    EosWalletName="keosd"
-    EosWalletPath="programs/keosd/"+ EosWalletName
+    EnuWalletName="keosd"
+    EnuWalletPath="programs/keosd/"+ EnuWalletName
 
-    EosServerName="enunode"
-    EosServerPath="programs/enunode/"+ EosServerName
+    EnuServerName="enunode"
+    EnuServerPath="programs/enunode/"+ EnuServerName
 
-    EosLauncherPath="programs/enumivo-launcher/enumivo-launcher"
+    EnuLauncherPath="programs/enumivo-launcher/enumivo-launcher"
     MongoPath="mongo"
 
     @staticmethod
@@ -255,7 +255,7 @@ class Node(object):
 
     def getBlock(self, blockNum, retry=True, silentErrors=False):
         if not self.enableMongo:
-            cmd="%s %s get block %s" % (Utils.EosClientPath, self.endpointArgs, blockNum)
+            cmd="%s %s get block %s" % (Utils.EnuClientPath, self.endpointArgs, blockNum)
             Utils.Debug and Utils.Print("cmd: %s" % (cmd))
             try:
                 trans=Node.runCmdReturnJson(cmd)
@@ -324,7 +324,7 @@ class Node(object):
 
     def getTransaction(self, transId, retry=True, silentErrors=False):
         if not self.enableMongo:
-            cmd="%s %s get transaction %s" % (Utils.EosClientPath, self.endpointArgs, transId)
+            cmd="%s %s get transaction %s" % (Utils.EnuClientPath, self.endpointArgs, transId)
             Utils.Debug and Utils.Print("cmd: %s" % (cmd))
             try:
                 trans=Node.runCmdReturnJson(cmd)
@@ -445,7 +445,7 @@ class Node(object):
     # waitForTransBlock: wait on creation transaction id to appear in a block
     def createAccount(self, account, creatorAccount, stakedDeposit=1000, waitForTransBlock=False):
         cmd="%s %s create account -j %s %s %s %s" % (
-            Utils.EosClientPath, self.endpointArgs, creatorAccount.name, account.name,
+            Utils.EnuClientPath, self.endpointArgs, creatorAccount.name, account.name,
             account.ownerPublicKey, account.activePublicKey)
 
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
@@ -468,8 +468,8 @@ class Node(object):
 
         return trans
 
-    def getEosAccount(self, name):
-        cmd="%s %s get account %s" % (Utils.EosClientPath, self.endpointArgs, name)
+    def getEnuAccount(self, name):
+        cmd="%s %s get account %s" % (Utils.EnuClientPath, self.endpointArgs, name)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         try:
             trans=Node.runCmdReturnJson(cmd)
@@ -479,7 +479,7 @@ class Node(object):
             Utils.Print("ERROR: Exception during get account. %s" % (msg))
             return None
 
-    def getEosAccountFromDb(self, name):
+    def getEnuAccountFromDb(self, name):
         cmd="%s %s" % (Utils.MongoPath, self.mongoEndpointArgs)
         subcommand='db.Accounts.findOne({"name" : "%s"})' % (name)
         Utils.Debug and Utils.Print("cmd: echo '%s' | %s" % (subcommand, cmd))
@@ -492,8 +492,8 @@ class Node(object):
             return None
 
 
-    def getEosCurrencyBalance(self, name):
-        cmd="%s %s get currency balance enumivo %s EOS" % (Utils.EosClientPath, self.endpointArgs, name)
+    def getEnuCurrencyBalance(self, name):
+        cmd="%s %s get currency balance enumivo %s EOS" % (Utils.EnuClientPath, self.endpointArgs, name)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         try:
             trans=Node.runCmdReturnStr(cmd)
@@ -504,7 +504,7 @@ class Node(object):
             return None
 
     def getCurrencyBalance(self, contract, account, symbol):
-        cmd="%s %s get currency balance %s %s %s" % (Utils.EosClientPath, self.endpointArgs, contract, account, symbol)
+        cmd="%s %s get currency balance %s %s %s" % (Utils.EnuClientPath, self.endpointArgs, contract, account, symbol)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         try:
             trans=Node.runCmdReturnStr(cmd)
@@ -515,7 +515,7 @@ class Node(object):
             return None
 
     def getCurrencyStats(self, contract, symbol=""):
-        cmd="%s %s get currency stats %s %s" % (Utils.EosClientPath, self.endpointArgs, contract, symbol)
+        cmd="%s %s get currency stats %s %s" % (Utils.EnuClientPath, self.endpointArgs, contract, symbol)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         try:
             trans=Node.runCmdReturnJson(cmd)
@@ -528,7 +528,7 @@ class Node(object):
     # Verifies account. Returns "get account" json return object
     def verifyAccount(self, account):
         if not self.enableMongo:
-            ret=self.getEosAccount(account.name)
+            ret=self.getEnuAccount(account.name)
             if ret is not None:
                 account_name=ret["account_name"]
                 if account_name is None:
@@ -537,7 +537,7 @@ class Node(object):
                 return ret
         else:
             for i in range(2):
-                ret=self.getEosAccountFromDb(account.name)
+                ret=self.getEnuAccountFromDb(account.name)
                 if ret is not None:
                     account_name=ret["name"]
                     if account_name is None:
@@ -604,7 +604,7 @@ class Node(object):
     # Trasfer funds. Returns "transfer" json return object
     def transferFunds(self, source, destination, amount, memo="memo", force=False):
         cmd="%s %s -v transfer -j %s %s %d" % (
-            Utils.EosClientPath, self.endpointArgs, source.name, destination.name, amount)
+            Utils.EnuClientPath, self.endpointArgs, source.name, destination.name, amount)
         cmdArr=cmd.split()
         cmdArr.append(memo)
         if force:
@@ -645,7 +645,7 @@ class Node(object):
 
     # Gets accounts mapped to key. Returns json object
     def getAccountsByKey(self, key):
-        cmd="%s %s get accounts %s" % (Utils.EosClientPath, self.endpointArgs, key)
+        cmd="%s %s get accounts %s" % (Utils.EnuClientPath, self.endpointArgs, key)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         try:
             trans=Node.runCmdReturnJson(cmd)
@@ -662,7 +662,7 @@ class Node(object):
         return accounts
 
     def getServants(self, name):
-        cmd="%s %s get servants %s" % (Utils.EosClientPath, self.endpointArgs, name)
+        cmd="%s %s get servants %s" % (Utils.EnuClientPath, self.endpointArgs, name)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         try:
             trans=Node.runCmdReturnJson(cmd)
@@ -679,8 +679,8 @@ class Node(object):
 
     def getAccountBalance(self, name):
         if not self.enableMongo:
-            amount=self.getEosCurrencyBalance(name)
-            Utils.Debug and Utils.Print("getEosCurrencyBalance %s %s", name, amount)
+            amount=self.getEnuCurrencyBalance(name)
+            Utils.Debug and Utils.Print("getEnuCurrencyBalance %s %s", name, amount)
             balanceStr=amount.split()[0]
             balance=int(decimal.Decimal(balanceStr[1:])*10000)
             return balance
@@ -689,7 +689,7 @@ class Node(object):
                 Utils.Debug and Utils.Print("cmd: sleep %d seconds" % (self.mongoSyncTime))
                 time.sleep(self.mongoSyncTime)
 
-            account=self.getEosAccountFromDb(name)
+            account=self.getEnuAccountFromDb(name)
             if account is not None:
                 field=account["enu_balance"]
                 balanceStr=field.split()[0]
@@ -700,7 +700,7 @@ class Node(object):
 
     # transactions lookup by id. Returns json object
     def getTransactionsByAccount(self, name):
-        cmd="%s %s get transactions -j %s" % (Utils.EosClientPath, self.endpointArgs, name)
+        cmd="%s %s get transactions -j %s" % (Utils.EnuClientPath, self.endpointArgs, name)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         try:
             trans=Node.runCmdReturnJson(cmd)
@@ -721,7 +721,7 @@ class Node(object):
         return transArr
 
     def getAccountCodeHash(self, account):
-        cmd="%s %s get code %s" % (Utils.EosClientPath, self.endpointArgs, account)
+        cmd="%s %s get code %s" % (Utils.EnuClientPath, self.endpointArgs, account)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         try:
             retStr=Utils.checkOutput(cmd.split())
@@ -743,7 +743,7 @@ class Node(object):
 
     # publish contract and return transaction as json object
     def publishContract(self, account, contractDir, wastFile, abiFile, waitForTransBlock=False, shouldFail=False):
-        cmd="%s %s -v set contract -j %s %s" % (Utils.EosClientPath, self.endpointArgs, account, contractDir)
+        cmd="%s %s -v set contract -j %s %s" % (Utils.EnuClientPath, self.endpointArgs, account, contractDir)
         cmd += "" if wastFile is None else (" "+ wastFile)
         cmd += "" if abiFile is None else (" " + abiFile)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
@@ -775,7 +775,7 @@ class Node(object):
         return trans
 
     def getTable(self, account, contract, table):
-        cmd="%s %s get table %s %s %s" % (Utils.EosClientPath, self.endpointArgs, account, contract, table)
+        cmd="%s %s get table %s %s %s" % (Utils.EnuClientPath, self.endpointArgs, account, contract, table)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         try:
             trans=Node.runCmdReturnJson(cmd)
@@ -810,7 +810,7 @@ class Node(object):
 
     # returns tuple with transaction and
     def pushMessage(self, contract, action, data, opts, silentErrors=False):
-        cmd="%s %s push action -j %s %s" % (Utils.EosClientPath, self.endpointArgs, contract, action)
+        cmd="%s %s push action -j %s %s" % (Utils.EnuClientPath, self.endpointArgs, contract, action)
         cmdArr=cmd.split()
         if data is not None:
             cmdArr.append(data)
@@ -829,7 +829,7 @@ class Node(object):
 
     def setPermission(self, account, code, pType, requirement, waitForTransBlock=False):
         cmd="%s %s set action permission -j %s %s %s %s" % (
-            Utils.EosClientPath, self.endpointArgs, account, code, pType, requirement)
+            Utils.EnuClientPath, self.endpointArgs, account, code, pType, requirement)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         trans=None
         try:
@@ -845,7 +845,7 @@ class Node(object):
         return trans
 
     def getInfo(self, silentErrors=False):
-        cmd="%s %s get info" % (Utils.EosClientPath, self.endpointArgs)
+        cmd="%s %s get info" % (Utils.EnuClientPath, self.endpointArgs)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         try:
             trans=Node.runCmdReturnJson(cmd)
@@ -930,7 +930,7 @@ class WalletMgr(object):
             return False
 
         cmd="%s --data-dir %s --config-dir %s --http-server-address=%s:%d" % (
-            Utils.EosWalletPath, WalletMgr.__walletDataDir, WalletMgr.__walletDataDir, self.host, self.port)
+            Utils.EnuWalletPath, WalletMgr.__walletDataDir, WalletMgr.__walletDataDir, self.host, self.port)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         with open(WalletMgr.__walletLogFile, 'w') as sout, open(WalletMgr.__walletLogFile, 'w') as serr:
             popen=subprocess.Popen(cmd.split(), stdout=sout, stderr=serr)
@@ -946,7 +946,7 @@ class WalletMgr(object):
             Utils.Debug and Utils.Print("Wallet \"%s\" already exists. Returning same." % name)
             return wallet
         p = re.compile('\n\"(\w+)\"\n', re.MULTILINE)
-        cmd="%s %s wallet create --name %s" % (Utils.EosClientPath, self.endpointArgs, name)
+        cmd="%s %s wallet create --name %s" % (Utils.EnuClientPath, self.endpointArgs, name)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         retStr=subprocess.check_output(cmd.split()).decode("utf-8")
         #Utils.Print("create: %s" % (retStr))
@@ -963,7 +963,7 @@ class WalletMgr(object):
     def importKey(self, account, wallet):
         warningMsg="Key already in wallet"
         cmd="%s %s wallet import --name %s %s" % (
-            Utils.EosClientPath, self.endpointArgs, wallet.name, account.ownerPrivateKey)
+            Utils.EnuClientPath, self.endpointArgs, wallet.name, account.ownerPrivateKey)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         try:
             retStr=subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT).decode("utf-8")
@@ -979,7 +979,7 @@ class WalletMgr(object):
             Utils.Print("WARNING: Active private key is not defined for account \"%s\"" % (account.name))
         else:
             cmd="%s %s wallet import --name %s %s" % (
-                Utils.EosClientPath, self.endpointArgs, wallet.name, account.activePrivateKey)
+                Utils.EnuClientPath, self.endpointArgs, wallet.name, account.activePrivateKey)
             Utils.Debug and Utils.Print("cmd: %s" % (cmd))
             try:
                 retStr=subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT).decode("utf-8")
@@ -995,7 +995,7 @@ class WalletMgr(object):
         return True
 
     def lockWallet(self, wallet):
-        cmd="%s %s wallet lock --name %s" % (Utils.EosClientPath, self.endpointArgs, wallet.name)
+        cmd="%s %s wallet lock --name %s" % (Utils.EnuClientPath, self.endpointArgs, wallet.name)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         if 0 != subprocess.call(cmd.split(), stdout=Utils.FNull):
             Utils.Print("ERROR: Failed to lock wallet %s." % (wallet.name))
@@ -1004,7 +1004,7 @@ class WalletMgr(object):
         return True
 
     def unlockWallet(self, wallet):
-        cmd="%s %s wallet unlock --name %s" % (Utils.EosClientPath, self.endpointArgs, wallet.name)
+        cmd="%s %s wallet unlock --name %s" % (Utils.EnuClientPath, self.endpointArgs, wallet.name)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         popen=subprocess.Popen(cmd.split(), stdout=Utils.FNull, stdin=subprocess.PIPE)
         outs, errs = popen.communicate(input=wallet.password.encode("utf-8"))
@@ -1015,7 +1015,7 @@ class WalletMgr(object):
         return True
 
     def lockAllWallets(self):
-        cmd="%s %s wallet lock_all" % (Utils.EosClientPath, self.endpointArgs)
+        cmd="%s %s wallet lock_all" % (Utils.EnuClientPath, self.endpointArgs)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         if 0 != subprocess.call(cmd.split(), stdout=Utils.FNull):
             Utils.Print("ERROR: Failed to lock all wallets.")
@@ -1027,7 +1027,7 @@ class WalletMgr(object):
         wallets=[]
 
         p = re.compile('\s+\"(\w+)\s\*\",?\n', re.MULTILINE)
-        cmd="%s %s wallet list" % (Utils.EosClientPath, self.endpointArgs)
+        cmd="%s %s wallet list" % (Utils.EnuClientPath, self.endpointArgs)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         retStr=subprocess.check_output(cmd.split()).decode("utf-8")
         #Utils.Print("retStr: %s" % (retStr))
@@ -1043,7 +1043,7 @@ class WalletMgr(object):
         keys=[]
 
         p = re.compile('\n\s+\"(\w+)\"\n', re.MULTILINE)
-        cmd="%s %s wallet keys" % (Utils.EosClientPath, self.endpointArgs)
+        cmd="%s %s wallet keys" % (Utils.EnuClientPath, self.endpointArgs)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         retStr=subprocess.check_output(cmd.split()).decode("utf-8")
         #Utils.Print("retStr: %s" % (retStr))
@@ -1065,7 +1065,7 @@ class WalletMgr(object):
                 shutil.copyfileobj(f, sys.stdout)
 
     def killall(self):
-        cmd="pkill %s" % (Utils.EosWalletName)
+        cmd="pkill %s" % (Utils.EnuWalletName)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         subprocess.call(cmd.split())
 
@@ -1091,11 +1091,11 @@ class Cluster(object):
         """Cluster container.
         walletd [True|False] Is wallet keosd running. If not load the wallet plugin
         localCluster [True|False] Is cluster local to host.
-        host: eos server host
-        port: eos server port
-        walletHost: eos wallet host
-        walletPort: wos wallet port
-        enableMongo: Include mongoDb support, configures eos mongo plugin
+        host: enu server host
+        port: enu server port
+        walletHost: enu wallet host
+        walletPort: enu wallet port
+        enableMongo: Include mongoDb support, configures enu mongo plugin
         mongoHost: MongoDB host
         mongoPort: MongoDB port
         initaPrvtKey: Inita account private key
@@ -1153,14 +1153,14 @@ class Cluster(object):
           delay 0 exposes a bootstrap bug where producer handover may have a large gap confusing nodes and bringing system to a halt.
         """
         if not self.localCluster:
-            Utils.Print("WARNING: Cluster not local, not launching %s." % (Utils.EosServerName))
+            Utils.Print("WARNING: Cluster not local, not launching %s." % (Utils.EnuServerName))
             return True
 
         if len(self.nodes) > 0:
             raise RuntimeError("Cluster already running.")
 
         cmd="%s -p %s -n %s -s %s -d %s -f" % (
-            Utils.EosLauncherPath, pnodes, totalNodes, topo, delay)
+            Utils.EnuLauncherPath, pnodes, totalNodes, topo, delay)
         cmdArr=cmd.split()
         if self.staging:
             cmdArr.append("--nogen")
@@ -1188,7 +1188,7 @@ class Cluster(object):
         nodes=self.discoverLocalNodes(totalNodes, timeout=Utils.systemWaitTimeout)
         if nodes is None or totalNodes != len(nodes):
             Utils.Print("ERROR: Unable to validate %s instances, expected: %d, actual: %d" %
-                          (Utils.EosServerName, totalNodes, len(nodes)))
+                          (Utils.EnuServerName, totalNodes, len(nodes)))
             return False
 
         self.nodes=nodes
@@ -1334,7 +1334,7 @@ class Cluster(object):
         p = re.compile('Private key: (.+)\nPublic key: (.+)\n', re.MULTILINE)
         for i in range(0, count):
             try:
-                cmd="%s create key" % (Utils.EosClientPath)
+                cmd="%s create key" % (Utils.EnuClientPath)
                 Utils.Debug and Utils.Print("cmd: %s" % (cmd))
                 keyStr=subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT).decode("utf-8")
                 m=p.match(keyStr)
@@ -1345,7 +1345,7 @@ class Cluster(object):
                 ownerPrivate=m.group(1)
                 ownerPublic=m.group(2)
 
-                cmd="%s create key" % (Utils.EosClientPath)
+                cmd="%s create key" % (Utils.EnuClientPath)
                 Utils.Debug and Utils.Print("cmd: %s" % (cmd))
                 keyStr=subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT).decode("utf-8")
                 m=p.match(keyStr)
@@ -1426,7 +1426,7 @@ class Cluster(object):
         node=self.nodes[0]
         fromm=self.initaAccount
         to=self.accounts[0]
-        Utils.Print("Transfer %d units from account %s to %s on eos server port %d" % (
+        Utils.Print("Transfer %d units from account %s to %s on Enumivo server port %d" % (
             transferAmount, fromm.name, to.name, node.port))
         trans=node.transferFunds(fromm, to, transferAmount)
         transId=Node.getTransId(trans)
@@ -1436,15 +1436,15 @@ class Cluster(object):
         Utils.Debug and Utils.Print("Funds transfered on transaction id %s." % (transId))
         self.accounts[0].balance += transferAmount
 
-        nextEosIdx=-1
+        nextEnuIdx=-1
         for i in range(0, count):
             account=self.accounts[i]
             nextInstanceFound=False
             for n in range(0, count):
-                #Utils.Print("nextEosIdx: %d, n: %d" % (nextEosIdx, n))
-                nextEosIdx=(nextEosIdx + 1)%count
-                if self.nodes[nextEosIdx].alive:
-                    #Utils.Print("nextEosIdx: %d" % (nextEosIdx))
+                #Utils.Print("nextEnuIdx: %d, n: %d" % (nextEnuIdx, n))
+                nextEnuIdx=(nextEnuIdx + 1)%count
+                if self.nodes[nextEnuIdx].alive:
+                    #Utils.Print("nextEnuIdx: %d" % (nextEnuIdx))
                     nextInstanceFound=True
                     break
 
@@ -1452,8 +1452,8 @@ class Cluster(object):
                 Utils.Print("ERROR: No active nodes found.")
                 return False
 
-            #Utils.Print("nextEosIdx: %d, count: %d" % (nextEosIdx, count))
-            node=self.nodes[nextEosIdx]
+            #Utils.Print("nextEnuIdx: %d, count: %d" % (nextEnuIdx, count))
+            node=self.nodes[nextEnuIdx]
             Utils.Debug and Utils.Print("Wait for trasaction id %s on node port %d" % (transId, node.port))
             if node.waitForTransIdOnNode(transId) is False:
                 Utils.Print("ERROR: Selected node never received transaction id %s" % (transId))
@@ -1462,7 +1462,7 @@ class Cluster(object):
             transferAmount -= amount
             fromm=account
             to=self.accounts[i+1] if i < (count-1) else self.initaAccount
-            Utils.Print("Transfer %d units from account %s to %s on eos server port %d." %
+            Utils.Print("Transfer %d units from account %s to %s on Enumivo server port %d." %
                     (transferAmount, fromm.name, to.name, node.port))
 
             trans=node.transferFunds(fromm, to, transferAmount)
@@ -1489,9 +1489,9 @@ class Cluster(object):
         for node in self.nodes:
             if node.alive:
                 Utils.Debug and Utils.Print("Validate funds on %s server port %d." %
-                                            (Utils.EosServerName, node.port))
+                                            (Utils.EnuServerName, node.port))
                 if node.validateSpreadFundsOnNode(self.initaAccount, self.accounts, expectedTotal) is False:
-                    Utils.Print("ERROR: Failed to validate funds on eos node port: %d" % (node.port))
+                    Utils.Print("ERROR: Failed to validate funds on Enumivo node port: %d" % (node.port))
                     return False
 
         return True
@@ -1764,7 +1764,7 @@ class Cluster(object):
         return True
 
     
-    # Populates list of EosInstanceInfo objects, matched to actual running instances
+    # Populates list of EnuInstanceInfo objects, matched to actual running instances
     def discoverLocalNodes(self, totalNodes, timeout=0):
         nodes=[]
 
@@ -1778,7 +1778,7 @@ class Cluster(object):
         psOut=None
         while checkForNodes:
             try:
-                cmd="pgrep %s %s" % (pgrepOpts, Utils.EosServerName)
+                cmd="pgrep %s %s" % (pgrepOpts, Utils.EnuServerName)
                 Utils.Debug and Utils.Print("cmd: %s" % (cmd))
                 psOut=subprocess.check_output(cmd.split()).decode("utf-8")
                 Utils.Debug and Utils.Print("psOut: \"%s\"" % psOut)
@@ -1798,7 +1798,7 @@ class Cluster(object):
                 pattern="[\n]?(\d+) (.* --data-dir var/lib/node_%02d)" % (i)
                 m=re.search(pattern, psOut, re.MULTILINE)
                 if m is None:
-                    Utils.Print("ERROR: Failed to find %s pid. Pattern %s" % (Utils.EosServerName, pattern))
+                    Utils.Print("ERROR: Failed to find %s pid. Pattern %s" % (Utils.EnuServerName, pattern))
                     break
                 instance=Node(self.host, self.port + i, pid=int(m.group(1)), cmd=m.group(2), alive=True, enableMongo=self.enableMongo, mongoHost=self.mongoHost, mongoPort=self.mongoPort, mongoDb=self.mongoDb)
                 instance.setWalletEndpointArgs(self.walletEndpointArgs)
@@ -1809,18 +1809,18 @@ class Cluster(object):
 
         return nodes
 
-    # Check state of running enunode process and update EosInstanceInfos
-    #def updateEosInstanceInfos(eosInstanceInfos):
+    # Check state of running enunode process and update EnuInstanceInfos
+    #def updateEnuInstanceInfos(enuInstanceInfos):
     def updateNodesStatus(self):
         for node in self.nodes:
             node.checkPulse()
 
-    # Kills a percentange of Eos instances starting from the tail and update eosInstanceInfos state
-    def killSomeEosInstances(self, killCount, killSignalStr=Utils.SigKillTag):
+    # Kills a percentange of Enu instances starting from the tail and update enuInstanceInfos state
+    def killSomeEnuInstances(self, killCount, killSignalStr=Utils.SigKillTag):
         killSignal=signal.SIGKILL
         if killSignalStr == Utils.SigTermTag:
             killSignal=signal.SIGTERM
-        Utils.Print("Kill %d %s instances with signal %s." % (killCount, Utils.EosServerName, killSignal))
+        Utils.Print("Kill %d %s instances with signal %s." % (killCount, Utils.EnuServerName, killSignal))
 
         killedCount=0
         for node in reversed(self.nodes):
@@ -1836,7 +1836,7 @@ class Cluster(object):
         time.sleep(1) # Give processes time to stand down
         return self.updateNodesStatus()
 
-    def relaunchEosInstances(self):
+    def relaunchEnuInstances(self):
 
         chainArg=self.__chainSyncStrategy.arg
 
@@ -1877,16 +1877,16 @@ class Cluster(object):
             self.dumpErrorDetailImpl(fileName)
 
     def killall(self, silent=True):
-        cmd="%s -k 15" % (Utils.EosLauncherPath)
+        cmd="%s -k 15" % (Utils.EnuLauncherPath)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         if 0 != subprocess.call(cmd.split(), stdout=Utils.FNull):
-            not silent and Utils.Print("Launcher failed to shut down eos cluster.")
+            not silent and Utils.Print("Launcher failed to shut down Enumivo cluster.")
 
-        # ocassionally the launcher cannot kill the eos server
-        cmd="pkill %s" % (Utils.EosServerName)
+        # ocassionally the launcher cannot kill the Enumivo server
+        cmd="pkill %s" % (Utils.EnuServerName)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         if 0 != subprocess.call(cmd.split(), stdout=Utils.FNull):
-            not silent and Utils.Print("Failed to shut down eos cluster.")
+            not silent and Utils.Print("Failed to shut down Enumivo cluster.")
 
         # another explicit nodes shutdown
         for node in self.nodes:

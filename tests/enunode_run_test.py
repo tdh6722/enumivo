@@ -33,9 +33,9 @@ parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument('-?', action='help', default=argparse.SUPPRESS,
                     help=argparse._('show this help message and exit'))
 parser.add_argument("-o", "--output", type=str, help="output file", default=TEST_OUTPUT_DEFAULT)
-parser.add_argument("-h", "--host", type=str, help="%s host name" % (testUtils.Utils.EosServerName),
+parser.add_argument("-h", "--host", type=str, help="%s host name" % (testUtils.Utils.EnuServerName),
                     default=LOCAL_HOST)
-parser.add_argument("-p", "--port", type=int, help="%s host port" % testUtils.Utils.EosServerName,
+parser.add_argument("-p", "--port", type=int, help="%s host port" % testUtils.Utils.EnuServerName,
                     default=DEFAULT_PORT)
 parser.add_argument("-c", "--prod-count", type=int, help="Per node producer count", default=1)
 parser.add_argument("--inita_prvt_key", type=str, help="Inita private key.")
@@ -70,7 +70,7 @@ localTest=True if server == LOCAL_HOST else False
 cluster=testUtils.Cluster(walletd=True, enableMongo=enableMongo, initaPrvtKey=initaPrvtKey, initbPrvtKey=initbPrvtKey)
 walletMgr=testUtils.WalletMgr(True)
 testSuccessful=False
-killEosInstances=not dontKill
+killEnuInstances=not dontKill
 killWallet=not dontKill
 
 WalletdName="keosd"
@@ -92,10 +92,10 @@ try:
         Print("Stand up cluster")
         if cluster.launch(prodCount=prodCount) is False:
             cmdError("launcher")
-            errorExit("Failed to stand up eos cluster.")
+            errorExit("Failed to stand up Enumivo cluster.")
     else:
         cluster.initializeNodes(initaPrvtKey=initaPrvtKey, initbPrvtKey=initbPrvtKey)
-        killEosInstances=False
+        killEnuInstances=False
 
     walletMgr.killall()
     walletMgr.cleanup()
@@ -126,13 +126,13 @@ try:
     Print("Stand up walletd")
     if walletMgr.launch() is False:
         cmdError("%s" % (WalletdName))
-        errorExit("Failed to stand up eos walletd.")
+        errorExit("Failed to stand up Enumivo walletd.")
 
     testWalletName="test"
     Print("Creating wallet \"%s\"." % (testWalletName))
     testWallet=walletMgr.create(testWalletName)
     if testWallet is None:
-        cmdError("eos wallet create")
+        cmdError("enu wallet create")
         errorExit("Failed to create wallet %s." % (testWalletName))
 
     Print("Wallet \"%s\" password=%s." % (testWalletName, testWallet.password.encode("utf-8")))
@@ -147,7 +147,7 @@ try:
     Print("Creating wallet \"%s\"." % (initaWalletName))
     initaWallet=walletMgr.create(initaWalletName)
     if initaWallet is None:
-        cmdError("eos wallet create")
+        cmdError("enu wallet create")
         errorExit("Failed to create wallet %s." % (initaWalletName))
 
     initaAccount=cluster.initaAccount
@@ -413,7 +413,7 @@ try:
             errorExit("FAILURE - get code currency failed", raw=True)
     else:
         Print("verify abi is set")
-        account=node.getEosAccountFromDb(currencyAccount.name)
+        account=node.getEnuAccountFromDb(currencyAccount.name)
         abiName=account["abi"]["structs"][0]["name"]
         abiActionName=account["abi"]["actions"][0]["name"]
         abiType=account["abi"]["actions"][0]["type"]
@@ -560,7 +560,7 @@ try:
         errorExit("Failed to unlock wallet %s" % (initaWallet.name))
 
     Print("Get account inita")
-    account=node.getEosAccount(initaAccount.name)
+    account=node.getEnuAccount(initaAccount.name)
     if account is None:
         cmdError("%s get account" % (ClientName))
         errorExit("Failed to get account %s" % (initaAccount.name))
@@ -628,7 +628,7 @@ finally:
         walletMgr.dumpErrorDetails()
         Print("== Errors see above ==")
 
-    if killEosInstances:
+    if killEnuInstances:
         Print("Shut down the cluster.")
         cluster.killall()
         if testSuccessful and not keepLogs:

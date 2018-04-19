@@ -32,7 +32,7 @@ dumpErrorDetails=args.dump_error_details
 
 testUtils.Utils.Debug=debug
 
-killEosInstances=not dontKill
+killEnuInstances=not dontKill
 topo="mesh"
 delay=1
 prodCount=1 # producers per producer node
@@ -65,7 +65,7 @@ try:
            (pnodes, total_nodes-pnodes, topo, delay))
     Print("Stand up cluster")
     if cluster.launch(pnodes, total_nodes, prodCount, topo, delay) is False:
-        errorExit("Failed to stand up eos cluster.")
+        errorExit("Failed to stand up Enumivo cluster.")
 
     Print ("Wait for Cluster stabilization")
     # wait for cluster to start producing blocks
@@ -96,7 +96,7 @@ finally:
         cluster.dumpErrorDetails()
         Print("== Errors see above ==")
 
-    if killEosInstances:
+    if killEnuInstances:
         Print("Shut down the cluster and cleanup.")
         cluster.killall()
         cluster.cleanup()

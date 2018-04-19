@@ -110,13 +110,13 @@ exchangeAccount.ownerPublicKey=PUB_KEY2
 print("Stand up walletd")
 if walletMgr.launch() is False:
     cmdError("%s" % (WalletdName))
-    errorExit("Failed to stand up eos walletd.")
+    errorExit("Failed to stand up Enumivo walletd.")
 
 testWalletName="test"
 Print("Creating wallet \"%s\"." % (testWalletName))
 testWallet=walletMgr.create(testWalletName)
 if testWallet is None:
-    cmdError("eos wallet create")
+    cmdError("enu wallet create")
     errorExit("Failed to create wallet %s." % (testWalletName))
 
 for account in accounts:
@@ -129,7 +129,7 @@ initaWalletName="inita"
 Print("Creating wallet \"%s\"." % (initaWalletName))
 initaWallet=walletMgr.create(initaWalletName)
 if initaWallet is None:
-    cmdError("eos wallet create")
+    cmdError("enu wallet create")
     errorExit("Failed to create wallet %s." % (initaWalletName))
 
 initaAccount=testUtils.Cluster.initaAccount
@@ -151,7 +151,7 @@ enumivo.name = "enumivo"
 Print("Info of each node:")
 for i in range(len(hosts)):
     node = cluster.getNode(0)
-    cmd="%s %s get info" % (testUtils.Utils.EosClientPath, node.endpointArgs)
+    cmd="%s %s get info" % (testUtils.Utils.EnuClientPath, node.endpointArgs)
     trans = node.runCmdReturnJson(cmd)
     Print("host %s: %s" % (hosts[i], trans))
 

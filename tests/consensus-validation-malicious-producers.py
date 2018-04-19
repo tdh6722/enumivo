@@ -221,7 +221,7 @@ waitTimeout=args.w
 dumpErrorDetails=args.dump-error-details
 keepLogs=args.keep-logs
 amINoon=not args.not_noon
-killEosInstances= not args.dont-kill
+killEnuInstances= not args.dont-kill
 killWallet= not args.dont-kill
 
 testUtils.Utils.Debug=debug
@@ -251,7 +251,7 @@ def myTest(transWillEnterBlock):
         delay=0
         Print("Stand up cluster")
         if cluster.launch(pnodes, total_nodes, topo, delay) is False:
-            error("Failed to stand up eos cluster.")
+            error("Failed to stand up Enumivo cluster.")
             return False
 
         accounts=testUtils.Cluster.createAccountKeys(1)
@@ -263,7 +263,7 @@ def myTest(transWillEnterBlock):
 
         Print("Stand up walletd")
         if walletMgr.launch() is False:
-            error("Failed to stand up eos walletd.")
+            error("Failed to stand up Enumivo walletd.")
             return False
 
         testWalletName="test"
@@ -373,7 +373,7 @@ def myTest(transWillEnterBlock):
             walletMgr.dumpErrorDetails()
             Print("== Errors see above ==")
 
-        if killEosInstances:
+        if killEnuInstances:
             Print("Shut down the cluster%s" % (" and cleanup." if (testSuccessful and not keepLogs) else "."))
             cluster.killall()
             walletMgr.killall()
