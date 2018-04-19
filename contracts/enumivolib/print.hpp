@@ -1,4 +1,4 @@
-/** 
+/**
  *  @file
  *  @copyright defined in enumivo/LICENSE.txt
  */
@@ -96,6 +96,11 @@ namespace enumivo {
       auto arr = val.extract_as_byte_array();
       prints("0x");
       printhex(static_cast<const void*>(arr.data()), arr.size());
+   }
+
+   template<size_t Size>
+   inline void print( fixed_key<Size>& val ) {
+      print(static_cast<const fixed_key<Size>&>(val));
    }
 
    /**
