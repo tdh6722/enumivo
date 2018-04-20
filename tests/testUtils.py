@@ -26,8 +26,8 @@ class Utils:
 
     EnuClientPath="programs/enucli/enucli"
 
-    EnuWalletName="keosd"
-    EnuWalletPath="programs/keosd/"+ EnuWalletName
+    EnuWalletName="enuwallet"
+    EnuWalletPath="programs/enuwallet/"+ EnuWalletName
 
     EnuServerName="enunode"
     EnuServerPath="programs/enunode/"+ EnuServerName
@@ -959,10 +959,10 @@ class Node(object):
 
 Wallet=namedtuple("Wallet", "name password host port")
 class WalletMgr(object):
-    __walletLogFile="test_keosd_output.log"
+    __walletLogFile="test_enuwallet_output.log"
     __walletDataDir="test_wallet_0"
 
-    # walletd [True|False] True=Launch wallet(keosd) process; False=Manage launch process externally.
+    # walletd [True|False] True=Launch wallet(enuwallet) process; False=Manage launch process externally.
     def __init__(self, walletd, enunodePort=8888, enunodeHost="localhost", port=8899, host="localhost"):
         self.walletd=walletd
         self.enunodePort=enunodePort
@@ -979,7 +979,7 @@ class WalletMgr(object):
 
     def launch(self):
         if not self.walletd:
-            Utils.Print("ERROR: Wallet Manager wasn't configured to launch keosd")
+            Utils.Print("ERROR: Wallet Manager wasn't configured to launch enuwallet")
             return False
 
         cmd="%s --data-dir %s --config-dir %s --http-server-address=%s:%d" % (
@@ -989,7 +989,7 @@ class WalletMgr(object):
             popen=subprocess.Popen(cmd.split(), stdout=sout, stderr=serr)
             self.__walletPid=popen.pid
 
-        # Give keosd time to warm up
+        # Give enuwallet time to warm up
         time.sleep(1)
         return True
 
@@ -1139,10 +1139,10 @@ class Cluster(object):
     __BiosPort=8788
     
     
-    # walletd [True|False] Is keosd running. If not load the wallet plugin
+    # walletd [True|False] Is enuwallet running. If not load the wallet plugin
     def __init__(self, walletd=False, localCluster=True, host="localhost", port=8888, walletHost="localhost", walletPort=8899, enableMongo=False, mongoHost="localhost", mongoPort=27017, mongoDb="EOStest", initaPrvtKey=None, initbPrvtKey=None, staging=False):
         """Cluster container.
-        walletd [True|False] Is wallet keosd running. If not load the wallet plugin
+        walletd [True|False] Is wallet enuwallet running. If not load the wallet plugin
         localCluster [True|False] Is cluster local to host.
         host: enu server host
         port: enu server port

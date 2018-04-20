@@ -13,17 +13,17 @@ services:
     volumes:
       - nodeos-data-volume:/opt/enumivo/bin/data-dir
 
-  keosd:
+  enuwallet:
     image: enumivo/enumivo:dawn3x
-    command: /opt/enumivo/bin/keosd --wallet-dir /opt/enumivo/bin/data-dir
-    hostname: keosd
+    command: /opt/enumivo/bin/enuwallet --wallet-dir /opt/enumivo/bin/data-dir
+    hostname: enuwallet
     links:
       - nodeosd
     volumes:
-      - keosd-data-volume:/opt/enumivo/bin/data-dir
+      - enuwallet-data-volume:/opt/enumivo/bin/data-dir
 
 volumes:
  nodeos-data-volume:
    external: true
- keosd-data-volume:
+ enuwallet-data-volume:
    external: true
