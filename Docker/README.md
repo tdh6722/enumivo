@@ -11,18 +11,18 @@ Simple and fast setup of Enumivo on Docker is also available.
 
 - At least 8GB RAM (Docker -> Preferences -> Advanced -> Memory -> 8GB or above)
 
-## Build eos image
+## Build enumivo image
 
 ```bash
 git clone https://github.com/enumivo/enumivo.git --recursive
-cd eos/Docker
-docker build . -t enumivo/eos
+cd enumivo/Docker
+docker build . -t enumivo/enumivo
 ```
 
 ## Start enunode docker container only
 
 ```bash
-docker run --name enunode -p 8888:8888 -p 9876:9876 -t enumivo/eos enunoded.sh arg1 arg2
+docker run --name enunode -p 8888:8888 -p 9876:9876 -t enumivo/enumivo enunoded.sh arg1 arg2
 ```
 
 By default, all data is persisted in a docker volume. It can be deleted if the data is outdated or corrupted:
@@ -36,7 +36,7 @@ $ docker volume rm fdc265730a4f697346fa8b078c176e315b959e79365fc9cbd11f090ea0cb5
 Alternately, you can directly mount host directory into the container
 
 ```bash
-docker run --name enunode -v /path-to-data-dir:/opt/enumivo/bin/data-dir -p 8888:8888 -p 9876:9876 -t enumivo/eos enunoded.sh arg1 arg2
+docker run --name enunode -v /path-to-data-dir:/opt/enumivo/bin/data-dir -p 8888:8888 -p 9876:9876 -t enumivo/enumivo enunoded.sh arg1 arg2
 ```
 
 ## Get chain info
@@ -109,7 +109,7 @@ docker volume rm enuwallet-data-volume
 
 ### Docker Hub
 
-Docker Hub image available from [docker hub](https://hub.docker.com/r/enumivo/eos/).
+Docker Hub image available from [docker hub](https://hub.docker.com/r/enumivo/enumivo/).
 Replace the `docker-compose.yaml` file with the content below
 
 ```bash
@@ -117,7 +117,7 @@ version: "3"
 
 services:
   enunoded:
-    image: enumivo/eos:latest
+    image: enumivo/enumivo:latest
     command: /opt/enumivo/bin/enunoded.sh
     hostname: enunoded
     ports:
@@ -129,7 +129,7 @@ services:
       - enunode-data-volume:/opt/enumivo/bin/data-dir
 
   enuwallet:
-    image: enumivo/eos:latest
+    image: enumivo/enumivo:latest
     command: /opt/enumivo/bin/enuwallet
     hostname: enuwallet
     links:
@@ -145,7 +145,7 @@ volumes:
 
 *NOTE:* the defalut version is the latest, you can change it to what you want
 
-run `docker pull enumivo/eos:latest` 
+run `docker pull enumivo/enumivo:latest` 
 
 run `docker-compose up`
 

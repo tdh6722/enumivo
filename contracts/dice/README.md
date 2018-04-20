@@ -163,12 +163,12 @@ enucli get table dice dice account
 {
   "rows": [{
       "owner": "alice",
-      "eos_balance": "97.0000 EOS",
+      "enu_balance": "97.0000 EOS",
       "open_offers": 0,
       "open_games": 1
     },{
       "owner": "bob",
-      "eos_balance": "97.0000 EOS",
+      "enu_balance": "97.0000 EOS",
       "open_offers": 0,
       "open_games": 1
     }
@@ -242,12 +242,12 @@ enucli get table dice dice account
 {
   "rows": [{
       "owner": "alice",
-      "eos_balance": "103.0000 EOS",
+      "enu_balance": "103.0000 EOS",
       "open_offers": 0,
       "open_games": 0
     },{
       "owner": "bob",
-      "eos_balance": "97.0000 EOS",
+      "enu_balance": "97.0000 EOS",
       "open_offers": 0,
       "open_games": 0
     }
@@ -263,7 +263,7 @@ enucli push action dice withdraw '[ "alice", "103.0000 EOS" ]' -p alice
 
 ##### Balance of alice after withdraw
 ````bash
-enucli get currency balance enumivo.coin alice eos
+enucli get currency balance enumivo.coin alice enu
 1003.0000 EOS
 ````
 

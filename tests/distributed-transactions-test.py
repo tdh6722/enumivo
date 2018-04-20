@@ -68,14 +68,14 @@ try:
 
         Print("Stand up cluster")
         if cluster.launch(pnodes, total_nodes, topo=topo, delay=delay) is False:
-            errorExit("Failed to stand up eos cluster.")
+            errorExit("Failed to stand up enumivo cluster.")
 
         Print ("Wait for Cluster stabilization")
         # wait for cluster to start producing blocks
         if not cluster.waitOnClusterBlockNumSync(3):
             errorExit("Cluster never stabilized")
 
-    Print("Stand up EOS wallet enuwallet")
+    Print("Stand up enumivo wallet enuwallet")
     if walletMgr.launch() is False:
         errorExit("Failed to stand up enuwallet.")
 

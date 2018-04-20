@@ -135,7 +135,7 @@
 #include <string>
 #include <stdexcept>
 */
-//include <enumivolib/eos.hpp>
+//include <enumivolib/enumivo.hpp>
 #include <enumivolib/token.hpp>
 #include <enumivolib/dispatcher.hpp>
 

@@ -30,7 +30,7 @@ namespace enumivo {
               >
   struct token {
     /**
-    * Type of the currency (e.g. eos) represented as an unsigned 64 bit integer
+    * Type of the currency (e.g. enu) represented as an unsigned 64 bit integer
     * @brief  Type of the currency
     */
     static const uint64_t code   = Code;
