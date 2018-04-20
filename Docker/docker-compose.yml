@@ -10,8 +10,8 @@ services:
     build:
       context: .
     image: enumivo/enumivo
-    command: /opt/enumivo/bin/nodeosd.sh --data-dir /opt/enumivo/bin/data-dir
-    hostname: nodeosd
+    command: /opt/enumivo/bin/enunoded.sh --data-dir /opt/enumivo/bin/data-dir
+    hostname: enunoded
     ports:
       - 8888:8888
       - 9876:9876

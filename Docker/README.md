@@ -116,10 +116,10 @@ Replace the `docker-compose.yaml` file with the content below
 version: "3"
 
 services:
-  nodeosd:
+  enunoded:
     image: enumivo/eos:latest
-    command: /opt/enumivo/bin/nodeosd.sh
-    hostname: nodeosd
+    command: /opt/enumivo/bin/enunoded.sh
+    hostname: enunoded
     ports:
       - 8888:8888
       - 9876:9876
@@ -133,7 +133,7 @@ services:
     command: /opt/enumivo/bin/enuwallet
     hostname: enuwallet
     links:
-      - nodeosd
+      - enunoded
     volumes:
       - enuwallet-data-volume:/opt/enumivo/bin/data-dir
 
@@ -164,7 +164,7 @@ docker-compose -f docker-compose-dawn3.0.yaml up -d
 # get chain info
 curl http://127.0.0.1:8888/v1/chain/get_info
 # get logs
-docker-compose logs nodeosd
+docker-compose logs enunoded
 ```
 
 The `blocks` data are stored under `--data-dir` by default, and the wallet files are stored under `--wallet-dir` by default, of course you can change these as you want.
