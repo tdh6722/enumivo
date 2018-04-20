@@ -149,7 +149,7 @@
 
 	printf "\n\n>>>>>>>> ALL dependencies sucessfully found or installed . Installing Enumivo\n\n"
 
-	COMPILE_EOS=1
+	COMPILE_ENU=1
 	COMPILE_CONTRACTS=1
 
 # 	export ENU_BUILD_TYPE=[Debug|Release|RelWithDebInfo|MinSizeRel|CodeCoverage] to enable

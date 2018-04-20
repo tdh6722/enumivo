@@ -233,10 +233,10 @@
  *
  * Use Transfer_Asset to send funds from one account to another:
  * @code{.cpp}
- * // Send 10 EOS from alice to bob
+ * // Send 10 ENU from alice to bob
  * Transfer_Asset(chain, alice, bob, asset(10));
  *
- * // Send 10 EOS from alice to bob with memo "Thanks for all the fish!"
+ * // Send 10 ENU from alice to bob with memo "Thanks for all the fish!"
  * Transfer_Asset(chain, alice, bob, asset(10), "Thanks for all the fish!");
  * @endcode
  *
@@ -250,10 +250,10 @@
  *
  * Use Stake_Asset to stake liquid funds:
  * @code{.cpp}
- * // Convert 10 of bob's EOS from liquid to staked
+ * // Convert 10 of bob's ENU from liquid to staked
  * Stake_Asset(chain, bob, asset(10).amount);
  *
- * // Stake and transfer 10 EOS from alice to bob (alice pays liquid EOS and bob receives stake)
+ * // Stake and transfer 10 ENU from alice to bob (alice pays liquid ENU and bob receives stake)
  * Stake_Asset(chain, alice, bob, asset(10).amount);
  * @endcode
  */
@@ -264,7 +264,7 @@
  *
  * Use Unstake_Asset to begin unstaking funds:
  * @code{.cpp}
- * // Begin unstaking 10 of bob's EOS
+ * // Begin unstaking 10 of bob's ENU
  * Unstake_Asset(chain, bob, asset(10).amount);
  * @endcode
  *
@@ -273,11 +273,11 @@
 #define Begin_Unstake_Asset(...) BOOST_PP_OVERLOAD(BEGIN_UNSTAKE, __VA_ARGS__)(__VA_ARGS__)
 
 /**
- * @brief Shorthand way to claim unstaked EOS as liquid
+ * @brief Shorthand way to claim unstaked ENU as liquid
  *
  * Use Finish_Unstake_Asset to liquidate unstaked funds:
  * @code{.cpp}
- * // Reclaim as liquid 10 of bob's unstaked EOS
+ * // Reclaim as liquid 10 of bob's unstaked ENU
  * Unstake_Asset(chain, bob, asset(10).amount);
  * @endcode
  */

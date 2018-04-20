@@ -16,7 +16,7 @@ namespace enumivo {
          When encoded as a uint64_t, first byte represents the number of decimals, remaining bytes
          represent token name.
          Name must only include upper case alphabets.
-         from_string constructs a symbol from an input a string of the form "4,EOS"
+         from_string constructs a symbol from an input a string of the form "4,ENU"
          where the integer represents number of decimals. Number of decimals must be larger than zero.
        */
 
@@ -58,7 +58,7 @@ namespace enumivo {
       class symbol {
          public:
             explicit symbol(uint8_t p, const char* s): m_value(string_to_symbol(p, s)) { }
-            explicit symbol(uint64_t v = SY(4, EOS)): m_value(v) { }
+            explicit symbol(uint64_t v = SY(4, ENU)): m_value(v) { }
             static symbol from_string(const string& from)
             {
                try {

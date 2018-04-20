@@ -147,7 +147,7 @@ class Account(object):
 ###########################################################################################
 class Node(object):
 
-    def __init__(self, host, port, pid=None, cmd=None, enableMongo=False, mongoHost="localhost", mongoPort=27017, mongoDb="EOStest"):
+    def __init__(self, host, port, pid=None, cmd=None, enableMongo=False, mongoHost="localhost", mongoPort=27017, mongoDb="ENUtest"):
         self.host=host
         self.port=port
         self.pid=pid
@@ -516,14 +516,14 @@ class Node(object):
 
 
     def getEnuCurrencyBalance(self, name):
-        cmd="%s %s get currency balance enumivo %s EOS" % (Utils.EnuClientPath, self.endpointArgs, name)
+        cmd="%s %s get currency balance enumivo %s ENU" % (Utils.EnuClientPath, self.endpointArgs, name)
         Utils.Debug and Utils.Print("cmd: %s" % (cmd))
         try:
             trans=Node.runCmdReturnStr(cmd)
             return trans
         except subprocess.CalledProcessError as ex:
             msg=ex.output.decode("utf-8")
-            Utils.Print("ERROR: Exception during get EOS balance. %s" % (msg))
+            Utils.Print("ERROR: Exception during get ENU balance. %s" % (msg))
             return None
 
     def getCurrencyBalance(self, contract, account, symbol):
@@ -1140,7 +1140,7 @@ class Cluster(object):
     
     
     # walletd [True|False] Is enuwallet running. If not load the wallet plugin
-    def __init__(self, walletd=False, localCluster=True, host="localhost", port=8888, walletHost="localhost", walletPort=8899, enableMongo=False, mongoHost="localhost", mongoPort=27017, mongoDb="EOStest", initaPrvtKey=None, initbPrvtKey=None, staging=False):
+    def __init__(self, walletd=False, localCluster=True, host="localhost", port=8888, walletHost="localhost", walletPort=8899, enableMongo=False, mongoHost="localhost", mongoPort=27017, mongoDb="ENUtest", initaPrvtKey=None, initbPrvtKey=None, staging=False):
         """Cluster container.
         walletd [True|False] Is wallet enuwallet running. If not load the wallet plugin
         localCluster [True|False] Is cluster local to host.
@@ -1623,7 +1623,7 @@ class Cluster(object):
 
     @staticmethod
     def bootstrap(totalNodes, prodCount, biosHost, biosPort):
-        """Create 'prodCount' init accounts and deposits 10000000000 EOS in each. If prodCount is -1 will initialize all possible producers.
+        """Create 'prodCount' init accounts and deposits 10000000000 ENU in each. If prodCount is -1 will initialize all possible producers.
         Ensure nodes are inter-connected prior to this call. One way to validate this will be to check if every node has block 1."""
 
         Utils.Print("Starting cluster bootstrap.")
@@ -1752,7 +1752,7 @@ class Cluster(object):
             Utils.Print("push issue action to enumivo contract")
             contract=enumivoAccount.name
             action="issue"
-            data="{\"to\":\"enumivo\",\"quantity\":\"1000000000.0000 EOS\"}"
+            data="{\"to\":\"enumivo\",\"quantity\":\"1000000000.0000 ENU\"}"
             opts="--permission enumivo@active"
             trans=biosNode.pushMessage(contract, action, data, opts)
             if trans is None or not trans[0]:

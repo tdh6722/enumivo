@@ -144,7 +144,7 @@ void chain_plugin::plugin_initialize(const variables_map& options) {
            "\n"
            "**************************************\n"
            "*                                    *\n"
-           "*   -- EOSD IGNORING SIGNATURES --   *\n"
+           "*   -- ENUD IGNORING SIGNATURES --   *\n"
            "*   -         TEST MODE          -   *\n"
            "*   ------------------------------   *\n"
            "*                                    *\n"

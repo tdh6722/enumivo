@@ -34,7 +34,7 @@ Subcommands:
   create                      Create various items, on and off the blockchain
   get                         Retrieve various items and information from the blockchain
   set                         Set or update blockchain state
-  transfer                    Transfer EOS from account to account
+  transfer                    Transfer ENU from account to account
   net                         Interact with local p2p network connections
   wallet                      Interact with local wallet
   sign                        Sign a transaction
@@ -123,7 +123,7 @@ using namespace boost::filesystem;
 
 FC_DECLARE_EXCEPTION( explained_exception, 9000000, "explained exception, see error log" );
 FC_DECLARE_EXCEPTION( localized_exception, 10000000, "an error occured" );
-#define EOSC_ASSERT( TEST, ... ) \
+#define ENUC_ASSERT( TEST, ... ) \
   FC_EXPAND_MACRO( \
     FC_MULTILINE_MACRO_BEGIN \
       if( UNLIKELY(!(TEST)) ) \
@@ -456,7 +456,7 @@ struct set_account_permission_subcommand {
             send_actions({create_deleteauth(account, permission)});
          } else {
             authority auth;
-            if (boost::istarts_with(authorityJsonOrFile, "EOS")) {
+            if (boost::istarts_with(authorityJsonOrFile, "ENU")) {
                try {
                   auth = authority(public_key_type(authorityJsonOrFile));
                } ENU_RETHROW_EXCEPTIONS(public_key_type_exception, "Invalid public key: ${public_key}", ("public_key", authorityJsonOrFile))
@@ -898,10 +898,10 @@ int main( int argc, char** argv ) {
    string recipient;
    uint64_t amount;
    string memo;
-   auto transfer = app.add_subcommand("transfer", localized("Transfer EOS from account to account"), false);
-   transfer->add_option("sender", sender, localized("The account sending EOS"))->required();
-   transfer->add_option("recipient", recipient, localized("The account receiving EOS"))->required();
-   transfer->add_option("amount", amount, localized("The amount of EOS to send"))->required();
+   auto transfer = app.add_subcommand("transfer", localized("Transfer ENU from account to account"), false);
+   transfer->add_option("sender", sender, localized("The account sending ENU"))->required();
+   transfer->add_option("recipient", recipient, localized("The account receiving ENU"))->required();
+   transfer->add_option("amount", amount, localized("The amount of ENU to send"))->required();
    transfer->add_option("memo", memo, localized("The memo for the transfer"));
 
    add_standard_transaction_options(transfer, "sender@active");

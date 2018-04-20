@@ -251,18 +251,18 @@ BOOST_FIXTURE_TEST_CASE(test_symbol, TESTER) try {
    }
 
    {
-      symbol enu(4, "EOS");
+      symbol enu(4, "ENU");
       BOOST_REQUIRE_EQUAL(ENU_SYMBOL_VALUE, enu.value());
-      BOOST_REQUIRE_EQUAL("4,EOS", enu.to_string());
-      BOOST_REQUIRE_EQUAL("EOS", enu.name());
+      BOOST_REQUIRE_EQUAL("4,ENU", enu.to_string());
+      BOOST_REQUIRE_EQUAL("ENU", enu.name());
       BOOST_REQUIRE_EQUAL(4, enu.decimals());
    }
 
-   // default is "4,EOS"
+   // default is "4,ENU"
    {
       symbol def;
       BOOST_REQUIRE_EQUAL(4, def.decimals());
-      BOOST_REQUIRE_EQUAL("EOS", def.name());
+      BOOST_REQUIRE_EQUAL("ENU", def.name());
    }
    // from string
    {
@@ -292,15 +292,15 @@ BOOST_FIXTURE_TEST_CASE(test_symbol, TESTER) try {
 
    // invalid - contains lower case characters, no validation
    {
-      symbol malformed(SY(6,EoS));
+      symbol malformed(SY(6,EnU));
       BOOST_REQUIRE_EQUAL(false, malformed.valid());
-      BOOST_REQUIRE_EQUAL("EoS", malformed.name());
+      BOOST_REQUIRE_EQUAL("EnU", malformed.name());
       BOOST_REQUIRE_EQUAL(6, malformed.decimals());
    }
 
    // invalid - contains lower case characters, exception thrown 
    {
-      BOOST_CHECK_EXCEPTION(symbol(5,"EoS"),
+      BOOST_CHECK_EXCEPTION(symbol(5,"EnU"),
                             fc::assert_exception, assert_message_ends_with("invalid character in symbol name"));
    }
 

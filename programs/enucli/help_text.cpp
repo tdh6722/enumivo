@@ -117,7 +117,7 @@ const char* error_advice_3040002 = R"=====(Ensure that your arguments follow the
 You can check the contract's abi by using 'enucli get code' command.)=====";
 
 const char* error_advice_3120001 = R"=====(Name should be less than 13 characters and only contains the following symbol .12345abcdefghijklmnopqrstuvwxyz)=====";
-const char* error_advice_3120002 = R"=====(Public key should be encoded in base58 and starts with EOS prefix)=====";
+const char* error_advice_3120002 = R"=====(Public key should be encoded in base58 and starts with ENU prefix)=====";
 const char* error_advice_3120003 = R"=====(Private key should be encoded in base58 WIF)=====";
 const char* error_advice_3120004 = R"=====(Ensure that your authority JSON follows the following format!
 {
@@ -131,7 +131,7 @@ const char* error_advice_3120004 = R"=====(Ensure that your authority JSON follo
 e.g.
 {
   "threshold":"1",
-  "keys":[{ "key":"EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV", "weight":"1" }],
+  "keys":[{ "key":"ENU6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV", "weight":"1" }],
   "accounts":[{
     "permission":{ "actor":"initb", "permission":"social" },
     "weight":"1
@@ -207,7 +207,7 @@ const char* error_advice_3120010 =  R"=====(Ensure that your packed transaction 
 }
 e.g.
 {
-  "signatures" : [ "EOSJze4m1ZHQ4UjuHpBcX6uHPN4Xyggv52raQMTBZJghzDLepaPcSGCNYTxaP2NiaF4yRF5RaYwqsQYAwBwFtfuTJr34Z5GJX" ],
+  "signatures" : [ "ENUJze4m1ZHQ4UjuHpBcX6uHPN4Xyggv52raQMTBZJghzDLepaPcSGCNYTxaP2NiaF4yRF5RaYwqsQYAwBwFtfuTJr34Z5GJX" ],
   "compression" : "none",
   "hex_transaction" : "6c36a25a00002602626c5e7f0000000000010000001e4d75af460000000000a53176010000000000ea305500000000a8ed3232180000001e4d75af4680969800000000000443555200000000"
 })=====";

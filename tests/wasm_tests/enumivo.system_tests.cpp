@@ -129,7 +129,7 @@ public:
    }
 
    asset get_balance( const account_name& act ) {
-      //return get_currency_balance( config::system_account_name, symbol(SY(4,EOS)), act );
+      //return get_currency_balance( config::system_account_name, symbol(SY(4,ENU)), act );
       //temporary code. current get_currency_balancy uses table name N(accounts) from currency.h
       //generic_currency table name is N(account).
       const auto& db  = control->get_database();
@@ -138,14 +138,14 @@ public:
 
       // the balance is implied to be 0 if either the table or row does not exist
       if (tbl) {
-         const auto *obj = db.find<contracts::key_value_object, contracts::by_scope_primary>(boost::make_tuple(tbl->id, symbol(SY(4,EOS)).value()));
+         const auto *obj = db.find<contracts::key_value_object, contracts::by_scope_primary>(boost::make_tuple(tbl->id, symbol(SY(4,ENU)).value()));
          if (obj) {
             //balance is the second field after symbol, so skip the symbol
             fc::datastream<const char *> ds(obj->value.data(), obj->value.size());
             fc::raw::unpack(ds, result);
          }
       }
-      return asset( result, symbol(SY(4,EOS)) );
+      return asset( result, symbol(SY(4,ENU)) );
    }
 
    fc::variant get_total_stake( const account_name& act ) {
@@ -195,55 +195,55 @@ inline uint64_t M( const string& enu_str ) {
 BOOST_AUTO_TEST_SUITE(enumivo_system_tests)
 
 BOOST_FIXTURE_TEST_CASE( stake_unstake, enumivo_system_tester ) try {
-   issue( "alice", "1000.0000 EOS", config::system_account_name );
-   BOOST_REQUIRE_EQUAL( asset::from_string("1000.0000 EOS"), get_balance( "alice" ) );
+   issue( "alice", "1000.0000 ENU", config::system_account_name );
+   BOOST_REQUIRE_EQUAL( asset::from_string("1000.0000 ENU"), get_balance( "alice" ) );
 
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "200.0000 EOS", "100.0000 EOS", "500.0000 EOS" ) );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "200.0000 ENU", "100.0000 ENU", "500.0000 ENU" ) );
 
    auto total = get_total_stake( "alice" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("200.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("100.0000 EOS").amount, total["cpu_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("500.0000 EOS").amount, total["storage_stake"].as_uint64());
-   REQUIRE_MATCHING_OBJECT( voter( "alice", "300.0000 EOS"), get_voter_info( "alice" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("200.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("100.0000 ENU").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("500.0000 ENU").amount, total["storage_stake"].as_uint64());
+   REQUIRE_MATCHING_OBJECT( voter( "alice", "300.0000 ENU"), get_voter_info( "alice" ) );
 
    auto bytes = total["storage_bytes"].as_uint64();
    BOOST_REQUIRE_EQUAL( true, 0 < bytes );
 
-   BOOST_REQUIRE_EQUAL( asset::from_string("200.0000 EOS"), get_balance( "alice" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("200.0000 ENU"), get_balance( "alice" ) );
 
    //unstake
-   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "200.0000 EOS", "100.0000 EOS", bytes ) );
+   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "200.0000 ENU", "100.0000 ENU", bytes ) );
    total = get_total_stake( "alice" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("0.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("0.0000 EOS").amount, total["cpu_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("0.0000 EOS").amount, total["storage_stake"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("0.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("0.0000 ENU").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("0.0000 ENU").amount, total["storage_stake"].as_uint64());
    BOOST_REQUIRE_EQUAL( 0, total["storage_bytes"].as_uint64());
-   REQUIRE_MATCHING_OBJECT( voter( "alice", "0.00 EOS" ), get_voter_info( "alice" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "alice", "0.00 ENU" ), get_voter_info( "alice" ) );
    produce_blocks(1);
-   BOOST_REQUIRE_EQUAL( asset::from_string("200.0000 EOS"), get_balance( "alice" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("200.0000 ENU"), get_balance( "alice" ) );
 
    //after 2 days balance should not be available yet
    produce_block( fc::hours(3*24-1) );
    produce_blocks(1);
-   BOOST_REQUIRE_EQUAL( asset::from_string("200.0000 EOS"), get_balance( "alice" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("200.0000 ENU"), get_balance( "alice" ) );
    //after 3 days funds should be released
    produce_block( fc::hours(1) );
    produce_blocks(1);
-   BOOST_REQUIRE_EQUAL( asset::from_string("1000.0000 EOS"), get_balance( "alice" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("1000.0000 ENU"), get_balance( "alice" ) );
 
 } FC_LOG_AND_RETHROW()
 
 
 BOOST_FIXTURE_TEST_CASE( fail_without_auth, enumivo_system_tester ) try {
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
 
    BOOST_REQUIRE_EQUAL( error("missing authority of alice"),
                         push_action( N(alice), N(delegatebw), mvo()
                                     ("from",     "alice")
                                     ("receiver", "bob")
-                                    ("stake_net", "10.0000 EOS")
-                                    ("stake_cpu", "10.0000 EOS")
-                                    ("stake_storage", "10.0000 EOS"),
+                                    ("stake_net", "10.0000 ENU")
+                                    ("stake_cpu", "10.0000 ENU")
+                                    ("stake_storage", "10.0000 ENU"),
                                     false
                         )
    );
@@ -252,8 +252,8 @@ BOOST_FIXTURE_TEST_CASE( fail_without_auth, enumivo_system_tester ) try {
                         push_action(N(alice), N(undelegatebw), mvo()
                                     ("from",     "alice")
                                     ("receiver", "bob")
-                                    ("unstake_net", "200.0000 EOS")
-                                    ("unstake_cpu", "100.0000 EOS")
+                                    ("unstake_net", "200.0000 ENU")
+                                    ("unstake_cpu", "100.0000 ENU")
                                     ("unstake_bytes", 0)
                                     ,false
                         )
@@ -263,22 +263,22 @@ BOOST_FIXTURE_TEST_CASE( fail_without_auth, enumivo_system_tester ) try {
 
 
 BOOST_FIXTURE_TEST_CASE( stake_negative, enumivo_system_tester ) try {
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
 
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: must stake a positive amount"),
-                        stake( "alice", "-0.0001 EOS", "0.0000 EOS", "0.0000 EOS" )
+                        stake( "alice", "-0.0001 ENU", "0.0000 ENU", "0.0000 ENU" )
    );
 
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: must stake a positive amount"),
-                        stake( "alice", "0.0000 EOS", "-0.0001 EOS", "0.0000 EOS" )
+                        stake( "alice", "0.0000 ENU", "-0.0001 ENU", "0.0000 ENU" )
    );
 
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: must stake a positive amount"),
-                        stake( "alice", "00.0000 EOS", "00.0000 EOS", "0.0000 EOS" )
+                        stake( "alice", "00.0000 ENU", "00.0000 ENU", "0.0000 ENU" )
    );
 
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: must stake a positive amount"),
-                        stake( "alice", "0.0000 EOS", "00.0000 EOS", "0.0000 EOS" )
+                        stake( "alice", "0.0000 ENU", "00.0000 ENU", "0.0000 ENU" )
    );
 
    BOOST_REQUIRE_EQUAL( true, get_voter_info( "alice" ).is_null() );
@@ -286,248 +286,248 @@ BOOST_FIXTURE_TEST_CASE( stake_negative, enumivo_system_tester ) try {
 
 
 BOOST_FIXTURE_TEST_CASE( unstake_negative, enumivo_system_tester ) try {
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
 
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "bob", "200.0001 EOS", "100.0001 EOS", "300.0000 EOS" ) );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "bob", "200.0001 ENU", "100.0001 ENU", "300.0000 ENU" ) );
 
    auto total = get_total_stake( "bob" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("200.0001 EOS").amount, total["net_weight"].as_uint64());
-   REQUIRE_MATCHING_OBJECT( voter( "alice", "300.0002 EOS" ), get_voter_info( "alice" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("200.0001 ENU").amount, total["net_weight"].as_uint64());
+   REQUIRE_MATCHING_OBJECT( voter( "alice", "300.0002 ENU" ), get_voter_info( "alice" ) );
 
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: must unstake a positive amount"),
-                        unstake( "alice", "bob", "-1.0000 EOS", "0.0000 EOS", 0 )
+                        unstake( "alice", "bob", "-1.0000 ENU", "0.0000 ENU", 0 )
    );
 
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: must unstake a positive amount"),
-                        unstake( "alice", "bob", "0.0000 EOS", "-1.0000 EOS", 0 )
+                        unstake( "alice", "bob", "0.0000 ENU", "-1.0000 ENU", 0 )
    );
 
    //unstake all zeros
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: must unstake a positive amount"),
-                        unstake( "alice", "bob", "0.0000 EOS", "0.0000 EOS", 0 )
+                        unstake( "alice", "bob", "0.0000 ENU", "0.0000 ENU", 0 )
    );
 
 } FC_LOG_AND_RETHROW()
 
 
 BOOST_FIXTURE_TEST_CASE( unstake_more_than_at_stake, enumivo_system_tester ) try {
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "200.0000 EOS", "100.0000 EOS", "150.0000 EOS" ) );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "200.0000 ENU", "100.0000 ENU", "150.0000 ENU" ) );
 
    auto total = get_total_stake( "alice" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("200.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("100.0000 EOS").amount, total["cpu_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("150.0000 EOS").amount, total["storage_stake"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("200.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("100.0000 ENU").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("150.0000 ENU").amount, total["storage_stake"].as_uint64());
    auto bytes = total["storage_bytes"].as_uint64();
    BOOST_REQUIRE_EQUAL( true, 0 < bytes );
 
-   BOOST_REQUIRE_EQUAL( asset::from_string("550.0000 EOS"), get_balance( "alice" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("550.0000 ENU"), get_balance( "alice" ) );
 
    //trying to unstake more net bandwith than at stake
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: insufficient staked net bandwidth"),
-                        unstake( "alice", "200.0001 EOS", "0.0000 EOS", 0 )
+                        unstake( "alice", "200.0001 ENU", "0.0000 ENU", 0 )
    );
 
    //trying to unstake more cpu bandwith than at stake
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: insufficient staked cpu bandwidth"),
-                        unstake( "alice", "000.0000 EOS", "100.0001 EOS", 0 )
+                        unstake( "alice", "000.0000 ENU", "100.0001 ENU", 0 )
    );
 
    //trying to unstake more storage than at stake
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: insufficient staked storage"),
-                        unstake( "alice", "000.0000 EOS", "0.0000 EOS", bytes+1 )
+                        unstake( "alice", "000.0000 ENU", "0.0000 ENU", bytes+1 )
    );
 
    //check that nothing has changed
    total = get_total_stake( "alice" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("200.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("100.0000 EOS").amount, total["cpu_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("150.0000 EOS").amount, total["storage_stake"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("200.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("100.0000 ENU").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("150.0000 ENU").amount, total["storage_stake"].as_uint64());
    BOOST_REQUIRE_EQUAL( bytes, total["storage_bytes"].as_uint64() );
-   BOOST_REQUIRE_EQUAL( asset::from_string("550.0000 EOS"), get_balance( "alice" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("550.0000 ENU"), get_balance( "alice" ) );
 } FC_LOG_AND_RETHROW()
 
 
 BOOST_FIXTURE_TEST_CASE( delegate_to_another_user, enumivo_system_tester ) try {
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
 
-   BOOST_REQUIRE_EQUAL( success(), stake ( "alice", "bob", "200.0000 EOS", "100.0000 EOS", "80.0000 EOS" ) );
+   BOOST_REQUIRE_EQUAL( success(), stake ( "alice", "bob", "200.0000 ENU", "100.0000 ENU", "80.0000 ENU" ) );
 
    auto total = get_total_stake( "bob" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("200.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("100.0000 EOS").amount, total["cpu_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("80.0000 EOS").amount, total["storage_stake"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("200.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("100.0000 ENU").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("80.0000 ENU").amount, total["storage_stake"].as_uint64());
    auto bytes = total["storage_bytes"].as_uint64();
    BOOST_REQUIRE_EQUAL( true, 0 < bytes );
-   BOOST_REQUIRE_EQUAL( asset::from_string("620.0000 EOS"), get_balance( "alice" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("620.0000 ENU"), get_balance( "alice" ) );
    //all voting power goes to alice
-   REQUIRE_MATCHING_OBJECT( voter( "alice", "300.0000 EOS" ), get_voter_info( "alice" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "alice", "300.0000 ENU" ), get_voter_info( "alice" ) );
    //but not to bob
    BOOST_REQUIRE_EQUAL( true, get_voter_info( "bob" ).is_null() );
 
    //bob should not be able to unstake what was staked by alice
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: unable to find key"),
-                        unstake( "bob", "0.0000 EOS", "10.0000 EOS", bytes )
+                        unstake( "bob", "0.0000 ENU", "10.0000 ENU", bytes )
    );
 
-   issue( "carol", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "carol", "bob", "20.0000 EOS", "10.0000 EOS", "8.0000 EOS" ) );
+   issue( "carol", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "carol", "bob", "20.0000 ENU", "10.0000 ENU", "8.0000 ENU" ) );
    total = get_total_stake( "bob" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("220.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("110.0000 EOS").amount, total["cpu_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("88.0000 EOS").amount, total["storage_stake"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("220.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("110.0000 ENU").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("88.0000 ENU").amount, total["storage_stake"].as_uint64());
    auto bytes2 = total["storage_bytes"].as_uint64();
    BOOST_REQUIRE_EQUAL( true, bytes < bytes2 );
-   BOOST_REQUIRE_EQUAL( asset::from_string("962.0000 EOS"), get_balance( "carol" ) );
-   REQUIRE_MATCHING_OBJECT( voter( "carol", "30.0000 EOS" ), get_voter_info( "carol" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("962.0000 ENU"), get_balance( "carol" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "carol", "30.0000 ENU" ), get_voter_info( "carol" ) );
 
    //alice should not be able to unstake money staked by carol
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: insufficient staked net bandwidth"),
-                        unstake( "alice", "bob", "2001.0000 EOS", "1.0000 EOS", bytes-1 )
+                        unstake( "alice", "bob", "2001.0000 ENU", "1.0000 ENU", bytes-1 )
    );
 
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: insufficient staked cpu bandwidth"),
-                        unstake( "alice", "bob", "1.0000 EOS", "101.0000 EOS", bytes-1 )
+                        unstake( "alice", "bob", "1.0000 ENU", "101.0000 ENU", bytes-1 )
    );
 
     BOOST_REQUIRE_EQUAL( error("condition: assertion failed: insufficient staked storage"),
-                         unstake( "alice", "bob", "1.0000 EOS", "1.0000 EOS", bytes+1 )
+                         unstake( "alice", "bob", "1.0000 ENU", "1.0000 ENU", bytes+1 )
     );
 
    total = get_total_stake( "bob" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("220.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("110.0000 EOS").amount, total["cpu_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("88.0000 EOS").amount, total["storage_stake"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("220.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("110.0000 ENU").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("88.0000 ENU").amount, total["storage_stake"].as_uint64());
    BOOST_REQUIRE_EQUAL( bytes2, total["storage_bytes"].as_uint64());
    //balance should not change after unsuccessfull attempts to unstake
-   BOOST_REQUIRE_EQUAL( asset::from_string("620.0000 EOS"), get_balance( "alice" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("620.0000 ENU"), get_balance( "alice" ) );
    //voting power too
-   REQUIRE_MATCHING_OBJECT( voter( "alice", "300.0000 EOS" ), get_voter_info( "alice" ) );
-   REQUIRE_MATCHING_OBJECT( voter( "carol", "30.0000 EOS" ), get_voter_info( "carol" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "alice", "300.0000 ENU" ), get_voter_info( "alice" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "carol", "30.0000 ENU" ), get_voter_info( "carol" ) );
    BOOST_REQUIRE_EQUAL( true, get_voter_info( "bob" ).is_null() );
 } FC_LOG_AND_RETHROW()
 
 
 BOOST_FIXTURE_TEST_CASE( stake_unstake_separate, enumivo_system_tester ) try {
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( asset::from_string("1000.0000 EOS"), get_balance( "alice" ) );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( asset::from_string("1000.0000 ENU"), get_balance( "alice" ) );
 
    //everything at once
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "10.0000 EOS", "20.0000 EOS", "30.0000 EOS" ) );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "10.0000 ENU", "20.0000 ENU", "30.0000 ENU" ) );
    auto total = get_total_stake( "alice" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("10.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("20.0000 EOS").amount, total["cpu_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("30.0000 EOS").amount, total["storage_stake"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("10.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("20.0000 ENU").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("30.0000 ENU").amount, total["storage_stake"].as_uint64());
    auto bytes = total["storage_bytes"].as_uint64();
    BOOST_REQUIRE_EQUAL( true, 0 < bytes );
 
    //cpu
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "100.0000 EOS", "0.0000 EOS", "0.0000 EOS" ) );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "100.0000 ENU", "0.0000 ENU", "0.0000 ENU" ) );
    total = get_total_stake( "alice" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("110.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("20.0000 EOS").amount, total["cpu_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("30.0000 EOS").amount, total["storage_stake"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("110.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("20.0000 ENU").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("30.0000 ENU").amount, total["storage_stake"].as_uint64());
    BOOST_REQUIRE_EQUAL( bytes, total["storage_bytes"].as_uint64() );
 
    //net
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "0.0000 EOS", "200.0000 EOS", "0.0000 EOS" ) );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "0.0000 ENU", "200.0000 ENU", "0.0000 ENU" ) );
    total = get_total_stake( "alice" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("110.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("220.0000 EOS").amount, total["cpu_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("30.0000 EOS").amount, total["storage_stake"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("110.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("220.0000 ENU").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("30.0000 ENU").amount, total["storage_stake"].as_uint64());
    BOOST_REQUIRE_EQUAL( bytes, total["storage_bytes"].as_uint64() );
 
    //storage
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "0.0000 EOS", "0.0000 EOS", "300.0000 EOS" ) );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "0.0000 ENU", "0.0000 ENU", "300.0000 ENU" ) );
    total = get_total_stake( "alice" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("110.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("220.0000 EOS").amount, total["cpu_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("330.0000 EOS").amount, total["storage_stake"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("110.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("220.0000 ENU").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("330.0000 ENU").amount, total["storage_stake"].as_uint64());
    auto bytes2 = total["storage_bytes"].as_uint64();
    BOOST_REQUIRE_EQUAL( true, bytes < bytes2 );
 
    //unstake cpu
-   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "100.0000 EOS", "0.0000 EOS", 0 ) );
+   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "100.0000 ENU", "0.0000 ENU", 0 ) );
    total = get_total_stake( "alice" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("10.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("220.0000 EOS").amount, total["cpu_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("330.0000 EOS").amount, total["storage_stake"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("10.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("220.0000 ENU").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("330.0000 ENU").amount, total["storage_stake"].as_uint64());
    BOOST_REQUIRE_EQUAL( bytes2, total["storage_bytes"].as_uint64());
 
    //unstake net
-   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "0.0000 EOS", "200.0000 EOS", 0 ) );
+   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "0.0000 ENU", "200.0000 ENU", 0 ) );
    total = get_total_stake( "alice" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("10.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("20.0000 EOS").amount, total["cpu_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("330.0000 EOS").amount, total["storage_stake"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("10.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("20.0000 ENU").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("330.0000 ENU").amount, total["storage_stake"].as_uint64());
    BOOST_REQUIRE_EQUAL( bytes2, total["storage_bytes"].as_uint64());
 
    //unstake cpu
-   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "0.0000 EOS", "0.0000 EOS", bytes2 / 2 ) );
+   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "0.0000 ENU", "0.0000 ENU", bytes2 / 2 ) );
    total = get_total_stake( "alice" );
-   auto storage_left = M("330.0000 EOS") - M("330.0000 EOS") * (bytes2 / 2) / bytes2;
-   BOOST_REQUIRE_EQUAL( asset::from_string("10.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("20.0000 EOS").amount, total["cpu_weight"].as_uint64());
+   auto storage_left = M("330.0000 ENU") - M("330.0000 ENU") * (bytes2 / 2) / bytes2;
+   BOOST_REQUIRE_EQUAL( asset::from_string("10.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("20.0000 ENU").amount, total["cpu_weight"].as_uint64());
    BOOST_REQUIRE_EQUAL( storage_left, total["storage_stake"].as_uint64());
    BOOST_REQUIRE_EQUAL( bytes2 - bytes2/2, total["storage_bytes"].as_uint64());
 } FC_LOG_AND_RETHROW()
 
 
 BOOST_FIXTURE_TEST_CASE( adding_stake_partial_unstake, enumivo_system_tester ) try {
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "bob", "200.0000 EOS", "100.0000 EOS", "80.0000 EOS" ) );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "bob", "200.0000 ENU", "100.0000 ENU", "80.0000 ENU" ) );
 
    auto total = get_total_stake( "bob" );
    auto bytes0 = total["storage_bytes"].as_uint64();
-   REQUIRE_MATCHING_OBJECT( voter( "alice", "300.0000 EOS" ), get_voter_info( "alice" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "alice", "300.0000 ENU" ), get_voter_info( "alice" ) );
 
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "bob", "100.0000 EOS", "50.0000 EOS", "40.0000 EOS" ) );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "bob", "100.0000 ENU", "50.0000 ENU", "40.0000 ENU" ) );
 
    total = get_total_stake( "bob" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("300.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("150.0000 EOS").amount, total["cpu_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("120.0000 EOS").amount, total["storage_stake"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("300.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("150.0000 ENU").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("120.0000 ENU").amount, total["storage_stake"].as_uint64());
    auto bytes = total["storage_bytes"].as_uint64();
    BOOST_REQUIRE_EQUAL( true, bytes0 < bytes );
-   REQUIRE_MATCHING_OBJECT( voter( "alice", "450.0000 EOS" ), get_voter_info( "alice" ) );
-   BOOST_REQUIRE_EQUAL( asset::from_string("430.0000 EOS"), get_balance( "alice" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "alice", "450.0000 ENU" ), get_voter_info( "alice" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("430.0000 ENU"), get_balance( "alice" ) );
 
    //unstake a share
-   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "bob", "150.0000 EOS", "75.0000 EOS", bytes / 2 ) );
+   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "bob", "150.0000 ENU", "75.0000 ENU", bytes / 2 ) );
 
    total = get_total_stake( "bob" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("150.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("75.0000 EOS").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("150.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("75.0000 ENU").amount, total["cpu_weight"].as_uint64());
    BOOST_REQUIRE_EQUAL( bytes-bytes/2, total["storage_bytes"].as_uint64() );
-   BOOST_REQUIRE_EQUAL( asset::from_string("120.0000 EOS").amount - asset::from_string("120.0000 EOS").amount * (bytes/2)/bytes,
+   BOOST_REQUIRE_EQUAL( asset::from_string("120.0000 ENU").amount - asset::from_string("120.0000 ENU").amount * (bytes/2)/bytes,
                         total["storage_stake"].as_uint64());
-   REQUIRE_MATCHING_OBJECT( voter( "alice", "225.0000 EOS" ), get_voter_info( "alice" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "alice", "225.0000 ENU" ), get_voter_info( "alice" ) );
 
    //unstake more
-   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "bob", "50.0000 EOS", "25.0000 EOS", 0 ) );
+   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "bob", "50.0000 ENU", "25.0000 ENU", 0 ) );
    total = get_total_stake( "bob" );
-   BOOST_REQUIRE_EQUAL( asset::from_string("100.0000 EOS").amount, total["net_weight"].as_uint64());
-   BOOST_REQUIRE_EQUAL( asset::from_string("50.0000 EOS").amount, total["cpu_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("100.0000 ENU").amount, total["net_weight"].as_uint64());
+   BOOST_REQUIRE_EQUAL( asset::from_string("50.0000 ENU").amount, total["cpu_weight"].as_uint64());
    BOOST_REQUIRE_EQUAL( bytes-bytes/2, total["storage_bytes"].as_uint64() );
-   REQUIRE_MATCHING_OBJECT( voter( "alice", "150.0000 EOS" ), get_voter_info( "alice" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "alice", "150.0000 ENU" ), get_voter_info( "alice" ) );
 
    //combined amount should be available only in 3 days
    produce_block( fc::days(2) );
    produce_blocks(1);
-   BOOST_REQUIRE_EQUAL( asset::from_string("430.0000 EOS"), get_balance( "alice" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("430.0000 ENU"), get_balance( "alice" ) );
    produce_block( fc::days(1) );
    produce_blocks(1);
-   BOOST_REQUIRE_EQUAL( asset::from_string("790.0000 EOS"), get_balance( "alice" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("790.0000 ENU"), get_balance( "alice" ) );
 
 } FC_LOG_AND_RETHROW()
 
 // Tests for voting
 
 BOOST_FIXTURE_TEST_CASE( producer_register_unregister, enumivo_system_tester ) try {
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
 
    fc::variant params = producer_parameters_example(1);
-   vector<char> key = fc::raw::pack( fc::crypto::public_key( std::string("EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV") ) );
+   vector<char> key = fc::raw::pack( fc::crypto::public_key( std::string("ENU6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV") ) );
    BOOST_REQUIRE_EQUAL( success(), push_action(N(alice), N(regproducer), mvo()
                                                ("producer",  "alice")
                                                ("producer_key", key )
@@ -545,7 +545,7 @@ BOOST_FIXTURE_TEST_CASE( producer_register_unregister, enumivo_system_tester ) t
    //call regproducer again to change parameters
    fc::variant params2 = producer_parameters_example(2);
 
-   vector<char> key2 = fc::raw::pack( fc::crypto::public_key( std::string("EOSR16EPHFSKVYHBjQgxVGQPrwCxTg7BbZ69H9i4gztN9deKTEXYne4") ) );
+   vector<char> key2 = fc::raw::pack( fc::crypto::public_key( std::string("ENUR16EPHFSKVYHBjQgxVGQPrwCxTg7BbZ69H9i4gztN9deKTEXYne4") ) );
    BOOST_REQUIRE_EQUAL( success(), push_action(N(alice), N(regproducer), mvo()
                                                ("producer",  "alice")
                                                ("producer_key", key2 )
@@ -583,7 +583,7 @@ BOOST_FIXTURE_TEST_CASE( producer_register_unregister, enumivo_system_tester ) t
 
 
 BOOST_FIXTURE_TEST_CASE( vote_for_producer, enumivo_system_tester ) try {
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
    fc::variant params = producer_parameters_example(1);
    vector<char> key = fc::raw::pack( get_public_key( N(alice), "active" ) );
    BOOST_REQUIRE_EQUAL( success(), push_action( N(alice), N(regproducer), mvo()
@@ -598,13 +598,13 @@ BOOST_FIXTURE_TEST_CASE( vote_for_producer, enumivo_system_tester ) try {
    REQUIRE_MATCHING_OBJECT( params, prod["prefs"]);
    BOOST_REQUIRE_EQUAL( string(key.begin(), key.end()), to_string(prod["packed_key"]) );
 
-   issue( "bob", "2000.0000 EOS",  config::system_account_name );
-   issue( "carol", "3000.0000 EOS",  config::system_account_name );
+   issue( "bob", "2000.0000 ENU",  config::system_account_name );
+   issue( "carol", "3000.0000 ENU",  config::system_account_name );
 
    //bob makes stake
-   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "11.0000 EOS", "0.1111 EOS", "0.0000 EOS" ) );
-   BOOST_REQUIRE_EQUAL( asset::from_string("1988.8889 EOS"), get_balance( "bob" ) );
-   REQUIRE_MATCHING_OBJECT( voter( "bob", "11.1111 EOS" ), get_voter_info( "bob" ) );
+   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "11.0000 ENU", "0.1111 ENU", "0.0000 ENU" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("1988.8889 ENU"), get_balance( "bob" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "bob", "11.1111 ENU" ), get_voter_info( "bob" ) );
 
    //bob votes for alice
    BOOST_REQUIRE_EQUAL( success(), push_action(N(bob), N(voteproducer), mvo()
@@ -622,9 +622,9 @@ BOOST_FIXTURE_TEST_CASE( vote_for_producer, enumivo_system_tester ) try {
    BOOST_REQUIRE_EQUAL( string(key.begin(), key.end()), to_string(prod["packed_key"]) );
 
    //carol makes stake
-   BOOST_REQUIRE_EQUAL( success(), stake( "carol", "22.0000 EOS", "0.2222 EOS", "0.0000 EOS" ) );
-   REQUIRE_MATCHING_OBJECT( voter( "carol", "22.2222 EOS" ), get_voter_info( "carol" ) );
-   BOOST_REQUIRE_EQUAL( asset::from_string("2977.7778 EOS"), get_balance( "carol" ) );
+   BOOST_REQUIRE_EQUAL( success(), stake( "carol", "22.0000 ENU", "0.2222 ENU", "0.0000 ENU" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "carol", "22.2222 ENU" ), get_voter_info( "carol" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("2977.7778 ENU"), get_balance( "carol" ) );
    //carol votes for alice
    BOOST_REQUIRE_EQUAL( success(), push_action(N(carol), N(voteproducer), mvo()
                                                ("voter",  "carol")
@@ -637,13 +637,13 @@ BOOST_FIXTURE_TEST_CASE( vote_for_producer, enumivo_system_tester ) try {
    BOOST_REQUIRE_EQUAL( 333333, prod["total_votes"].as_uint64() );
 
    //bob increases his stake
-   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "55.0000 EOS", "0.5555 EOS", "0.0000 EOS" ) );
+   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "55.0000 ENU", "0.5555 ENU", "0.0000 ENU" ) );
    //should increase alice's total_votes
    prod = get_producer_info( "alice" );
    BOOST_REQUIRE_EQUAL( 888888, prod["total_votes"].as_uint64() );
 
    //carol unstakes part of the stake
-   BOOST_REQUIRE_EQUAL( success(), unstake( "carol", "2.0000 EOS", "0.0002 EOS", 0 ) );
+   BOOST_REQUIRE_EQUAL( success(), unstake( "carol", "2.0000 ENU", "0.0002 ENU", 0 ) );
    //should decrease alice's total_votes
    prod = get_producer_info( "alice" );
    BOOST_REQUIRE_EQUAL( 868886, prod["total_votes"].as_uint64() );
@@ -659,10 +659,10 @@ BOOST_FIXTURE_TEST_CASE( vote_for_producer, enumivo_system_tester ) try {
    prod = get_producer_info( "alice" );
    BOOST_REQUIRE_EQUAL( 202220, prod["total_votes"].as_uint64() );
    //but eos should still be at stake
-   BOOST_REQUIRE_EQUAL( asset::from_string("1933.3334 EOS"), get_balance( "bob" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("1933.3334 ENU"), get_balance( "bob" ) );
 
    //carol unstakes rest of eos
-   BOOST_REQUIRE_EQUAL( success(), unstake( "carol", "20.0000 EOS", "0.2220 EOS", 0 ) );
+   BOOST_REQUIRE_EQUAL( success(), unstake( "carol", "20.0000 ENU", "0.2220 ENU", 0 ) );
    //should decrease alice's total_votes to zero
    prod = get_producer_info( "alice" );
    BOOST_REQUIRE_EQUAL( 0, prod["total_votes"].as_uint64() );
@@ -673,15 +673,15 @@ BOOST_FIXTURE_TEST_CASE( vote_for_producer, enumivo_system_tester ) try {
    //carol should receive funds in 3 days
    produce_block( fc::days(3) );
    produce_block();
-   BOOST_REQUIRE_EQUAL( asset::from_string("3000.0000 EOS"), get_balance( "carol" ) );
+   BOOST_REQUIRE_EQUAL( asset::from_string("3000.0000 ENU"), get_balance( "carol" ) );
 
 } FC_LOG_AND_RETHROW()
 
 
 BOOST_FIXTURE_TEST_CASE( unregistered_producer_voting, enumivo_system_tester ) try {
-   issue( "bob", "2000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "13.0000 EOS", "0.5791 EOS", "0.0000 EOS" ) );
-   REQUIRE_MATCHING_OBJECT( voter( "bob", "13.5791 EOS" ), get_voter_info( "bob" ) );
+   issue( "bob", "2000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "13.0000 ENU", "0.5791 ENU", "0.0000 ENU" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "bob", "13.5791 ENU" ), get_voter_info( "bob" ) );
 
    //bob should not be able to vote for alice who is not a producer
    BOOST_REQUIRE_EQUAL( error( "condition: assertion failed: producer is not registered" ),
@@ -693,7 +693,7 @@ BOOST_FIXTURE_TEST_CASE( unregistered_producer_voting, enumivo_system_tester ) t
    );
 
    //alice registers as a producer
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
    fc::variant params = producer_parameters_example(1);
    vector<char> key = fc::raw::pack( get_public_key( N(alice), "active" ) );
    BOOST_REQUIRE_EQUAL( success(), push_action( N(alice), N(regproducer), mvo()
@@ -724,9 +724,9 @@ BOOST_FIXTURE_TEST_CASE( unregistered_producer_voting, enumivo_system_tester ) t
 
 
 BOOST_FIXTURE_TEST_CASE( more_than_30_producer_voting, enumivo_system_tester ) try {
-   issue( "bob", "2000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "13.0000 EOS", "0.5791 EOS", "0.0000 EOS" ) );
-   REQUIRE_MATCHING_OBJECT( voter( "bob", "13.5791 EOS" ), get_voter_info( "bob" ) );
+   issue( "bob", "2000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "13.0000 ENU", "0.5791 ENU", "0.0000 ENU" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "bob", "13.5791 ENU" ), get_voter_info( "bob" ) );
 
    //bob should not be able to vote for alice who is not a producer
    BOOST_REQUIRE_EQUAL( error( "condition: assertion failed: attempt to vote for too many producers" ),
@@ -741,12 +741,12 @@ BOOST_FIXTURE_TEST_CASE( more_than_30_producer_voting, enumivo_system_tester ) t
 
 
 BOOST_FIXTURE_TEST_CASE( vote_same_producer_30_times, enumivo_system_tester ) try {
-   issue( "bob", "2000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "50.0000 EOS", "50.0000 EOS", "0.0000 EOS" ) );
-   REQUIRE_MATCHING_OBJECT( voter( "bob", "100.0000 EOS" ), get_voter_info( "bob" ) );
+   issue( "bob", "2000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "50.0000 ENU", "50.0000 ENU", "0.0000 ENU" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "bob", "100.0000 ENU" ), get_voter_info( "bob" ) );
 
    //alice becomes a producer
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
    fc::variant params = producer_parameters_example(1);
    vector<char> key = fc::raw::pack( get_public_key( N(alice), "active" ) );
    BOOST_REQUIRE_EQUAL( success(), push_action( N(alice), N(regproducer), mvo()
@@ -772,7 +772,7 @@ BOOST_FIXTURE_TEST_CASE( vote_same_producer_30_times, enumivo_system_tester ) tr
 
 
 BOOST_FIXTURE_TEST_CASE( producer_keep_votes, enumivo_system_tester ) try {
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
    fc::variant params = producer_parameters_example(1);
    vector<char> key = fc::raw::pack( get_public_key( N(alice), "active" ) );
    BOOST_REQUIRE_EQUAL( success(), push_action( N(alice), N(regproducer), mvo()
@@ -783,9 +783,9 @@ BOOST_FIXTURE_TEST_CASE( producer_keep_votes, enumivo_system_tester ) try {
    );
 
    //bob makes stake
-   issue( "bob", "2000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "13.0000 EOS", "0.5791 EOS", "0.0000 EOS" ) );
-   REQUIRE_MATCHING_OBJECT( voter( "bob", "13.5791 EOS" ), get_voter_info( "bob" ) );
+   issue( "bob", "2000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "13.0000 ENU", "0.5791 ENU", "0.0000 ENU" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "bob", "13.5791 ENU" ), get_voter_info( "bob" ) );
 
    //bob votes for alice
    BOOST_REQUIRE_EQUAL( success(), push_action(N(bob), N(voteproducer), mvo()
@@ -862,8 +862,8 @@ BOOST_FIXTURE_TEST_CASE( vote_for_two_producers, enumivo_system_tester ) try {
    );
 
    //carol votes for alice and bob
-   issue( "carol", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "carol", "15.0005 EOS", "5.0000 EOS", "0.0000 EOS" ) );
+   issue( "carol", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "carol", "15.0005 ENU", "5.0000 ENU", "0.0000 ENU" ) );
    BOOST_REQUIRE_EQUAL( success(), push_action(N(carol), N(voteproducer), mvo()
                                                ("voter",  "carol")
                                                ("proxy", name(0).to_string() )
@@ -890,8 +890,8 @@ BOOST_FIXTURE_TEST_CASE( vote_for_two_producers, enumivo_system_tester ) try {
    BOOST_REQUIRE_EQUAL( 0, bob_info["total_votes"].as_uint64() );
 
    //alice votes for herself and bob
-   issue( "alice", "2.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "1.0000 EOS", "1.0000 EOS", "0.0000 EOS" ) );
+   issue( "alice", "2.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "1.0000 ENU", "1.0000 ENU", "0.0000 ENU" ) );
    BOOST_REQUIRE_EQUAL( success(), push_action(N(alice), N(voteproducer), mvo()
                                                ("voter",  "alice")
                                                ("proxy", name(0).to_string() )
@@ -923,36 +923,36 @@ BOOST_FIXTURE_TEST_CASE( proxy_register_unregister_keeps_stake, enumivo_system_t
    REQUIRE_MATCHING_OBJECT( voter( "alice" ), get_voter_info( "alice" ) );
 
    //stake and then register as a proxy
-   issue( "bob", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "200.0002 EOS", "100.0001 EOS", "80.0000 EOS" ) );
+   issue( "bob", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "200.0002 ENU", "100.0001 ENU", "80.0000 ENU" ) );
    BOOST_REQUIRE_EQUAL( success(), push_action( N(bob), N(regproxy), mvo()
                                                ("proxy",  "bob")
                         )
    );
-   REQUIRE_MATCHING_OBJECT( proxy( "bob" )( "staked", M("300.0003 EOS") ), get_voter_info( "bob" ) );
+   REQUIRE_MATCHING_OBJECT( proxy( "bob" )( "staked", M("300.0003 ENU") ), get_voter_info( "bob" ) );
    //unrgister and check that stake is still in place
    BOOST_REQUIRE_EQUAL( success(), push_action( N(bob), N(unregproxy), mvo()
                                                ("proxy",  "bob")
                         )
    );
-   REQUIRE_MATCHING_OBJECT( voter( "bob", "300.0003 EOS" ), get_voter_info( "bob" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "bob", "300.0003 ENU" ), get_voter_info( "bob" ) );
 
    //register as a proxy and then stake
    BOOST_REQUIRE_EQUAL( success(), push_action( N(carol), N(regproxy), mvo()
                                                ("proxy",  "carol")
                         )
    );
-   issue( "carol", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "carol", "246.0002 EOS", "531.0001 EOS", "80.0000 EOS" ) );
+   issue( "carol", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "carol", "246.0002 ENU", "531.0001 ENU", "80.0000 ENU" ) );
    //check that both proxy flag and stake a correct
-   REQUIRE_MATCHING_OBJECT( proxy( "carol" )( "staked", M("777.0003 EOS") ), get_voter_info( "carol" ) );
+   REQUIRE_MATCHING_OBJECT( proxy( "carol" )( "staked", M("777.0003 ENU") ), get_voter_info( "carol" ) );
 
    //unregister
    BOOST_REQUIRE_EQUAL( success(), push_action( N(carol), N(unregproxy), mvo()
                                                 ("proxy",  "carol")
                         )
    );
-   REQUIRE_MATCHING_OBJECT( voter( "carol", "777.0003 EOS" ), get_voter_info( "carol" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "carol", "777.0003 ENU" ), get_voter_info( "carol" ) );
 
 } FC_LOG_AND_RETHROW()
 
@@ -962,26 +962,26 @@ BOOST_FIXTURE_TEST_CASE( proxy_stake_unstake_keeps_proxy_flag, enumivo_system_te
                                                ("proxy",  "alice")
                         )
    );
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
    REQUIRE_MATCHING_OBJECT( proxy( "alice" ), get_voter_info( "alice" ) );
 
    //stake
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "100.0000 EOS", "50.0000 EOS", "80.0000 EOS" ) );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "100.0000 ENU", "50.0000 ENU", "80.0000 ENU" ) );
    //check that account is still a proxy
-   REQUIRE_MATCHING_OBJECT( proxy( "alice" )( "staked", M("150.0000 EOS") ), get_voter_info( "alice" ) );
+   REQUIRE_MATCHING_OBJECT( proxy( "alice" )( "staked", M("150.0000 ENU") ), get_voter_info( "alice" ) );
 
    //stake more
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "30.0000 EOS", "20.0000 EOS", "80.0000 EOS" ) );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "30.0000 ENU", "20.0000 ENU", "80.0000 ENU" ) );
    //check that account is still a proxy
-   REQUIRE_MATCHING_OBJECT( proxy( "alice" )("staked", M("200.0000 EOS") ), get_voter_info( "alice" ) );
+   REQUIRE_MATCHING_OBJECT( proxy( "alice" )("staked", M("200.0000 ENU") ), get_voter_info( "alice" ) );
 
    //unstake more
-   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "65.0000 EOS", "35.0000 EOS", 0 ) );
-   REQUIRE_MATCHING_OBJECT( proxy( "alice" )("staked", M("100.0000 EOS") ), get_voter_info( "alice" ) );
+   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "65.0000 ENU", "35.0000 ENU", 0 ) );
+   REQUIRE_MATCHING_OBJECT( proxy( "alice" )("staked", M("100.0000 ENU") ), get_voter_info( "alice" ) );
 
    //unstake the rest
-   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "65.0000 EOS", "35.0000 EOS", 0 ) );
-   REQUIRE_MATCHING_OBJECT( proxy( "alice" )( "staked", M("0.0000 EOS") ), get_voter_info( "alice" ) );
+   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "65.0000 ENU", "35.0000 ENU", 0 ) );
+   REQUIRE_MATCHING_OBJECT( proxy( "alice" )( "staked", M("0.0000 ENU") ), get_voter_info( "alice" ) );
 
 } FC_LOG_AND_RETHROW()
 
@@ -999,8 +999,8 @@ BOOST_FIXTURE_TEST_CASE( proxy_actions_affect_producers, enumivo_system_tester )
    );
 
    //accumulate proxied votes
-   issue( "bob", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "100.0002 EOS", "50.0001 EOS", "50.0000 EOS" ) );
+   issue( "bob", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "100.0002 ENU", "50.0001 ENU", "50.0000 ENU" ) );
    BOOST_REQUIRE_EQUAL( success(), push_action(N(bob), N(voteproducer), mvo()
                                                ("voter",  "bob")
                                                ("proxy", "alice" )
@@ -1051,14 +1051,14 @@ BOOST_FIXTURE_TEST_CASE( proxy_actions_affect_producers, enumivo_system_tester )
    BOOST_REQUIRE_EQUAL( 1500003, get_producer_info( "producer3" )["total_votes"].as_uint64() );
 
    //stake increase by proxy itself affects producers
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "30.0001 EOS", "20.0001 EOS", "50.0000 EOS" ) );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "30.0001 ENU", "20.0001 ENU", "50.0000 ENU" ) );
    BOOST_REQUIRE_EQUAL( 2000005, get_producer_info( "producer1" )["total_votes"].as_uint64() );
    BOOST_REQUIRE_EQUAL( 0, get_producer_info( "producer2" )["total_votes"].as_uint64() );
    BOOST_REQUIRE_EQUAL( 2000005, get_producer_info( "producer3" )["total_votes"].as_uint64() );
 
    //stake decrease by proxy itself affects producers
-   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "10.0001 EOS", "10.0001 EOS", 0 ) );
+   BOOST_REQUIRE_EQUAL( success(), unstake( "alice", "10.0001 ENU", "10.0001 ENU", 0 ) );
    BOOST_REQUIRE_EQUAL( 1800003, get_producer_info( "producer1" )["total_votes"].as_uint64() );
    BOOST_REQUIRE_EQUAL( 0, get_producer_info( "producer2" )["total_votes"].as_uint64() );
    BOOST_REQUIRE_EQUAL( 1800003, get_producer_info( "producer3" )["total_votes"].as_uint64() );
@@ -1066,7 +1066,7 @@ BOOST_FIXTURE_TEST_CASE( proxy_actions_affect_producers, enumivo_system_tester )
 } FC_LOG_AND_RETHROW()
 
 BOOST_FIXTURE_TEST_CASE(producer_pay, enumivo_system_tester) try {
-   issue( "alice", "10000000.0000 EOS",  config::system_account_name );
+   issue( "alice", "10000000.0000 ENU",  config::system_account_name );
    fc::variant params = producer_parameters_example(50);
    vector<char> key = fc::raw::pack(get_public_key(N(alice), "active"));
 
@@ -1084,16 +1084,16 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, enumivo_system_tester) try {
    REQUIRE_EQUAL_OBJECTS(params, prod["prefs"]);
    BOOST_REQUIRE_EQUAL(string(key.begin(), key.end()), to_string(prod["packed_key"]));
 
-   issue("bob", "2000.0000 EOS", config::system_account_name);
+   issue("bob", "2000.0000 ENU", config::system_account_name);
 
    // bob makes stake
    // 1 block produced
    BOOST_REQUIRE_EQUAL(success(), push_action(N(bob), N(delegatebw), mvo()
                                               ("from",     "bob")
                                               ("receiver", "bob")
-                                              ("stake_net", "11.0000 EOS")
-                                              ("stake_cpu", "00.1111 EOS")
-                                              ("stake_storage", "0.0000 EOS")
+                                              ("stake_net", "11.0000 ENU")
+                                              ("stake_cpu", "00.1111 ENU")
+                                              ("stake_storage", "0.0000 ENU")
                                               )
                        );
 
@@ -1136,8 +1136,8 @@ BOOST_FIXTURE_TEST_CASE( voters_actions_affect_proxy_and_producers, enumivo_syst
    REQUIRE_MATCHING_OBJECT( proxy( "alice" ), get_voter_info( "alice" ) );
 
    //alice makes stake and votes
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "30.0001 EOS", "20.0001 EOS", "50.0000 EOS" ) );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "30.0001 ENU", "20.0001 ENU", "50.0000 ENU" ) );
    BOOST_REQUIRE_EQUAL( success(), push_action(N(alice), N(voteproducer), mvo()
                                                ("voter",  "alice")
                                                ("proxy", name(0).to_string() )
@@ -1155,8 +1155,8 @@ BOOST_FIXTURE_TEST_CASE( voters_actions_affect_proxy_and_producers, enumivo_syst
    REQUIRE_MATCHING_OBJECT( proxy( "donald" ), get_voter_info( "donald" ) );
 
    //bob chooses alice as a proxy
-   issue( "bob", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "100.0002 EOS", "50.0001 EOS", "50.0000 EOS" ) );
+   issue( "bob", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "100.0002 ENU", "50.0001 ENU", "50.0000 ENU" ) );
    BOOST_REQUIRE_EQUAL( success(), push_action( N(bob), N(voteproducer), mvo()
                                                 ("voter",  "bob")
                                                 ("proxy", "alice" )
@@ -1169,8 +1169,8 @@ BOOST_FIXTURE_TEST_CASE( voters_actions_affect_proxy_and_producers, enumivo_syst
    BOOST_REQUIRE_EQUAL( 0, get_producer_info( "producer3" )["total_votes"].as_uint64() );
 
    //carol chooses alice as a proxy
-   issue( "carol", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "carol", "30.0001 EOS", "20.0001 EOS", "80.0000 EOS" ) );
+   issue( "carol", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "carol", "30.0001 ENU", "20.0001 ENU", "80.0000 ENU" ) );
    BOOST_REQUIRE_EQUAL( success(), push_action( N(carol), N(voteproducer), mvo()
                                                 ("voter",  "carol")
                                                 ("proxy", "alice" )
@@ -1184,14 +1184,14 @@ BOOST_FIXTURE_TEST_CASE( voters_actions_affect_proxy_and_producers, enumivo_syst
 
 
    //proxied voter carol increases stake
-   BOOST_REQUIRE_EQUAL( success(), stake( "carol", "50.0000 EOS", "70.0000 EOS", "0.0000 EOS" ) );
+   BOOST_REQUIRE_EQUAL( success(), stake( "carol", "50.0000 ENU", "70.0000 ENU", "0.0000 ENU" ) );
    BOOST_REQUIRE_EQUAL( 3200005, get_voter_info( "alice" )["proxied_votes"].as_uint64() );
    BOOST_REQUIRE_EQUAL( 3700007, get_producer_info( "producer1" )["total_votes"].as_uint64() );
    BOOST_REQUIRE_EQUAL( 3700007, get_producer_info( "producer2" )["total_votes"].as_uint64() );
    BOOST_REQUIRE_EQUAL( 0, get_producer_info( "producer3" )["total_votes"].as_uint64() );
 
    //proxied voter bob decreases stake
-   BOOST_REQUIRE_EQUAL( success(), unstake( "bob", "50.0001 EOS", "50.0001 EOS", 0 ) );
+   BOOST_REQUIRE_EQUAL( success(), unstake( "bob", "50.0001 ENU", "50.0001 ENU", 0 ) );
    BOOST_REQUIRE_EQUAL( 2200003, get_voter_info( "alice" )["proxied_votes"].as_uint64() );
    BOOST_REQUIRE_EQUAL( 2700005, get_producer_info( "producer1" )["total_votes"].as_uint64() );
    BOOST_REQUIRE_EQUAL( 2700005, get_producer_info( "producer2" )["total_votes"].as_uint64() );
@@ -1237,8 +1237,8 @@ BOOST_FIXTURE_TEST_CASE( vote_both_proxy_and_producers, enumivo_system_tester ) 
    BOOST_REQUIRE_EQUAL( success(), regproducer( "carol", 1) );
 
    //bob chooses alice as a proxy
-   issue( "bob", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "100.0002 EOS", "50.0001 EOS", "50.0000 EOS" ) );
+   issue( "bob", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "100.0002 ENU", "50.0001 ENU", "50.0000 ENU" ) );
    BOOST_REQUIRE_EQUAL( error("condition: assertion failed: cannot vote for producers and proxy at same time"),
                         push_action( N(bob), N(voteproducer), mvo()
                                      ("voter",  "bob")
@@ -1252,8 +1252,8 @@ BOOST_FIXTURE_TEST_CASE( vote_both_proxy_and_producers, enumivo_system_tester ) 
 
 BOOST_FIXTURE_TEST_CASE( select_invalid_proxy, enumivo_system_tester ) try {
    //accumulate proxied votes
-   issue( "bob", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "100.0002 EOS", "50.0001 EOS", "50.0000 EOS" ) );
+   issue( "bob", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "100.0002 ENU", "50.0001 ENU", "50.0000 ENU" ) );
 
    //selecting account not registered as a proxy
    BOOST_REQUIRE_EQUAL( error( "condition: assertion failed: proxy not found" ),
@@ -1282,20 +1282,20 @@ BOOST_FIXTURE_TEST_CASE( double_register_unregister_proxy_keeps_votes, enumivo_s
                                                 ("proxy",  "alice")
                         )
    );
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "5.0000 EOS", "5.0000 EOS", "50.0000 EOS" ) );
-   REQUIRE_MATCHING_OBJECT( proxy( "alice" )( "staked", M("10.0000 EOS" ) ), get_voter_info( "alice" ) );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "5.0000 ENU", "5.0000 ENU", "50.0000 ENU" ) );
+   REQUIRE_MATCHING_OBJECT( proxy( "alice" )( "staked", M("10.0000 ENU" ) ), get_voter_info( "alice" ) );
 
    //bob stakes and selects alice as a proxy
-   issue( "bob", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "100.0002 EOS", "50.0001 EOS", "50.0000 EOS" ) );
+   issue( "bob", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "100.0002 ENU", "50.0001 ENU", "50.0000 ENU" ) );
    BOOST_REQUIRE_EQUAL( success(), push_action( N(bob), N(voteproducer), mvo()
                                                 ("voter",  "bob")
                                                 ("proxy", "alice" )
                                                 ("producers", vector<account_name>() )
                         )
    );
-   REQUIRE_MATCHING_OBJECT( proxy( "alice" )( "proxied_votes", 1500003 )( "staked", M("10.0000 EOS" ) ), get_voter_info( "alice" ) );
+   REQUIRE_MATCHING_OBJECT( proxy( "alice" )( "proxied_votes", 1500003 )( "staked", M("10.0000 ENU" ) ), get_voter_info( "alice" ) );
 
    //double regestering should fail without affecting total votes and stake
    BOOST_REQUIRE_EQUAL( error( "condition: assertion failed: account is already a proxy" ),
@@ -1303,14 +1303,14 @@ BOOST_FIXTURE_TEST_CASE( double_register_unregister_proxy_keeps_votes, enumivo_s
                                      ("proxy",  "alice")
                         )
    );
-   REQUIRE_MATCHING_OBJECT( proxy( "alice" )( "proxied_votes", 1500003 )( "staked", M("10.0000 EOS" ) ), get_voter_info( "alice" ) );
+   REQUIRE_MATCHING_OBJECT( proxy( "alice" )( "proxied_votes", 1500003 )( "staked", M("10.0000 ENU" ) ), get_voter_info( "alice" ) );
 
    //uregister
    BOOST_REQUIRE_EQUAL( success(), push_action( N(alice), N(unregproxy), mvo()
                                                 ("proxy",  "alice")
                         )
    );
-   REQUIRE_MATCHING_OBJECT( voter( "alice" )( "proxied_votes", 1500003 )( "staked", M("10.0000 EOS" ) ), get_voter_info( "alice" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "alice" )( "proxied_votes", 1500003 )( "staked", M("10.0000 ENU" ) ), get_voter_info( "alice" ) );
 
    //double unregistering should not affect proxied_votes and stake
    BOOST_REQUIRE_EQUAL( error( "condition: assertion failed: account is not a proxy" ),
@@ -1318,7 +1318,7 @@ BOOST_FIXTURE_TEST_CASE( double_register_unregister_proxy_keeps_votes, enumivo_s
                                      ("proxy",  "alice")
                         )
    );
-   REQUIRE_MATCHING_OBJECT( voter( "alice" )( "proxied_votes", 1500003 )( "staked", M("10.0000 EOS" ) ), get_voter_info( "alice" ) );
+   REQUIRE_MATCHING_OBJECT( voter( "alice" )( "proxied_votes", 1500003 )( "staked", M("10.0000 ENU" ) ), get_voter_info( "alice" ) );
 
 } FC_LOG_AND_RETHROW()
 
@@ -1336,8 +1336,8 @@ BOOST_FIXTURE_TEST_CASE( proxy_cannot_use_another_proxy, enumivo_system_tester )
                         )
    );
    //proxy should not be able to use a proxy
-   issue( "bob", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "100.0002 EOS", "50.0001 EOS", "50.0000 EOS" ) );
+   issue( "bob", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "100.0002 ENU", "50.0001 ENU", "50.0000 ENU" ) );
    BOOST_REQUIRE_EQUAL( error( "condition: assertion failed: account registered as a proxy is not allowed to use a proxy" ),
                         push_action( N(bob), N(voteproducer), mvo()
                                      ("voter",  "bob")
@@ -1347,8 +1347,8 @@ BOOST_FIXTURE_TEST_CASE( proxy_cannot_use_another_proxy, enumivo_system_tester )
    );
 
    //voter that uses a proxy should not be allowed to become a proxy
-   issue( "carol", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "carol", "100.0002 EOS", "50.0001 EOS", "50.0000 EOS" ) );
+   issue( "carol", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "carol", "100.0002 ENU", "50.0001 ENU", "50.0000 ENU" ) );
    BOOST_REQUIRE_EQUAL( success(), push_action( N(carol), N(voteproducer), mvo()
                                                 ("voter",  "carol")
                                                 ("proxy", "alice" )
@@ -1402,8 +1402,8 @@ BOOST_FIXTURE_TEST_CASE( elect_producers_and_parameters, enumivo_system_tester )
    BOOST_REQUIRE_EQUAL( success(), regproducer( "producer2", 2) );
    BOOST_REQUIRE_EQUAL( success(), regproducer( "producer3", 3) );
 
-   issue( "alice", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "100.0000 EOS", "50.0000 EOS", "50.0000 EOS" ) );
+   issue( "alice", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "alice", "100.0000 ENU", "50.0000 ENU", "50.0000 ENU" ) );
    //vote for producers
    BOOST_REQUIRE_EQUAL( success(), push_action(N(alice), N(voteproducer), mvo()
                                                ("voter",  "alice")
@@ -1421,8 +1421,8 @@ BOOST_FIXTURE_TEST_CASE( elect_producers_and_parameters, enumivo_system_tester )
    REQUIRE_EQUAL_OBJECTS(prod1_config, config);
 
    // elect 2 producers
-   issue( "bob", "1000.0000 EOS",  config::system_account_name );
-   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "200.0000 EOS", "100.0000 EOS", "50.0000 EOS" ) );
+   issue( "bob", "1000.0000 ENU",  config::system_account_name );
+   BOOST_REQUIRE_EQUAL( success(), stake( "bob", "200.0000 ENU", "100.0000 ENU", "50.0000 ENU" ) );
    BOOST_REQUIRE_EQUAL( success(), push_action(N(bob), N(voteproducer), mvo()
                                                ("voter",  "bob")
                                                ("proxy", name(0).to_string() )

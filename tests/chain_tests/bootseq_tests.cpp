@@ -118,7 +118,7 @@ public:
 
     asset get_balance( const account_name& act )
     {
-         return get_currency_balance(N(enumivo.coin), symbol(SY(4,EOS)), act);
+         return get_currency_balance(N(enumivo.coin), symbol(SY(4,ENU)), act);
     }
 
     action_result regproducer( const account_name& acnt, int params_fixture = 1 ) {
@@ -174,14 +174,14 @@ BOOST_FIXTURE_TEST_CASE( bootseq_test, bootseq_tester ) {
         // Todo : how to check the privilege is set? (use is_priv action)
 
 
-        auto expected = asset::from_string("1000000000.0000 EOS");
-        // Create EOS tokens in enumivo.coin, set its manager as enumivo.system
+        auto expected = asset::from_string("1000000000.0000 ENU");
+        // Create ENU tokens in enumivo.coin, set its manager as enumivo.system
         create_currency(N(enumivo.coin), config::system_account_name, expected);
 
         ilog(".");
 
-        // Issue the genesis supply of 1 billion EOS tokens to enumivo.system
-        // Issue the genesis supply of 1 billion EOS tokens to enumivo.system
+        // Issue the genesis supply of 1 billion ENU tokens to enumivo.system
+        // Issue the genesis supply of 1 billion ENU tokens to enumivo.system
         issue(N(enumivo.coin), config::system_account_name, config::system_account_name, expected); 
 
         ilog(".");
@@ -195,10 +195,10 @@ BOOST_FIXTURE_TEST_CASE( bootseq_test, bootseq_tester ) {
         ilog(".");
         create_accounts(gen_accounts);
         ilog(".");
-        // Transfer EOS to genesis accounts
+        // Transfer ENU to genesis accounts
         for (auto gen_acc : gen_accounts) {
-            auto quantity = "10000.0000 EOS";
-            auto stake_quantity = "5000.0000 EOS";
+            auto quantity = "10000.0000 ENU";
+            auto stake_quantity = "5000.0000 ENU";
 
             ilog(".");
             auto trace = base_tester::push_action(N(enumivo.coin), N(transfer), config::system_account_name, mutable_variant_object()

@@ -393,7 +393,7 @@ namespace enumivosystem {
           *  @pre if proxy is set then no producers can be voted for
           *  @pre every listed producer or proxy must have been previously registered
           *  @pre vp.voter must authorize this action
-          *  @pre voter must have previously staked some EOS for voting
+          *  @pre voter must have previously staked some ENU for voting
           */
          static void on( const voteproducer& vp ) {
             require_auth( vp.voter );

@@ -12,10 +12,10 @@ namespace enumivosystem {
    class common {
       public:
          static constexpr account_name system_account = SystemAccount;
-         typedef enumivo::generic_currency< enumivo::token<system_account,S(4,EOS)> > currency;
+         typedef enumivo::generic_currency< enumivo::token<system_account,S(4,ENU)> > currency;
          typedef typename currency::token_type                                    system_token_type;
 
-         static constexpr uint64_t   currency_symbol = currency::symbol;            // S(4,EOS)
+         static constexpr uint64_t   currency_symbol = currency::symbol;            // S(4,ENU)
          static constexpr uint32_t   max_inflation_rate = 5;                        // 5% annual inflation
 
          static constexpr uint32_t   blocks_per_producer = 12;

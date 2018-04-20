@@ -1,10 +1,10 @@
-# EOS Testnet
-To date, all work done to experiment with the EOS blockchain has been performed using a single instance of eosd hosting all 21 block producers. While this is a perfectly valid solution for validating features of the blockchain, developing new contracts, or whatever, it does not scale. Nor does it expose the sort of issues raised when contract and block data must be shared across multiple instances. Providing the ability to scale involves deploying multiple eosd nodes across many hosts and lining then into a peer-to-peer (p2p) network. Composing this network involves tailoring and distributing configuration files, coordinating starts and stops and other tasks.
+# ENU Testnet
+To date, all work done to experiment with the ENU blockchain has been performed using a single instance of eosd hosting all 21 block producers. While this is a perfectly valid solution for validating features of the blockchain, developing new contracts, or whatever, it does not scale. Nor does it expose the sort of issues raised when contract and block data must be shared across multiple instances. Providing the ability to scale involves deploying multiple eosd nodes across many hosts and lining then into a peer-to-peer (p2p) network. Composing this network involves tailoring and distributing configuration files, coordinating starts and stops and other tasks.
 
 Doing this manually is a tedious task and easily error prone. Fortunately a solution is provided, in the form of the Launcher application, described below.
 
 ## Testnet nodes, networks, and topology
-Before getting into the details of the EOS testnet, lets clarify some terms. In this document I use the terms "host" and "machine" fairly interchangeably. A host generally boils down to a single IP address, although in practice it could have more.
+Before getting into the details of the ENU testnet, lets clarify some terms. In this document I use the terms "host" and "machine" fairly interchangeably. A host generally boils down to a single IP address, although in practice it could have more.
 
 The next term is "node." A node is an instance of the eosd executable configured to serve as 0 or more producers. There is not a one-to-one mapping between nodes and hosts, a host may serve more than one node, but one node cannot span more than one host. 
 
@@ -74,7 +74,7 @@ launcher command line arguments:
                                         set the path to genesis.json
   -o [ --output ] arg                   save a copy of the generated topology 
                                         in this file
-  --skip-signature                      EOSD does not require transaction 
+  --skip-signature                      ENUD does not require transaction 
                                         signatures.
   -i [ --timestamp ] arg                set the timestamp for the first block. 
                                         Use "now" to indicate the current time
@@ -124,7 +124,7 @@ The ssh helper fields are paths to ssh and scp, an identity if necessary, and an
         "http_port": 8888,
         "filesize": 8192,
         "keys": [{
-            "public_key": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
+            "public_key": "ENU6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
             "wif_private_key": "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"
           }
         ],
@@ -184,7 +184,7 @@ This table describes all of the key/value pairs used in the testnet.json file.
 ### Provisioning Distributed Servers
 The ssh_helper section of the testnet.json file contains the ssh elements necessary to connect and issue commands to other servers. In addition to the ssh_helper section which provides access to global configuration settings, the per-node configuration may provide overriding identity and connection arguments.
 
-It is also necessary to provision the server by at least copying the eosd executable, and the genesis.json files to their appropriate locations relative to some named EOS root directory. For example, I defined the EOS root to be `/home/phil/blockchain/eos`. When run, the launcher will run through a variety of shell commands using ssh and finally using scp to copy a config.ini file to the appropriate data directory on the remote.
+It is also necessary to provision the server by at least copying the eosd executable, and the genesis.json files to their appropriate locations relative to some named ENU root directory. For example, I defined the ENU root to be `/home/phil/blockchain/eos`. When run, the launcher will run through a variety of shell commands using ssh and finally using scp to copy a config.ini file to the appropriate data directory on the remote.
 
 ## Runtime Artifacts
 The launcher app creates a separate date and configuration directory for each node instance. This directory is named `tn_data_<n>` with n ranging from 0 to the number of nodes being launched. 
