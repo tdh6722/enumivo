@@ -1840,7 +1840,7 @@ class Cluster(object):
 
         return nodes
 
-    # Check state of running nodeos process and update EnuInstanceInfos
+    # Check state of running enunode process and update EnuInstanceInfos
     #def updateEnuInstanceInfos(enuInstanceInfos):
     # def updateNodesStatus(self):
     #     for node in self.nodes:

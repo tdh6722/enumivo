@@ -126,7 +126,7 @@ services:
     expose:
       - "8888"
     volumes:
-      - nodeos-data-volume:/opt/enumivo/bin/data-dir
+      - enunode-data-volume:/opt/enumivo/bin/data-dir
 
   enuwallet:
     image: enumivo/eos:latest
@@ -138,7 +138,7 @@ services:
       - enuwallet-data-volume:/opt/enumivo/bin/data-dir
 
 volumes:
-  nodeos-data-volume:
+  enunode-data-volume:
   enuwallet-data-volume:
 
 ```
@@ -157,7 +157,7 @@ We can easliy set up a dawn3.0 local testnet using docker images. Just run the f
 # pull images
 docker pull enumivo/enumivo:dawn3x
 # create volume
-docker volume create --name=nodeos-data-volume
+docker volume create --name=enunode-data-volume
 docker volume create --name=enuwallet-data-volume
 # start containers
 docker-compose -f docker-compose-dawn3.0.yaml up -d
