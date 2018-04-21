@@ -218,10 +218,10 @@ namespace enumivo {
 } // namespace enumivo
 
 #define INLINE_ACTION_SENDER3( CONTRACT_CLASS, FUNCTION_NAME, ACTION_NAME  )\
-::eosio::inline_dispatcher<decltype(&CONTRACT_CLASS::FUNCTION_NAME), ACTION_NAME>::call
+::enumivo::inline_dispatcher<decltype(&CONTRACT_CLASS::FUNCTION_NAME), ACTION_NAME>::call
 
 #define INLINE_ACTION_SENDER2( CONTRACT_CLASS, NAME )\
-INLINE_ACTION_SENDER3( CONTRACT_CLASS, NAME, ::eosio::string_to_name(#NAME) )
+INLINE_ACTION_SENDER3( CONTRACT_CLASS, NAME, ::enumivo::string_to_name(#NAME) )
 
 #define INLINE_ACTION_SENDER(...) BOOST_PP_OVERLOAD(INLINE_ACTION_SENDER,__VA_ARGS__)(__VA_ARGS__)
 

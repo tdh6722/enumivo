@@ -70,7 +70,7 @@ namespace enumivosystem {
          struct refund_request {
             account_name  owner;
             time          request_time;
-            eosio::asset  amount;
+            enumivo::asset  amount;
 
             uint64_t  primary_key()const { return owner; }
 
@@ -123,7 +123,7 @@ namespace enumivosystem {
             if ( 0 < del.stake_storage_quantity.amount ) {
                auto parameters = global_state_singleton::exists() ? global_state_singleton::get()
                   : common<SystemAccount>::get_default_parameters();
-               const eosio::asset token_supply = eosio::token(N(enumivo.coin)).get_supply(eosio::symbol_type(system_token_symbol).name());
+               const enumivo::asset token_supply = enumivo::token(N(enumivo.coin)).get_supply(enumivo::symbol_type(system_token_symbol).name());
                //make sure that there is no posibility of overflow here
                int64_t storage_bytes_estimated = int64_t( parameters.max_storage_size - parameters.total_storage_bytes_reserved )
                   * int64_t(parameters.storage_reserve_ratio) * del.stake_storage_quantity
@@ -182,8 +182,8 @@ namespace enumivosystem {
 
             //set_resource_limits( tot_itr->owner, tot_itr->storage_bytes, tot_itr->net_weight.quantity, tot_itr->cpu_weight.quantity );
 
-            INLINE_ACTION_SENDER(eosio::token, transfer)( N(enumivo.coin), {del.from,N(active)},
-                                                          { del.from, N(eosio), total_stake, std::string("stake bandwidth") } );
+            INLINE_ACTION_SENDER(enumivo::token, transfer)( N(enumivo.coin), {del.from,N(active)},
+                                                          { del.from, N(enumivo), total_stake, std::string("stake bandwidth") } );
 
             if ( asset(0) < del.stake_net_quantity + del.stake_cpu_quantity ) {
                voting<SystemAccount>::increase_voting_power( del.from, del.stake_net_quantity + del.stake_cpu_quantity );
@@ -205,11 +205,11 @@ namespace enumivosystem {
             eosio_assert( dbw.cpu_weight >= del.unstake_cpu_quantity, "insufficient staked cpu bandwidth" );
             eosio_assert( dbw.storage_bytes >= del.unstake_storage_bytes, "insufficient staked storage" );
 
-            eosio::asset storage_stake_decrease(0, system_token_symbol);
+            enumivo::asset storage_stake_decrease(0, system_token_symbol);
             if ( 0 < del.unstake_storage_bytes ) {
                storage_stake_decrease = 0 < dbw.storage_bytes ?
                                             dbw.storage_stake * int64_t(del.unstake_storage_bytes) / int64_t(dbw.storage_bytes)
-                                            : eosio::asset(0, system_token_symbol);
+                                            : enumivo::asset(0, system_token_symbol);
 
                auto parameters = global_state_singleton::get();
                parameters.total_storage_bytes_reserved -= del.unstake_storage_bytes;
@@ -217,7 +217,7 @@ namespace enumivosystem {
                global_state_singleton::set( parameters );
             }
 
-            eosio::asset total_refund = del.unstake_cpu_quantity + del.unstake_net_quantity + storage_stake_decrease;
+            enumivo::asset total_refund = del.unstake_cpu_quantity + del.unstake_net_quantity + storage_stake_decrease;
 
             eosio_assert( total_refund.amount > 0, "must unstake a positive amount" );
 
@@ -280,8 +280,8 @@ namespace enumivosystem {
             // allow people to get their tokens earlier than the 3 day delay if the unstake happened immediately after many
             // consecutive missed blocks.
 
-            INLINE_ACTION_SENDER(eosio::token, transfer)( N(enumivo.coin), {N(eosio),N(active)},
-                                                          { N(eosio), req->owner, req->amount, std::string("unstake") } );
+            INLINE_ACTION_SENDER(enumivo::token, transfer)( N(enumivo.coin), {N(enumivo),N(active)},
+                                                          { N(enumivo), req->owner, req->amount, std::string("unstake") } );
 
             refunds_tbl.erase( req );
          }
