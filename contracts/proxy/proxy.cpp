@@ -7,6 +7,7 @@
 #include <enumivolib/transaction.hpp>
 #include <enumivolib/currency.hpp>
 
+
 namespace proxy {
    using namespace enumivo;
 
@@ -96,7 +97,8 @@ extern "C" {
           if (action == N(onerror)) {
              apply_onerror(receiver, deferred_transaction::from_current_action());
           } if( action == N(transfer) ) {
-             apply_transfer(receiver, code, unpack_action_data<enumivosystem::contract<N(enumivo.system)>::currency::transfer_memo>());
+             // Comment this out for now so that the contract compiles, this will change with refactoring to use enumivo.coin
+             //        apply_transfer(receiver, code, unpack_action_data<eosiosystem::contract<N(eosio.system)>::currency::transfer_memo>());
           }
        } else if ( code == N(currency) ) {
           if( action == N(transfer) ) {

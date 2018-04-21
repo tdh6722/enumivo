@@ -2,11 +2,12 @@
  *  @file
  *  @copyright defined in enumivo/LICENSE.txt
  */
-
 #pragma once
 
 #include <enumivolib/enumivo.hpp>
 #include <enumivolib/asset.hpp>
+#include <enumivolib/enumivo.hpp>
+
 #include <string>
 
 namespace enumivo {
@@ -31,6 +32,9 @@ namespace enumivo {
                         asset        quantity,
                         string       memo );
 
+         inline asset get_supply( symbol_name sym )const;
+         
+         inline asset get_balance( account_name owner, symbol_name sym )const;
 
       private:
          struct account {
@@ -61,5 +65,19 @@ namespace enumivo {
          void add_balance( account_name owner, asset value, const currency_stats& st,
                            account_name ram_payer );
    };
+
+   asset token::get_supply( symbol_name sym )const
+   {
+      stats statstable( _self, sym );
+      const auto& st = statstable.get( sym );
+      return st.supply;
+   }
+
+   asset token::get_balance( account_name owner, symbol_name sym )const
+   {
+      accounts accountstable( _self, owner );
+      const auto& ac = accountstable.get( sym );
+      return ac.balance;
+   }
 
 } /// namespace enumivo

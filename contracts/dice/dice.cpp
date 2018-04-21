@@ -2,7 +2,6 @@
  *  @file
  *  @copyright defined in enumivo/LICENSE.txt
  */
-
 #include <utility>
 #include <vector>
 #include <string>
