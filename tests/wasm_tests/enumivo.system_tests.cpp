@@ -43,8 +43,8 @@ public:
       set_code( config::system_account_name, enumivo_system_wast );
       set_abi( config::system_account_name, enumivo_system_abi );
 
-      set_code( N(enumivo.coin), enumivo_token_wast );
-      set_abi( N(enumivo.coin), enumivo_token_abi );
+      set_code( N(enumivo.coin), enumivo_coin_wast );
+      set_abi( N(enumivo.coin), enumivo_coin_abi );
 
       create_currency( N(enumivo.coin), config::system_account_name, asset::from_string("20000000.0000 ENU") );
       issue(config::system_account_name, "10000000.0000 ENU");
