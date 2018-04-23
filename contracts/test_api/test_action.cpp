@@ -12,8 +12,8 @@
 #include <enumivolib/datastream.hpp>
 #include <enumivolib/print.hpp>
 #include <enumivolib/compiler_builtins.h>
-
 #include "test_api.hpp"
+
 void test_action::read_action_normal() {
 
    char buffer[100];
