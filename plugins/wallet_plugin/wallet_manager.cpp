@@ -51,7 +51,7 @@ std::string wallet_manager::create(const std::string& name) {
    wallet->unlock(password);
    
    // If we have name in our map then remove it since we want the emplace below to replace.
-   // This can happen if the wallet file is removed while eos-walletd is running.
+   // This can happen if the wallet file is removed while enu-walletd is running.
    auto it = wallets.find(name);
    if (it != wallets.end()) {
       wallets.erase(it);
@@ -72,7 +72,7 @@ void wallet_manager::open(const std::string& name) {
    }
 
    // If we have name in our map then remove it since we want the emplace below to replace.
-   // This can happen if the wallet file is added while eos-walletd is running.
+   // This can happen if the wallet file is added while enu-walletd is running.
    auto it = wallets.find(name);
    if (it != wallets.end()) {
       wallets.erase(it);
@@ -109,7 +109,9 @@ map<public_key_type,private_key_type> wallet_manager::list_keys() {
 
 flat_set<public_key_type> wallet_manager::get_public_keys() {
    check_timeout();
+   ENU_ASSERT(!wallets.empty(), wallet_not_available_exception, "You don't have any wallet!");
    flat_set<public_key_type> result;
+   bool is_all_wallet_locked = true;
    for (const auto& i : wallets) {
       if (!i.second->is_locked()) {
          const auto& keys = i.second->list_keys();
@@ -117,7 +119,9 @@ flat_set<public_key_type> wallet_manager::get_public_keys() {
             result.emplace(i.first);
          }
       }
+      is_all_wallet_locked &= i.second->is_locked();
    }
+   ENU_ASSERT(!is_all_wallet_locked, wallet_locked_exception, "You don't have any unlocked wallet!");
    return result;
 }
 
