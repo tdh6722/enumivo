@@ -38,7 +38,7 @@ namespace enumivo {
 
       private:
 
-         friend eosiosystem::system_contract;
+         friend enumivosystem::system_contract;
 
          inline asset get_supply( symbol_name sym )const;
          

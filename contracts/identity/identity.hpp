@@ -161,9 +161,9 @@ namespace identity {
          typedef enumivo::multi_index<N(certs), certrow,
                                     enumivo::indexed_by< N(bytuple), enumivo::const_mem_fun<certrow, key256, &certrow::get_key> >
                                     > certs_table;
-         typedef eosio::multi_index<N(ident), identrow> idents_table;
+         typedef enumivo::multi_index<N(ident), identrow> idents_table;
          typedef singleton<N(account), identity_name>  accounts_table;
-         typedef eosio::multi_index<N(trust), trustrow> trust_table;
+         typedef enumivo::multi_index<N(trust), trustrow> trust_table;
 
          static identity_name get_claimed_identity( account_name acnt ) {
             return accounts_table( code, acnt ).get_or_default(0);

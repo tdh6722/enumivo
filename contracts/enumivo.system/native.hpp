@@ -4,13 +4,13 @@
  */
 #pragma once
 
-#include <eosiolib/action.hpp>
-#include <eosiolib/public_key.hpp>
-#include <eosiolib/types.hpp>
+#include <enumivolib/action.hpp>
+#include <enumivolib/public_key.hpp>
+#include <enumivolib/types.hpp>
 
-namespace eosiosystem {
-   using eosio::permission_level;
-   using eosio::public_key;
+namespace enumivosystem {
+   using enumivo::permission_level;
+   using enumivo::public_key;
 
    typedef std::vector<char> bytes;
 
@@ -19,7 +19,7 @@ namespace eosiosystem {
       weight_type       weight;
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
-      EOSLIB_SERIALIZE( permission_level_weight, (permission)(weight) )
+      ENULIB_SERIALIZE( permission_level_weight, (permission)(weight) )
    };
 
    struct key_weight {
@@ -27,7 +27,7 @@ namespace eosiosystem {
       weight_type  weight;
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
-      EOSLIB_SERIALIZE( key_weight, (key)(weight) )
+      ENULIB_SERIALIZE( key_weight, (key)(weight) )
    };
 
    struct authority {
@@ -36,7 +36,7 @@ namespace eosiosystem {
       std::vector<permission_level_weight>  accounts;
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
-      EOSLIB_SERIALIZE( authority, (threshold)(keys)(accounts) )
+      ENULIB_SERIALIZE( authority, (threshold)(keys)(accounts) )
    };
 
    /*

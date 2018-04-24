@@ -1,11 +1,11 @@
-#include "eosio.system.hpp"
-#include <eosiolib/dispatcher.hpp>
+#include "enumivo.system.hpp"
+#include <enumivolib/dispatcher.hpp>
 
 #include "delegate_bandwidth.cpp"
 #include "producer_pay.cpp"
 #include "voting.cpp"
 
-EOSIO_ABI( eosiosystem::system_contract,
+ENUMIVO_ABI( enumivosystem::system_contract,
            // delegate_bandwith.cpp
            (delegatebw)(undelegatebw)(refund)
            (regproxy)
@@ -16,6 +16,6 @@ EOSIO_ABI( eosiosystem::system_contract,
            // native.hpp
            //XXX
            (newaccount)(updateauth)(deleteauth)(linkauth)(unlinkauth)(postrecovery)(passrecovery)(vetorecovery)(onerror)(canceldelay)
-           // defined in eosio.system.hpp
+           // defined in enumivo.system.hpp
            (nonce)
 )

@@ -3,9 +3,9 @@
  *  @copyright defined in enumivo/LICENSE.txt
  */
 
-#include <eosiolib/eosio.hpp>
+#include <enumivolib/enumivo.hpp>
 
-namespace eosio {
+namespace enumivo {
 
    class noop: public contract {
       public:
@@ -18,6 +18,6 @@ namespace eosio {
          }
    };
 
-   EOSIO_ABI( noop, ( anyaction ) )
+   ENUMIVO_ABI( noop, ( anyaction ) )
 
-} /// eosio     
+} /// enumivo     

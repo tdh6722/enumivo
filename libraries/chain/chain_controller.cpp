@@ -310,7 +310,7 @@ transaction_trace chain_controller::_push_transaction(const packed_transaction& 
       if ( max_delay < enforced_delay ) {
          enforced_delay = max_delay;
       }
-      EOS_ASSERT( mtrx.delay >= enforced_delay,
+      ENU_ASSERT( mtrx.delay >= enforced_delay,
                   transaction_exception,
                   "authorization imposes a delay (${enforced_delay} sec) greater than the delay specified in transaction header (${specified_delay} sec)",
                   ("enforced_delay", enforced_delay.to_seconds())("specified_delay", mtrx.delay.to_seconds()) );

@@ -1,18 +1,18 @@
 /**
  *  @file
- *  @copyright defined in eos/LICENSE.txt
+ *  @copyright defined in enumivo/LICENSE.txt
  */
 #pragma once
 
-#include <eosiolib/eosio.hpp>
-#include <eosiolib/multi_index.hpp>
-#include <eosiolib/privileged.hpp>
-#include <eosiolib/singleton.hpp>
-#include <eosiolib/asset.hpp>
+#include <enumivolib/enumivo.hpp>
+#include <enumivolib/multi_index.hpp>
+#include <enumivolib/privileged.hpp>
+#include <enumivolib/singleton.hpp>
+#include <enumivolib/asset.hpp>
 
-#include <eosio.token/eosio.token.hpp>
+#include <enumivo.coin/enumivo.coin.hpp>
 
-namespace eosiosystem {
+namespace enumivosystem {
 
    template<account_name SystemAccount>
    class common {
@@ -24,8 +24,8 @@ namespace eosiosystem {
          static constexpr uint32_t     seconds_per_day = 24 * 3600;
          static constexpr uint32_t     days_per_4years = 1461;
 
-         static eosio_global_state& get_default_parameters() {
-            static eosio_global_state dp;
+         static enumivo_global_state& get_default_parameters() {
+            static enumivo_global_state dp;
             get_blockchain_parameters(dp);
             return dp;
          }

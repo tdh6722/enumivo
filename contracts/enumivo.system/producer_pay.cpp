@@ -1,8 +1,8 @@
-#include "eosio.system.hpp"
+#include "enumivo.system.hpp"
 
-#include <eosio.token/eosio.token.hpp>
+#include <enumivo.coin/enumivo.coin.hpp>
 
-namespace eosiosystem {
+namespace enumivosystem {
 
 static const uint32_t num_of_payed_producers = 121;
 
@@ -65,7 +65,7 @@ void system_contract::claimrewards(const account_name& owner) {
       eosio_assert(now() >= prod->last_rewards_claim + seconds_per_day, "already claimed rewards within a day");
    }
    //            system_token_type rewards = prod->per_block_payments;
-   eosio::asset rewards = prod->per_block_payments;
+   enumivo::asset rewards = prod->per_block_payments;
    auto idx = producers_tbl.template get_index<N(prototalvote)>();
    auto itr = --idx.end();
 
@@ -92,7 +92,7 @@ void system_contract::claimrewards(const account_name& owner) {
       if( gs.exists() ) {
          auto parameters = gs.get();
          //                  auto share_of_eos_bucket = system_token_type( static_cast<uint64_t>( (prod->total_votes * parameters.eos_bucket.quantity) / total_producer_votes ) ); // This will be improved in the future when total_votes becomes a double type.
-         auto share_of_eos_bucket = eosio::asset( static_cast<int64_t>( (prod->total_votes * parameters.eos_bucket.amount) / total_producer_votes ) );
+         auto share_of_eos_bucket = enumivo::asset( static_cast<int64_t>( (prod->total_votes * parameters.eos_bucket.amount) / total_producer_votes ) );
          rewards += share_of_eos_bucket;
          parameters.eos_bucket -= share_of_eos_bucket;
          gs.set( parameters, _self );
@@ -100,15 +100,15 @@ void system_contract::claimrewards(const account_name& owner) {
    }
 
    //            eosio_assert( rewards > system_token_type(), "no rewards available to claim" );
-   eosio_assert( rewards > asset(0, S(4,EOS)), "no rewards available to claim" );
+   eosio_assert( rewards > asset(0, S(4,ENU)), "no rewards available to claim" );
 
    producers_tbl.modify( prod, 0, [&](auto& p) {
          p.last_rewards_claim = now();
          p.per_block_payments.amount = 0;
       });
 
-   INLINE_ACTION_SENDER(eosio::token, transfer)( N(eosio.token), {N(eosio),N(active)},
-                                                 { N(eosio), owner, rewards, std::string("producer claiming rewards") } );
+   INLINE_ACTION_SENDER(enumivo::token, transfer)( N(enumivo.coin), {N(enumivo),N(active)},
+                                                 { N(enumivo), owner, rewards, std::string("producer claiming rewards") } );
 }
 
-} //namespace eosiosystem
+} //namespace enumivosystem

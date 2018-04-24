@@ -3,8 +3,8 @@
  *  @copyright defined in enumivo/LICENSE.txt
  */
 #include <proxy/proxy.hpp>
-#include <eosiolib/transaction.hpp>
-#include <eosio.token/eosio.token.hpp>
+#include <enumivolib/transaction.hpp>
+#include <enumivo.coin/enumivo.coin.hpp>
 
 namespace proxy {
    using namespace enumivo;
@@ -50,7 +50,7 @@ namespace proxy {
          configs::store(code_config, self);
 
          transaction out;
-         out.actions.emplace_back(permission_level{self, N(active)}, N(eosio.token), N(transfer), new_transfer);
+         out.actions.emplace_back(permission_level{self, N(active)}, N(enumivo.coin), N(transfer), new_transfer);
          out.delay_sec = code_config.delay;
          out.send(id, self);
       }
@@ -95,9 +95,9 @@ extern "C" {
           if (action == N(onerror)) {
              apply_onerror(receiver, deferred_transaction::from_current_action());
           }
-       } else if ( code == N(eosio.token) ) {
+       } else if ( code == N(enumivo.coin) ) {
           if( action == N(transfer) ) {
-             apply_transfer(receiver, code, unpack_action_data<eosio::token::transfer_args>());
+             apply_transfer(receiver, code, unpack_action_data<enumivo::token::transfer_args>());
           }
        } else if (code == receiver ) {
           if ( action == N(setowner)) {

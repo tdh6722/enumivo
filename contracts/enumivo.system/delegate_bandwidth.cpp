@@ -2,27 +2,27 @@
  *  @file
  *  @copyright defined in eos/LICENSE.txt
  */
-#include "eosio.system.hpp"
+#include "enumivo.system.hpp"
 
-#include <eosiolib/eosio.hpp>
-#include <eosiolib/print.hpp>
-#include <eosiolib/datastream.hpp>
-#include <eosiolib/serialize.hpp>
-#include <eosiolib/multi_index.hpp>
-#include <eosiolib/privileged.h>
-#include <eosiolib/transaction.hpp>
+#include <enumivolib/enumivo.hpp>
+#include <enumivolib/print.hpp>
+#include <enumivolib/datastream.hpp>
+#include <enumivolib/serialize.hpp>
+#include <enumivolib/multi_index.hpp>
+#include <enumivolib/privileged.h>
+#include <enumivolib/transaction.hpp>
 
-#include <eosio.token/eosio.token.hpp>
+#include <enumivo.coin/enumivo.coin.hpp>
 
 #include <map>
 
-namespace eosiosystem {
-   using eosio::asset;
-   using eosio::indexed_by;
-   using eosio::const_mem_fun;
-   using eosio::bytes;
-   using eosio::print;
-   using eosio::permission_level;
+namespace enumivosystem {
+   using enumivo::asset;
+   using enumivo::indexed_by;
+   using enumivo::const_mem_fun;
+   using enumivo::bytes;
+   using enumivo::print;
+   using enumivo::permission_level;
    using std::map;
    using std::pair;
 
@@ -39,7 +39,7 @@ namespace eosiosystem {
       uint64_t primary_key()const { return owner; }
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
-      EOSLIB_SERIALIZE( total_resources, (owner)(net_weight)(cpu_weight)(storage_stake)(storage_bytes) )
+      ENULIB_SERIALIZE( total_resources, (owner)(net_weight)(cpu_weight)(storage_stake)(storage_bytes) )
    };
 
 
@@ -57,24 +57,24 @@ namespace eosiosystem {
       uint64_t  primary_key()const { return to; }
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
-      EOSLIB_SERIALIZE( delegated_bandwidth, (from)(to)(net_weight)(cpu_weight)(storage_stake)(storage_bytes) )
+      ENULIB_SERIALIZE( delegated_bandwidth, (from)(to)(net_weight)(cpu_weight)(storage_stake)(storage_bytes) )
 
    };
 
    struct refund_request {
       account_name  owner;
       time          request_time;
-      eosio::asset  amount;
+      enumivo::asset  amount;
 
       uint64_t  primary_key()const { return owner; }
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
-      EOSLIB_SERIALIZE( refund_request, (owner)(request_time)(amount) )
+      ENULIB_SERIALIZE( refund_request, (owner)(request_time)(amount) )
    };
 
-   typedef eosio::multi_index< N(totalband), total_resources>   total_resources_table;
-   typedef eosio::multi_index< N(delband), delegated_bandwidth> del_bandwidth_table;
-   typedef eosio::multi_index< N(refunds), refund_request>      refunds_table;
+   typedef enumivo::multi_index< N(totalband), total_resources>   total_resources_table;
+   typedef enumivo::multi_index< N(delband), delegated_bandwidth> del_bandwidth_table;
+   typedef enumivo::multi_index< N(refunds), refund_request>      refunds_table;
 
    void system_contract::delegatebw( const account_name from, const account_name receiver,
                                      const asset stake_net_quantity, const asset stake_cpu_quantity,
@@ -94,7 +94,7 @@ namespace eosiosystem {
       if ( 0 < stake_storage_quantity.amount ) {
          global_state_singleton gs( _self, _self );
          auto parameters = gs.exists() ? gs.get() : get_default_parameters();
-         const eosio::asset token_supply = eosio::token(N(eosio.token)).get_supply(eosio::symbol_type(system_token_symbol).name());
+         const enumivo::asset token_supply = enumivo::token(N(enumivo.coin)).get_supply(enumivo::symbol_type(system_token_symbol).name());
          //make sure that there is no posibility of overflow here
          int64_t storage_bytes_estimated = int64_t( parameters.max_storage_size - parameters.total_storage_bytes_reserved )
             * int64_t(parameters.storage_reserve_ratio) * stake_storage_quantity
@@ -153,8 +153,8 @@ namespace eosiosystem {
 
       //set_resource_limits( tot_itr->owner, tot_itr->storage_bytes, tot_itr->net_weight.quantity, tot_itr->cpu_weight.quantity );
 
-      INLINE_ACTION_SENDER(eosio::token, transfer)( N(eosio.token), {from,N(active)},
-                                                    { from, N(eosio), total_stake, std::string("stake bandwidth") } );
+      INLINE_ACTION_SENDER(enumivo::token, transfer)( N(enumivo.coin), {from,N(active)},
+                                                    { from, N(enumivo), total_stake, std::string("stake bandwidth") } );
 
       if ( asset(0) < stake_net_quantity + stake_cpu_quantity ) {
          increase_voting_power( from, stake_net_quantity + stake_cpu_quantity );
@@ -180,11 +180,11 @@ namespace eosiosystem {
       eosio_assert( dbw.cpu_weight >= unstake_cpu_quantity, "insufficient staked cpu bandwidth" );
       eosio_assert( dbw.storage_bytes >= unstake_storage_bytes, "insufficient staked storage" );
 
-      eosio::asset storage_stake_decrease(0, system_token_symbol);
+      enumivo::asset storage_stake_decrease(0, system_token_symbol);
       if ( 0 < unstake_storage_bytes ) {
          storage_stake_decrease = 0 < dbw.storage_bytes ?
                                       dbw.storage_stake * int64_t(unstake_storage_bytes) / int64_t(dbw.storage_bytes)
-                                      : eosio::asset(0, system_token_symbol);
+                                      : enumivo::asset(0, system_token_symbol);
          global_state_singleton gs( _self, _self );
          auto parameters = gs.get(); //it should exist if user staked for bandwith
          parameters.total_storage_bytes_reserved -= unstake_storage_bytes;
@@ -192,7 +192,7 @@ namespace eosiosystem {
          gs.set( parameters, _self );
       }
 
-      eosio::asset total_refund = unstake_cpu_quantity + unstake_net_quantity + storage_stake_decrease;
+      enumivo::asset total_refund = unstake_cpu_quantity + unstake_net_quantity + storage_stake_decrease;
 
       eosio_assert( total_refund.amount > 0, "must unstake a positive amount" );
 
@@ -232,7 +232,7 @@ namespace eosiosystem {
       //create or replace deferred transaction
       //refund act;
       //act.owner = from;
-      eosio::transaction out( now() + refund_delay + refund_expiration_time );
+      enumivo::transaction out( now() + refund_delay + refund_expiration_time );
       out.actions.emplace_back( permission_level{ from, N(active) }, _self, N(refund), from );
       out.delay_sec = refund_delay;
       out.send( from, receiver );
@@ -255,10 +255,10 @@ namespace eosiosystem {
       // allow people to get their tokens earlier than the 3 day delay if the unstake happened immediately after many
       // consecutive missed blocks.
 
-      INLINE_ACTION_SENDER(eosio::token, transfer)( N(eosio.token), {N(eosio),N(active)},
-                                                    { N(eosio), req->owner, req->amount, std::string("unstake") } );
+      INLINE_ACTION_SENDER(enumivo::token, transfer)( N(enumivo.coin), {N(enumivo),N(active)},
+                                                    { N(enumivo), req->owner, req->amount, std::string("unstake") } );
 
       refunds_tbl.erase( req );
    }
 
-} //namespace eosiosystem
+} //namespace enumivosystem

@@ -6,8 +6,8 @@
 #include <enumivo/testing/tester.hpp>
 #include <enumivo/chain/contracts/abi_serializer.hpp>
 
-#include <eosio.token/eosio.token.wast.hpp>
-#include <eosio.token/eosio.token.abi.hpp>
+#include <enumivo.coin/enumivo.coin.wast.hpp>
+#include <enumivo.coin/enumivo.coin.abi.hpp>
 
 #include <proxy/proxy.wast.hpp>
 #include <proxy/proxy.abi.hpp>
@@ -36,7 +36,7 @@ class currency_tester : public TESTER {
          string action_type_name = abi_ser.get_action_type(name);
 
          action act;
-         act.account = N(eosio.token);
+         act.account = N(enumivo.coin);
          act.name = name;
          act.authorization = vector<permission_level>{{signer, config::active_name}};
          act.data = abi_ser.variant_to_binary(action_type_name, data);
@@ -49,18 +49,18 @@ class currency_tester : public TESTER {
       }
 
       asset get_balance(const account_name& account) const {
-         return get_currency_balance(N(eosio.token), symbol(SY(4,CUR)), account);
+         return get_currency_balance(N(enumivo.coin), symbol(SY(4,CUR)), account);
       }
 
 
       currency_tester()
-      :TESTER(),abi_ser(json::from_string(eosio_token_abi).as<abi_def>())
+      :TESTER(),abi_ser(json::from_string(enumivo_coin_abi).as<abi_def>())
       {
-         create_account( N(eosio.token));
-         set_code( N(eosio.token), eosio_token_wast );
+         create_account( N(enumivo.coin));
+         set_code( N(enumivo.coin), enumivo_coin_wast );
 
-         auto result = push_action(N(eosio.token), N(create), mutable_variant_object()
-                 ("issuer",       eosio_token)
+         auto result = push_action(N(enumivo.coin), N(create), mutable_variant_object()
+                 ("issuer",       enumivo_coin)
                  ("maximum_supply", "1000000000.0000 CUR")
                  ("can_freeze", 0)
                  ("can_recall", 0)
@@ -68,8 +68,8 @@ class currency_tester : public TESTER {
          );
          wdump((result));
 
-         result = push_action(N(eosio.token), N(issue), mutable_variant_object()
-                 ("to",       eosio_token)
+         result = push_action(N(enumivo.coin), N(issue), mutable_variant_object()
+                 ("to",       enumivo_coin)
                  ("quantity", "1000000.0000 CUR")
                  ("memo", "gggggggggggg")
          );
@@ -78,17 +78,17 @@ class currency_tester : public TESTER {
       }
 
       abi_serializer abi_ser;
-      static const std::string eosio_token;
+      static const std::string enumivo_coin;
 };
 
-const std::string currency_tester::eosio_token = name(N(eosio.token)).to_string();
+const std::string currency_tester::enumivo_coin = name(N(enumivo.coin)).to_string();
 
 BOOST_AUTO_TEST_SUITE(currency_tests)
 
 BOOST_AUTO_TEST_CASE( bootstrap ) try {
    auto expected = asset::from_string( "1000000.0000 CUR" );
    currency_tester t;
-   auto actual = t.get_currency_balance(N(eosio.token), expected.get_symbol(), N(eosio.token));
+   auto actual = t.get_currency_balance(N(enumivo.coin), expected.get_symbol(), N(enumivo.coin));
    BOOST_REQUIRE_EQUAL(expected, actual);
 } FC_LOG_AND_RETHROW() /// test_api_bootstrap
 
@@ -97,8 +97,8 @@ BOOST_FIXTURE_TEST_CASE( test_transfer, currency_tester ) try {
 
    // make a transfer from the contract to a user
    {
-      auto trace = push_action(N(eosio.token), N(transfer), mutable_variant_object()
-         ("from", eosio_token)
+      auto trace = push_action(N(enumivo.coin), N(transfer), mutable_variant_object()
+         ("from", enumivo_coin)
          ("to",   "alice")
          ("quantity", "100.0000 CUR")
          ("memo", "fund Alice")
@@ -114,15 +114,15 @@ BOOST_FIXTURE_TEST_CASE( test_transfer, currency_tester ) try {
 BOOST_FIXTURE_TEST_CASE( test_duplicate_transfer, currency_tester ) {
    create_accounts( {N(alice)} );
 
-   auto trace = push_action(N(eosio.token), N(transfer), mutable_variant_object()
-      ("from", eosio_token)
+   auto trace = push_action(N(enumivo.coin), N(transfer), mutable_variant_object()
+      ("from", enumivo_coin)
       ("to",   "alice")
       ("quantity", "100.0000 CUR")
       ("memo", "fund Alice")
    );
 
-   BOOST_CHECK_THROW(push_action(N(eosio.token), N(transfer), mutable_variant_object()
-                                 ("from", eosio_token)
+   BOOST_CHECK_THROW(push_action(N(enumivo.coin), N(transfer), mutable_variant_object()
+                                 ("from", enumivo_coin)
                                  ("to",   "alice")
                                  ("quantity", "100.0000 CUR")
                                  ("memo", "fund Alice")),
@@ -139,8 +139,8 @@ BOOST_FIXTURE_TEST_CASE( test_addtransfer, currency_tester ) try {
 
    // make a transfer from the contract to a user
    {
-      auto trace = push_action(N(eosio.token), N(transfer), mutable_variant_object()
-         ("from", eosio_token)
+      auto trace = push_action(N(enumivo.coin), N(transfer), mutable_variant_object()
+         ("from", enumivo_coin)
          ("to",   "alice")
          ("quantity", "100.0000 CUR")
          ("memo", "fund Alice")
@@ -154,8 +154,8 @@ BOOST_FIXTURE_TEST_CASE( test_addtransfer, currency_tester ) try {
 
    // make a transfer from the contract to a user
    {
-      auto trace = push_action(N(eosio.token), N(transfer), mutable_variant_object()
-         ("from", eosio_token)
+      auto trace = push_action(N(enumivo.coin), N(transfer), mutable_variant_object()
+         ("from", enumivo_coin)
          ("to",   "alice")
          ("quantity", "10.0000 CUR")
          ("memo", "add Alice")
@@ -174,8 +174,8 @@ BOOST_FIXTURE_TEST_CASE( test_overspend, currency_tester ) try {
 
    // make a transfer from the contract to a user
    {
-      auto trace = push_action(N(eosio.token), N(transfer), mutable_variant_object()
-         ("from", eosio_token)
+      auto trace = push_action(N(enumivo.coin), N(transfer), mutable_variant_object()
+         ("from", enumivo_coin)
          ("to",   "alice")
          ("quantity", "100.0000 CUR")
          ("memo", "fund Alice")
@@ -208,8 +208,8 @@ BOOST_FIXTURE_TEST_CASE( test_fullspend, currency_tester ) try {
 
    // make a transfer from the contract to a user
    {
-      auto trace = push_action(N(eosio.token), N(transfer), mutable_variant_object()
-         ("from", eosio_token)
+      auto trace = push_action(N(enumivo.coin), N(transfer), mutable_variant_object()
+         ("from", enumivo_coin)
          ("to",   "alice")
          ("quantity", "100.0000 CUR")
          ("memo", "fund Alice")
@@ -401,8 +401,8 @@ BOOST_FIXTURE_TEST_CASE( test_proxy, currency_tester ) try {
    // for now wasm "time" is in seconds, so we have to truncate off any parts of a second that may have applied
    fc::time_point expected_delivery(fc::seconds(control->head_block_time().sec_since_epoch()) + fc::seconds(10));
    {
-      auto trace = push_action(N(eosio.token), N(transfer), mutable_variant_object()
-         ("from", eosio_token)
+      auto trace = push_action(N(enumivo.coin), N(transfer), mutable_variant_object()
+         ("from", enumivo_coin)
          ("to",   "proxy")
          ("quantity", "5.0000 CUR")
          ("memo", "fund Proxy")
@@ -455,8 +455,8 @@ BOOST_FIXTURE_TEST_CASE( test_deferred_failure, currency_tester ) try {
 
    // for now wasm "time" is in seconds, so we have to truncate off any parts of a second that may have applied
    fc::time_point expected_delivery(fc::seconds(control->head_block_time().sec_since_epoch()) + fc::seconds(10));
-   auto trace = push_action(N(eosio.token), N(transfer), mutable_variant_object()
-      ("from", eosio_token)
+   auto trace = push_action(N(enumivo.coin), N(transfer), mutable_variant_object()
+      ("from", enumivo_coin)
       ("to",   "proxy")
       ("quantity", "5.0000 CUR")
       ("memo", "fund Proxy")

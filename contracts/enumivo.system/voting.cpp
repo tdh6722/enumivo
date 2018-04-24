@@ -2,29 +2,29 @@
  *  @file
  *  @copyright defined in eos/LICENSE.txt
  */
-#include "eosio.system.hpp"
+#include "enumivo.system.hpp"
 
-#include <eosiolib/eosio.hpp>
-#include <eosiolib/print.hpp>
-#include <eosiolib/datastream.hpp>
-#include <eosiolib/serialize.hpp>
-#include <eosiolib/multi_index.hpp>
-#include <eosiolib/privileged.hpp>
-#include <eosiolib/singleton.hpp>
-#include <eosiolib/transaction.hpp>
-#include <eosio.token/eosio.token.hpp>
+#include <enumivolib/enumivo.hpp>
+#include <enumivolib/print.hpp>
+#include <enumivolib/datastream.hpp>
+#include <enumivolib/serialize.hpp>
+#include <enumivolib/multi_index.hpp>
+#include <enumivolib/privileged.hpp>
+#include <enumivolib/singleton.hpp>
+#include <enumivolib/transaction.hpp>
+#include <enumivo.coin/enumivo.coin.hpp>
 
 #include <algorithm>
 #include <array>
 #include <cmath>
 
-namespace eosiosystem {
-   using eosio::indexed_by;
-   using eosio::const_mem_fun;
-   using eosio::bytes;
-   using eosio::print;
-   using eosio::singleton;
-   using eosio::transaction;
+namespace enumivosystem {
+   using enumivo::indexed_by;
+   using enumivo::const_mem_fun;
+   using enumivo::bytes;
+   using enumivo::print;
+   using enumivo::singleton;
+   using enumivo::transaction;
 
 
    static constexpr uint32_t blocks_per_year = 52*7*24*2*3600; // half seconds per year
@@ -35,9 +35,9 @@ namespace eosiosystem {
       account_name                proxy = 0;
       time                        last_update = 0;
       uint32_t                    is_proxy = 0;
-      eosio::asset                staked;
-      eosio::asset                unstaking;
-      eosio::asset                unstake_per_week;
+      enumivo::asset                staked;
+      enumivo::asset                unstaking;
+      enumivo::asset                unstake_per_week;
       uint128_t                   proxied_votes = 0;
       std::vector<account_name>   producers;
       uint32_t                    deferred_trx_id = 0;
@@ -46,10 +46,10 @@ namespace eosiosystem {
       uint64_t primary_key()const { return owner; }
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
-      EOSLIB_SERIALIZE( voter_info, (owner)(proxy)(last_update)(is_proxy)(staked)(unstaking)(unstake_per_week)(proxied_votes)(producers)(deferred_trx_id)(last_unstake_time) )
+      ENULIB_SERIALIZE( voter_info, (owner)(proxy)(last_update)(is_proxy)(staked)(unstaking)(unstake_per_week)(proxied_votes)(producers)(deferred_trx_id)(last_unstake_time) )
    };
 
-   typedef eosio::multi_index< N(voters), voter_info>  voters_table;
+   typedef enumivo::multi_index< N(voters), voter_info>  voters_table;
 
    /**
     *  This method will create a producer_config and producer_info object for 'producer'
@@ -60,26 +60,26 @@ namespace eosiosystem {
     *
     */
    void system_contract::regproducer( const account_name producer, const bytes& packed_producer_key, const eosio_parameters& prefs ) {
-      //eosio::print("produce_key: ", producer_key.size(), ", sizeof(public_key): ", sizeof(public_key), "\n");
+      //enumivo::print("produce_key: ", producer_key.size(), ", sizeof(public_key): ", sizeof(public_key), "\n");
       require_auth( producer );
 
       producers_table producers_tbl( _self, _self );
       auto prod = producers_tbl.find( producer );
 
       //check that we can unpack producer key
-      public_key producer_key = eosio::unpack<public_key>( packed_producer_key );
+      public_key producer_key = enumivo::unpack<public_key>( packed_producer_key );
 
       if ( prod != producers_tbl.end() ) {
          producers_tbl.modify( prod, producer, [&]( producer_info& info ){
                info.prefs = prefs;
-               info.packed_key = eosio::pack<public_key>( producer_key );
+               info.packed_key = enumivo::pack<public_key>( producer_key );
             });
       } else {
          producers_tbl.emplace( producer, [&]( producer_info& info ){
                info.owner       = producer;
                info.total_votes = 0;
                info.prefs       = prefs;
-               info.packed_key  = eosio::pack<public_key>( producer_key );
+               info.packed_key  = enumivo::pack<public_key>( producer_key );
             });
       }
    }
@@ -96,7 +96,7 @@ namespace eosiosystem {
          });
    }
 
-   void system_contract::increase_voting_power( account_name acnt, const eosio::asset& amount ) {
+   void system_contract::increase_voting_power( account_name acnt, const enumivo::asset& amount ) {
       voters_table voters_tbl( _self, _self );
       auto voter = voters_tbl.find( acnt );
 
@@ -139,7 +139,7 @@ namespace eosiosystem {
       }
    }
 
-   void system_contract::decrease_voting_power( account_name acnt, const eosio::asset& amount ) {
+   void system_contract::decrease_voting_power( account_name acnt, const enumivo::asset& amount ) {
       require_auth( acnt );
       voters_table voters_tbl( _self, _self );
       auto voter = voters_tbl.find( acnt );
@@ -193,12 +193,12 @@ namespace eosiosystem {
       return dp;
    }
 
-   eosio::asset system_contract::payment_per_block(uint32_t percent_of_max_inflation_rate) {
-      const eosio::asset token_supply = eosio::token(N(eosio.token)).get_supply(eosio::symbol_type(system_token_symbol).name());
+   enumivo::asset system_contract::payment_per_block(uint32_t percent_of_max_inflation_rate) {
+      const enumivo::asset token_supply = enumivo::token(N(enumivo.coin)).get_supply(enumivo::symbol_type(system_token_symbol).name());
       const double annual_rate = double(max_inflation_rate * percent_of_max_inflation_rate) / double(10000);
       const double continuous_rate = std::log1p(annual_rate);
       int64_t payment = static_cast<int64_t>((continuous_rate * double(token_supply.amount)) / double(blocks_per_year));
-      return eosio::asset(payment, system_token_symbol);
+      return enumivo::asset(payment, system_token_symbol);
    }
 
    void system_contract::update_elected_producers(time cycle_time) {
@@ -229,7 +229,7 @@ namespace eosiosystem {
       std::array<uint32_t, 21> percent_of_max_inflation_rate;
       std::array<uint32_t, 21> storage_reserve_ratio;
 
-      eosio::producer_schedule schedule;
+      enumivo::producer_schedule schedule;
       schedule.producers.reserve(21);
       size_t n = 0;
       for ( auto it = idx.crbegin(); it != idx.crend() && n < 21 && 0 < it->total_votes; ++it ) {
@@ -237,7 +237,7 @@ namespace eosiosystem {
             schedule.producers.emplace_back();
             schedule.producers.back().producer_name = it->owner;
             //eosio_assert( sizeof(schedule.producers.back().block_signing_key) == it->packed_key.size(), "size mismatch" );
-            schedule.producers.back().block_signing_key = eosio::unpack<public_key>( it->packed_key );
+            schedule.producers.back().block_signing_key = enumivo::unpack<public_key>( it->packed_key );
             //std::copy( it->packed_key.begin(), it->packed_key.end(), schedule.producers.back().block_signing_key.data.data() );
 
             base_per_transaction_net_usage[n] = it->prefs.base_per_transaction_net_usage;
@@ -296,7 +296,7 @@ namespace eosiosystem {
          std::sort( percent_of_max_inflation_rate.begin(), percent_of_max_inflation_rate.begin()+n );
       }
 
-      // should use producer_schedule_type from libraries/chain/include/eosio/chain/producer_schedule.hpp
+      // should use producer_schedule_type from libraries/chain/include/enumivo/chain/producer_schedule.hpp
       bytes packed_schedule = pack(schedule);
       set_active_producers( packed_schedule.data(),  packed_schedule.size() );
       size_t median = n/2;
@@ -343,8 +343,8 @@ namespace eosiosystem {
       }
 
       auto issue_quantity = parameters.blocks_per_cycle * (parameters.payment_per_block + parameters.payment_to_eos_bucket);
-      INLINE_ACTION_SENDER(eosio::token, issue)( N(eosio.token), {{N(eosio),N(active)}},
-                                                 {N(eosio), issue_quantity, std::string("producer pay")} );
+      INLINE_ACTION_SENDER(enumivo::token, issue)( N(enumivo.coin), {{N(enumivo),N(active)}},
+                                                 {N(enumivo), issue_quantity, std::string("producer pay")} );
 
       set_blockchain_parameters( parameters );
       gs.set( parameters, _self );
@@ -355,7 +355,7 @@ namespace eosiosystem {
     *  @pre if proxy is set then no producers can be voted for
     *  @pre every listed producer or proxy must have been previously registered
     *  @pre voter must authorize this action
-    *  @pre voter must have previously staked some EOS for voting
+    *  @pre voter must have previously staked some ENU for voting
     */
    void system_contract::voteproducer( const account_name voter, const account_name proxy, const std::vector<account_name>& producers ) {
       require_auth( voter );

@@ -6,7 +6,7 @@ namespace enumivo {
 /* TODO: make native currency match generic currency, requires changes in the native code
 struct native_token_def {
    static const uint64_t code = N(enumivo);
-   static const uint64_t symbol = N(eos);
+   static const uint64_t symbol = N(enu);
 };
 using native_currency = generic_currency<native_token_def>;
  */
