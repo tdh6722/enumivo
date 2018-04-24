@@ -2,7 +2,9 @@
  *  @file
  *  @copyright defined in enumivo/LICENSE.txt
  */
-#include <enumivolib/enumivo.hpp>
+#pragma once
+
+#include <eosiolib/eosio.hpp>
 
 namespace proxy {
 

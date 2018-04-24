@@ -10,6 +10,10 @@
 
 #include <string>
 
+namespace enumivosystem {
+   class system_contract;
+}
+
 namespace enumivo {
 
    using std::string;
@@ -31,6 +35,10 @@ namespace enumivo {
                         account_name to,
                         asset        quantity,
                         string       memo );
+
+      private:
+
+         friend eosiosystem::system_contract;
 
          inline asset get_supply( symbol_name sym )const;
          
@@ -64,6 +72,14 @@ namespace enumivo {
          void sub_balance( account_name owner, asset value, const currency_stats& st );
          void add_balance( account_name owner, asset value, const currency_stats& st,
                            account_name ram_payer );
+
+      public:
+         struct transfer_args {
+            account_name  from;
+            account_name  to;
+            asset         quantity;
+            string        memo;
+         };
    };
 
    asset token::get_supply( symbol_name sym )const
