@@ -48,16 +48,16 @@ namespace enumivosystem {
       uint64_t             total_storage_bytes_reserved = 0;
       enumivo::asset         total_storage_stake;
       enumivo::asset         payment_per_block;
-      enumivo::asset         payment_to_eos_bucket;
+      enumivo::asset         payment_to_enu_bucket;
       time                 first_block_time_in_cycle = 0;
       uint32_t             blocks_per_cycle = 0;
       time                 last_bucket_fill_time = 0;
-      enumivo::asset         eos_bucket;
+      enumivo::asset         enu_bucket;
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
       ENULIB_SERIALIZE_DERIVED( eosio_global_state, eosio_parameters, (total_storage_bytes_reserved)(total_storage_stake)
-                                (payment_per_block)(payment_to_eos_bucket)(first_block_time_in_cycle)(blocks_per_cycle)
-                                (last_bucket_fill_time)(eos_bucket) )
+                                (payment_per_block)(payment_to_enu_bucket)(first_block_time_in_cycle)(blocks_per_cycle)
+                                (last_bucket_fill_time)(enu_bucket) )
    };
 
    struct producer_info {

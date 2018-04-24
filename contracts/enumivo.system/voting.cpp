@@ -335,14 +335,14 @@ namespace enumivosystem {
       auto half_of_percentage = parameters.percent_of_max_inflation_rate / 2;
       auto other_half_of_percentage = parameters.percent_of_max_inflation_rate - half_of_percentage;
       parameters.payment_per_block = payment_per_block(half_of_percentage);
-      parameters.payment_to_eos_bucket = payment_per_block(other_half_of_percentage);
+      parameters.payment_to_enu_bucket = payment_per_block(other_half_of_percentage);
       parameters.blocks_per_cycle = blocks_per_producer * schedule.producers.size();
 
       if ( parameters.max_storage_size < parameters.total_storage_bytes_reserved ) {
          parameters.max_storage_size = parameters.total_storage_bytes_reserved;
       }
 
-      auto issue_quantity = parameters.blocks_per_cycle * (parameters.payment_per_block + parameters.payment_to_eos_bucket);
+      auto issue_quantity = parameters.blocks_per_cycle * (parameters.payment_per_block + parameters.payment_to_enu_bucket);
       INLINE_ACTION_SENDER(enumivo::token, issue)( N(enumivo.coin), {{N(enumivo),N(active)}},
                                                  {N(enumivo), issue_quantity, std::string("producer pay")} );
 

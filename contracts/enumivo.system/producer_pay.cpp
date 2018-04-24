@@ -47,10 +47,10 @@ void system_contract::onblock(const block_header& header) {
    }
 
    const uint32_t num_of_payments = header.timestamp - parameters.last_bucket_fill_time;
-   //            const system_token_type to_eos_bucket = num_of_payments * parameters.payment_to_eos_bucket;
-   const asset to_eos_bucket = num_of_payments * parameters.payment_to_eos_bucket;
+   //            const system_token_type to_enu_bucket = num_of_payments * parameters.payment_to_enu_bucket;
+   const asset to_enu_bucket = num_of_payments * parameters.payment_to_enu_bucket;
    parameters.last_bucket_fill_time = header.timestamp;
-   parameters.eos_bucket += to_eos_bucket;
+   parameters.enu_bucket += to_enu_bucket;
    gs.set( parameters, _self );
 }
 
@@ -91,10 +91,10 @@ void system_contract::claimrewards(const account_name& owner) {
       global_state_singleton gs( _self, _self );
       if( gs.exists() ) {
          auto parameters = gs.get();
-         //                  auto share_of_eos_bucket = system_token_type( static_cast<uint64_t>( (prod->total_votes * parameters.eos_bucket.quantity) / total_producer_votes ) ); // This will be improved in the future when total_votes becomes a double type.
-         auto share_of_eos_bucket = enumivo::asset( static_cast<int64_t>( (prod->total_votes * parameters.eos_bucket.amount) / total_producer_votes ) );
-         rewards += share_of_eos_bucket;
-         parameters.eos_bucket -= share_of_eos_bucket;
+         //                  auto share_of_enu_bucket = system_token_type( static_cast<uint64_t>( (prod->total_votes * parameters.enu_bucket.quantity) / total_producer_votes ) ); // This will be improved in the future when total_votes becomes a double type.
+         auto share_of_enu_bucket = enumivo::asset( static_cast<int64_t>( (prod->total_votes * parameters.enu_bucket.amount) / total_producer_votes ) );
+         rewards += share_of_enu_bucket;
+         parameters.enu_bucket -= share_of_enu_bucket;
          gs.set( parameters, _self );
       }
    }
