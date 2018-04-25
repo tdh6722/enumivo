@@ -35,16 +35,16 @@ namespace enumivosystem {
                                      (producer)(schedule_version)(new_producers))
    };
 
-   struct eosio_parameters : enumivo::blockchain_parameters {
+   struct enumivo_parameters : enumivo::blockchain_parameters {
       uint64_t          max_storage_size = 10 * 1024 * 1024;
       uint32_t          percent_of_max_inflation_rate = 0;
       uint32_t          storage_reserve_ratio = 1000;      // ratio * 1000
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
-      ENULIB_SERIALIZE_DERIVED( eosio_parameters, enumivo::blockchain_parameters, (max_storage_size)(percent_of_max_inflation_rate)(storage_reserve_ratio) )
+      ENULIB_SERIALIZE_DERIVED( enumivo_parameters, enumivo::blockchain_parameters, (max_storage_size)(percent_of_max_inflation_rate)(storage_reserve_ratio) )
    };
 
-   struct eosio_global_state : eosio_parameters {
+   struct enumivo_global_state : enumivo_parameters {
       uint64_t             total_storage_bytes_reserved = 0;
       enumivo::asset         total_storage_stake;
       enumivo::asset         payment_per_block;
@@ -55,7 +55,7 @@ namespace enumivosystem {
       enumivo::asset         enu_bucket;
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
-      ENULIB_SERIALIZE_DERIVED( eosio_global_state, eosio_parameters, (total_storage_bytes_reserved)(total_storage_stake)
+      ENULIB_SERIALIZE_DERIVED( enumivo_global_state, enumivo_parameters, (total_storage_bytes_reserved)(total_storage_stake)
                                 (payment_per_block)(payment_to_enu_bucket)(first_block_time_in_cycle)(blocks_per_cycle)
                                 (last_bucket_fill_time)(enu_bucket) )
    };
@@ -63,7 +63,7 @@ namespace enumivosystem {
    struct producer_info {
       account_name      owner;
       uint128_t         total_votes = 0;
-      eosio_parameters  prefs;
+      enumivo_parameters  prefs;
       enumivo::bytes      packed_key; /// a packed public key object
       enumivo::asset      per_block_payments;
       time              last_rewards_claim = 0;
@@ -84,7 +84,7 @@ namespace enumivosystem {
                                indexed_by<N(prototalvote), const_mem_fun<producer_info, uint128_t, &producer_info::by_votes>  >
                                >  producers_table;
 
-   typedef enumivo::singleton<N(global), eosio_global_state> global_state_singleton;
+   typedef enumivo::singleton<N(global), enumivo_global_state> global_state_singleton;
 
    static constexpr uint32_t     max_inflation_rate = 5;  // 5% annual inflation
    static constexpr uint32_t     seconds_per_day = 24 * 3600;
@@ -110,7 +110,7 @@ namespace enumivosystem {
 
          // functions defined in voting.cpp
 
-         void regproducer( const account_name producer, const bytes& producer_key, const eosio_parameters& prefs );
+         void regproducer( const account_name producer, const bytes& producer_key, const enumivo_parameters& prefs );
 
          void unregprod( const account_name producer );
 
@@ -136,7 +136,7 @@ namespace enumivosystem {
          // Implementation details:
 
          //defined in voting.hpp
-         static eosio_global_state get_default_parameters();
+         static enumivo_global_state get_default_parameters();
 
          // defined in voting.cpp
          void increase_voting_power( account_name acnt, const enumivo::asset& amount );

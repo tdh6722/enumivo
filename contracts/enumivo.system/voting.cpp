@@ -1,6 +1,6 @@
 /**
  *  @file
- *  @copyright defined in eos/LICENSE.txt
+ *  @copyright defined in enumivo/LICENSE.txt
  */
 #include "enumivo.system.hpp"
 
@@ -59,7 +59,7 @@ namespace enumivosystem {
     *  @pre authority of producer to register
     *
     */
-   void system_contract::regproducer( const account_name producer, const bytes& packed_producer_key, const eosio_parameters& prefs ) {
+   void system_contract::regproducer( const account_name producer, const bytes& packed_producer_key, const enumivo_parameters& prefs ) {
       //enumivo::print("produce_key: ", producer_key.size(), ", sizeof(public_key): ", sizeof(public_key), "\n");
       require_auth( producer );
 
@@ -187,8 +187,8 @@ namespace enumivosystem {
       }
    }
 
-   eosio_global_state system_contract::get_default_parameters() {
-      eosio_global_state dp;
+   enumivo_global_state system_contract::get_default_parameters() {
+      enumivo_global_state dp;
       get_blockchain_parameters(dp);
       return dp;
    }
