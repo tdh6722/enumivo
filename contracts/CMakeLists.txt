@@ -30,6 +30,7 @@ add_subdirectory(enumivo.bios)
 add_subdirectory(noop)
 add_subdirectory(dice)
 add_subdirectory(tic_tac_toe)
+add_subdirectory(payloadless)
 
 
 file(GLOB SKELETONS RELATIVE ${CMAKE_SOURCE_DIR}/contracts "skeleton/*")
