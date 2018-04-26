@@ -17,6 +17,7 @@
 
 #include <boost/multi_index/mem_fun.hpp>
 
+#include <enumivolib/action.h>
 #include <enumivolib/types.hpp>
 #include <enumivolib/serialize.hpp>
 #include <enumivolib/datastream.hpp>
