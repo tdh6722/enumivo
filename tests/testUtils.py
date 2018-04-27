@@ -1234,8 +1234,6 @@ class Cluster(object):
             cmdArr.append("--nogen")
 
         enunodeArgs=""
-        if Utils.Debug:
-            enunodeArgs += "--log-level-net-plugin debug"
         if not self.walletd:
             enunodeArgs += " --plugin enumivo::wallet_api_plugin"
         if self.enableMongo:
