@@ -8,6 +8,7 @@
 #include <enumivo/http_plugin/http_plugin.hpp>
 #include <enumivo/net_plugin/net_plugin.hpp>
 #include <enumivo/producer_plugin/producer_plugin.hpp>
+#include <enumivo/utilities/common.hpp>
 
 #include <fc/log/logger_config.hpp>
 #include <fc/log/appender.hpp>
@@ -87,7 +88,7 @@ int main(int argc, char** argv)
       if(!app().initialize<chain_plugin, http_plugin, net_plugin, producer_plugin>(argc, argv))
          return -1;
       initialize_logging();
-      ilog("enunode version ${ver}", ("ver", enumivo::enunode::config::itoh(static_cast<uint32_t>(app().version()))));
+      ilog("enunode version ${ver}", ("ver", enumivo::utilities::common::itoh(static_cast<uint32_t>(app().version()))));
       ilog("enumivo root is ${root}", ("root", root.string()));
       app().startup();
       app().exec();
