@@ -1,5 +1,4 @@
 #include <enumivolib/enumivo.hpp>
-#include <enumivolib/print.hpp>
 using namespace enumivo;
 
 class hello : public enumivo::contract {
