@@ -236,7 +236,7 @@ BOOST_FIXTURE_TEST_CASE( dice_test, dice_tester ) try {
    add_dice_authority(N(carol));
 
    push_action(N(enumivo.tkn), N(create), N(enumivo.tkn), mvo()
-     ("issuer", "enumivo.token")
+     ("issuer", "enumivo.src")
      ("maximum_supply", core_from_string("1000000000.0000"))
    );
 
